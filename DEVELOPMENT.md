@@ -7,3 +7,28 @@
   (`git commit`)
 4. Push to the branch (`git push -u origin my-new-feature`)
 5. Create a new Pull Request
+
+# Startup
+
+Option 1: Provision in vSphere
+```shell
+vagrant nsidc up --env=dev
+```
+
+The Solr dashboard for the dev environment is accessible from
+[http://dev.search-solr.apps.int.nsidc.org:9283/solr]()
+
+Option 2: Provision in VirtualBox
+```shell
+vagrant nsidc up --env=local
+```
+
+The Solr dashboard for the local environment is accessible from
+[http://localhost:9283/solr]()
+
+# Solr Configuration Files
+
+Solr is configured using XML files. Cores are defined in `config/solr.xml`.
+The Solr cores each require a schema file and a Solr configuration file.
+All configuration files are found under `config/`.
+
