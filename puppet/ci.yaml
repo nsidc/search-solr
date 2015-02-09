@@ -50,11 +50,16 @@ nsidc_jenkins::jobs:
       # normal methods (ie, using the trigger_job param), but we can use the
       # Jenkins API to trigger the next job with curl. Just make sure the name
       # of the job in the curl command is correct:
-      echo "Triggering a new build of %{hiera('project')}_A03_Integration_Provision"
-      curl localhost:8080/job/%{hiera('project')}_A03_Integration_Provision/build
+      echo "Triggering a new build of %{hiera('project')}_A03_Integration_Install_Dependencies"
+      curl localhost:8080/job/%{hiera('project')}_A03_Integration_Install_Dependencies/build
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
 
-  "%{hiera('project')}_A03_Integration_Provision":
+  "%{hiera('project')}_A03_Integration_Install_Dependencies":
+    command: bundle install
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    trigger_job: "%{hiera('project')}_A04_Integration_Provision"
+
+  "%{hiera('project')}_A04_Integration_Provision":
     command: |
       ENV=integration
 
@@ -75,9 +80,14 @@ nsidc_jenkins::jobs:
     command: |
       git checkout $ref
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
-    trigger_job: "%{hiera('project')}_B02_QA_Provision"
+    trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
 
-  "%{hiera('project')}_B02_QA_Provision":
+  "%{hiera('project')}_B02_QA_Install_Dependencies":
+    command: bundle install
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    trigger_job: "%{hiera('project')}_B03_QA_Provision"
+
+  "%{hiera('project')}_B03_QA_Provision":
     command: |
       ENV=qa
 
@@ -99,9 +109,14 @@ nsidc_jenkins::jobs:
     command: |
       git checkout $ref
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
-    trigger_job: "%{hiera('project')}_C02_Staging_Provision"
+    trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
 
-  "%{hiera('project')}_C02_Staging_Provision":
+    "%{hiera('project')}_C02_Staging_Install_Dependencies":
+      command: bundle install
+      workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+      trigger_job: "%{hiera('project')}_C03_Staging_Provision"
+
+  "%{hiera('project')}_C03_Staging_Provision":
     command: |
       ENV=staging
 
