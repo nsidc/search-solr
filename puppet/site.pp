@@ -27,7 +27,7 @@ if $environment == 'ci' {
   }
 }
 
-if ($environment == 'dev') or ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red')
+if ($environment == 'dev') or ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red') {
   class { "nsidc_solr": }
 
   # Configure Solr with NSIDC/ADE Search cores
