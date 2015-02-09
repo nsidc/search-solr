@@ -50,18 +50,18 @@ nsidc_jenkins::jobs:
       # normal methods (ie, using the trigger_job param), but we can use the
       # Jenkins API to trigger the next job with curl. Just make sure the name
       # of the job in the curl command is correct:
-      echo "Triggering a new build of %{hiera('project')}_A03_Integration_Install_Dependencies"
-      curl localhost:8080/job/%{hiera('project')}_A03_Integration_Install_Dependencies/build
+      echo "Triggering a new build of %{hiera('project')}_A03_Integration_Provision"
+      curl localhost:8080/job/%{hiera('project')}_A03_Integration_Provision/build
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
 
-  "%{hiera('project')}_A06_Integration_Provision":
+  "%{hiera('project')}_A03_Integration_Provision":
     command: |
       ENV=integration
 
       (vagrant nsidc hijack --env=$ENV || true)
       vagrant nsidc up --env=$ENV
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    trigger_job: "%{hiera('project')}_A07_Integration_Run_Acceptance_Tests"
+    trigger_job: "%{hiera('project')}_B01_QA_Checkout_Project"
 
   "%{hiera('project')}_B01_QA_Checkout_Project":
     git:
@@ -75,16 +75,16 @@ nsidc_jenkins::jobs:
     command: |
       git checkout $ref
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
-    trigger_job: "%{hiera('project')}_B02_QA_Install_Dependencies"
+    trigger_job: "%{hiera('project')}_B02_QA_Provision"
 
-  "%{hiera('project')}_B03_QA_Provision":
+  "%{hiera('project')}_B02_QA_Provision":
     command: |
       ENV=qa
 
       (vagrant nsidc hijack --env=$ENV || true)
       vagrant nsidc up --env=$ENV
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
-    trigger_job: "%{hiera('project')}_B04_QA_Run_Acceptance_Tests"
+    trigger_job: "%{hiera('project')}_C01_Staging_Checkout_Project"
 
   "%{hiera('project')}_C01_Staging_Checkout_Project":
     git:
@@ -98,16 +98,16 @@ nsidc_jenkins::jobs:
     command: |
       git checkout $ref
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
-    trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
+    trigger_job: "%{hiera('project')}_C02_Staging_Provision"
 
-  "%{hiera('project')}_C03_Staging_Provision":
+  "%{hiera('project')}_C02_Staging_Provision":
     command: |
       ENV=staging
 
       (vagrant nsidc hijack --env=$ENV || true)
       vagrant nsidc up --env=$ENV
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
-    trigger_job: "%{hiera('project')}_C04_Staging_Run_Acceptance_Tests"
+    trigger_job: "%{hiera('project')}_D01_Blue_Provision"
 
   "%{hiera('project')}_D01_Blue_Provision":
     git:
