@@ -3,6 +3,15 @@
 This vagrant project stands up a Solr instance for NSIDC Search / Arctic Data
 Explorer.
 
+NOTE: this README is up to date with the master branch, meaning it may contain
+information for an unreleased version of **puppet-nsidc-solr**. For details on what
+may have changed since the version you are using, see the
+[Changelog](https://bitbucket.org/nsidc/puppet-nsidc-solr/src/master/CHANGELOG.md). For
+past versions of the README, see:
+
+* [v0.1.0](https://bitbucket.org/nsidc/vagrant-nsidc-plugin/src/v0.1.0/?at=v0.1.0)
+
+
 # Requirements
 
 This project requires the
