@@ -25,6 +25,14 @@ if $environment == 'ci' {
     ensure  => '1.10',
     owner   => 'root'
   }
+
+  package { 'rake':
+    provider => 'gem',
+    ensure   => 'installed'
+  }
+  package { 'bundler':
+    provider => 'gem'
+  }
 }
 
 if ($environment == 'local') or ($environment == 'dev') or ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red') {
