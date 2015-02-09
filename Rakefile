@@ -1,6 +1,8 @@
 require 'rake'
 require 'json'
 
+Dir.glob('./tasks/**/*.rake').each { |r| import r }
+
 desc "Run bumpversion"
 task :bump, [:part] do |t, args|
   version_filename = 'metadata.json'
