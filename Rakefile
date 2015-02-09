@@ -11,8 +11,4 @@ task :bump, [:part] do |t, args|
   exec cmd
 end
 
-desc "Run parser validation and puppet-lint"
-task :lint do
-  sh 'puppet parser validate ./manifests/'
-  sh 'puppet-lint --no-80chars-check --no-autoloader_layout-check ./manifests'
-end
+task :default => ['spec:unit']
