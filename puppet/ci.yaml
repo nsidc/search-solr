@@ -111,10 +111,10 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
     trigger_job: "%{hiera('project')}_C02_Staging_Install_Dependencies"
 
-    "%{hiera('project')}_C02_Staging_Install_Dependencies":
-      command: bundle install
-      workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-      trigger_job: "%{hiera('project')}_C03_Staging_Provision"
+  "%{hiera('project')}_C02_Staging_Install_Dependencies":
+    command: bundle install
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    trigger_job: "%{hiera('project')}_C03_Staging_Provision"
 
   "%{hiera('project')}_C03_Staging_Provision":
     command: |
