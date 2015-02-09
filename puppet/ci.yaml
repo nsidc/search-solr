@@ -66,7 +66,6 @@ nsidc_jenkins::jobs:
       (vagrant nsidc hijack --env=$ENV || true)
       vagrant nsidc up --env=$ENV
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    trigger_job: "%{hiera('project')}_B01_QA_Checkout_Project"
 
   "%{hiera('project')}_B01_QA_Checkout_Project":
     git:
@@ -95,7 +94,6 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
-    trigger_job: "%{hiera('project')}_C01_Staging_Checkout_Project"
 
   "%{hiera('project')}_C01_Staging_Checkout_Project":
     git:
@@ -124,7 +122,6 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
-    trigger_job: "%{hiera('project')}_D01_Blue_Provision"
 
   "%{hiera('project')}_D01_Blue_Provision":
     git:
