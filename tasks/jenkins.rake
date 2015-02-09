@@ -62,5 +62,11 @@ namespace :jenkins do
       current_branch = `git rev-parse --abbrev-ref HEAD`.chomp
       sh "git push origin #{ current_branch } --tags"
     end
+
+    desc 'Update git with a tag to show which ref is deployed to which environment'
+    task :tag_deployment, [:env] do |_t, args|
+      sh "git tag --force #{ args[:env] }"
+      sh "git push --force origin refs/tags/#{ args[:env] }"
+    end
   end
 end
