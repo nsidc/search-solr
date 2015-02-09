@@ -1,6 +1,7 @@
 require 'rake'
-require 'rspec/core/rake_task'
 require 'json'
+
+Dir.glob('./tasks/**/*.rake').each { |r| import r }
 
 desc "Run bumpversion"
 task :bump, [:part] do |t, args|
@@ -11,8 +12,4 @@ task :bump, [:part] do |t, args|
   exec cmd
 end
 
-desc "Run parser validation and puppet-lint"
-task :lint do
-  sh 'puppet parser validate ./manifests/'
-  sh 'puppet-lint --no-80chars-check --no-autoloader_layout-check ./manifests'
-end
+task :default => ['spec:unit']
