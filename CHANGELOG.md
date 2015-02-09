@@ -1,4 +1,4 @@
-## Unreleased
+## v0.0.3 (2015-02-09)
 
   - Removed unused rake tasks.
   - Updates for the README.
