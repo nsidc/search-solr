@@ -33,7 +33,7 @@ vagrant nsidc up --env=dev
 ```
 
 Once provisioning is complete, the Solr dashboard is accessible from
-[http://<environment>.search-solr.apps.int.nsidc.org:9283/solr](), where
+[http://<environment>.search-solr.apps.int.nsidc.org:8983/solr](), where
 <environment> is one of dev, integration, qa, etc.
 
 ## Development
