@@ -123,4 +123,16 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
     require => File["solr-schema-config"],
     notify  => Service["solr"]
   }
+
+  file { "${solr_path}/solr/nsidc_oai/data/tlog":
+    ensure => "directory"
+    owner   => solr,
+    group   => solr
+  }
+
+  file { "${solr_path}/solr/auto_suggest/data/tlog":
+    ensure => "directory"
+    owner   => solr,
+    group   => solr
+  }
 }
