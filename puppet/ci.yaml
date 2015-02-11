@@ -78,17 +78,20 @@ nsidc_jenkins::jobs:
         description: git ref (branch, tag, or SHA) to checkout
         default: latest
     command: |
+      ENV=integration
       git checkout $ref
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
-    trigger_job: "search-solr-tools_A06_Integration_Install_Dependencies"
 
-  "search-solr-tools_A06_Integration_Install_Dependencies":
-    command: bundle install
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
-    trigger_job: "search-solr-tools_A07_Integration_Harvest"
+    trigger_job: "search-solr-tools_A06_Integration_Harvest"
 
-  "search-solr-tools_A07_Integration_Harvest":
-    command: bundle exec rake harvest:all["integration"]
+  "search-solr-tools_A06_Integration_Harvest":
+    command: |
+      ENV=integration
+
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc ssh --env=$ENV -c 'cd /vagrant; bundle install; bundle exec rake harvest:all["integration"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "%{hiera('project')}_A08_Integration_Acceptance_Tests"
 
@@ -135,17 +138,20 @@ nsidc_jenkins::jobs:
         description: git ref (branch, tag, or SHA) to checkout
         default: latest
     command: |
+      ENV=qa
       git checkout $ref
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
-    trigger_job: "search-solr-tools_B05_QA_Install_Dependencies"
 
-  "search-solr-tools_B05_QA_Install_Dependencies":
-    command: bundle install
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "search-solr-tools_B06_QA_Harvest"
 
   "search-solr-tools_B06_QA_Harvest":
-    command: bundle exec rake harvest:all["integration"]
+    command: |
+      ENV=qa
+
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc ssh --env=$ENV -c 'cd /vagrant; bundle install; bundle exec rake harvest:all["qa"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "%{hiera('project')}_B07_QA_Acceptance_Tests"
 
@@ -191,18 +197,21 @@ nsidc_jenkins::jobs:
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
         default: latest
-    command: |
-      git checkout $ref
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
-    trigger_job: "search-solr-tools_C05_Staging_Install_Dependencies"
+   command: |
+      ENV=staging
+      git checkout latest
 
-  "search-solr-tools_C05_Staging_Install_Dependencies":
-    command: bundle install
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
 
   "search-solr-tools_C06_Staging_Harvest":
-    command: bundle exec rake harvest:all["integration"]
+    command: |
+      ENV=staging
+
+      (vagrant nsidc hijack --env=$ENV || true)
+      vagrant nsidc ssh --env=$ENV -c 'cd /vagrant; bundle install; bundle exec rake harvest:all["staging"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "%{hiera('project')}_C07_Staging_Acceptance_Tests"
 
