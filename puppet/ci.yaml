@@ -81,7 +81,7 @@ nsidc_jenkins::jobs:
       ENV=integration
       git checkout $ref
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_A06_Integration_Harvest"
@@ -90,7 +90,7 @@ nsidc_jenkins::jobs:
     command: |
       ENV=integration
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV -c 'cd /opt/nsidc-solr; bundle exec rake harvest:all["integration"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "%{hiera('project')}_A08_Integration_Acceptance_Tests"
@@ -141,7 +141,7 @@ nsidc_jenkins::jobs:
       ENV=qa
       git checkout $ref
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "search-solr-tools_B06_QA_Harvest"
@@ -150,7 +150,7 @@ nsidc_jenkins::jobs:
     command: |
       ENV=qa
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV -c 'cd /opt/nsidc-solr; bundle install; bundle exec rake harvest:all["qa"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "%{hiera('project')}_B07_QA_Acceptance_Tests"
@@ -201,7 +201,7 @@ nsidc_jenkins::jobs:
       ENV=staging
       git checkout latest
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc rsync --env=$ENV
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
@@ -210,7 +210,7 @@ nsidc_jenkins::jobs:
     command: |
       ENV=staging
 
-      (vagrant nsidc hijack --env=$ENV || true)
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV -c 'cd /opt/nsidc-solr; bundle install; bundle exec rake harvest:all["staging"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "%{hiera('project')}_C07_Staging_Acceptance_Tests"
