@@ -82,7 +82,7 @@ nsidc_jenkins::jobs:
       git checkout $ref
 
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc rsync --env=$ENV
+      vagrant nsidc rsync --env=$ENV --project=search-solr
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_A06_Integration_Harvest"
 
@@ -142,7 +142,7 @@ nsidc_jenkins::jobs:
       git checkout $ref
 
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc rsync --env=$ENV
+      vagrant nsidc rsync --env=$ENV --project=search-solr
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "search-solr-tools_B06_QA_Harvest"
 
@@ -202,7 +202,7 @@ nsidc_jenkins::jobs:
       git checkout latest
 
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc rsync --env=$ENV
+      vagrant nsidc rsync --env=$ENV --project=search-solr
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
 
