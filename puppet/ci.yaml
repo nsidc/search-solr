@@ -197,7 +197,7 @@ nsidc_jenkins::jobs:
         name: ref
         description: git ref (branch, tag, or SHA) to checkout
         default: latest
-   command: |
+    command: |
       ENV=staging
       git checkout latest
 
