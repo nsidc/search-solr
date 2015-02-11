@@ -124,14 +124,26 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
     notify  => Service["solr"]
   }
 
+  file { "${solr_path}/solr/nsidc_oai/data":
+    ensure => "directory",
+    owner   => solr,
+    group   => solr
+  }
+
   file { "${solr_path}/solr/nsidc_oai/data/tlog":
-    ensure => "directory"
+    ensure => "directory",
+    owner   => solr,
+    group   => solr
+  }
+
+  file { "${solr_path}/solr/auto_suggest/data":
+    ensure => "directory",
     owner   => solr,
     group   => solr
   }
 
   file { "${solr_path}/solr/auto_suggest/data/tlog":
-    ensure => "directory"
+    ensure => "directory",
     owner   => solr,
     group   => solr
   }
