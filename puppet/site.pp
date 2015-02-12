@@ -2,6 +2,7 @@
 hiera_include('classes')
 
 $solr_path = "/opt/solr"
+$solr_tools_path = "/opt/search-solr-tools"
 
 # If using bumpversion (python) for your version bumping
 # needs, you can uncomment this to get bumpversion and
@@ -155,6 +156,12 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   }
 
   file { "${solr_path}/solr/auto_suggest/data/tlog":
+    ensure => "directory",
+    owner   => solr,
+    group   => solr
+  }
+
+  file { "${solr_tools_path}":
     ensure => "directory",
     owner   => solr,
     group   => solr
