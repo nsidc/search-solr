@@ -87,6 +87,7 @@ nsidc_jenkins::jobs:
       ENV=integration
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cp -r /vagrant/ /opt/search-solr-tools'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_A07_Integration_Harvest"
 
@@ -151,6 +152,7 @@ nsidc_jenkins::jobs:
       ENV=qa
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cp -r /vagrant/ /opt/search-solr-tools'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_B06_QA_Harvest"
 
@@ -219,6 +221,7 @@ nsidc_jenkins::jobs:
       ENV=staging
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cp -r /vagrant/ /opt/search-solr-tools'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
 
