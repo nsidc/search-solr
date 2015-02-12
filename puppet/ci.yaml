@@ -88,7 +88,7 @@ nsidc_jenkins::jobs:
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install; sudo gem install nokogiri'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_A07_Integration_Harvest"
 
@@ -153,7 +153,7 @@ nsidc_jenkins::jobs:
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install; sudo gem install nokogiri'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_B06_QA_Harvest"
 
@@ -222,7 +222,7 @@ nsidc_jenkins::jobs:
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc up --env=$ENV --project=search-solr --provision
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install; sudo gem install nokogiri'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
 
