@@ -4,6 +4,16 @@ hiera_include('classes')
 $solr_path = "/opt/solr"
 $solr_tools_path = "/opt/search-solr-tools"
 
+class update-package-manager {
+  exec { "update":
+    path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
+    command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
+  }
+  notify { "apt-get update complete":
+    require => Exec['update']
+  }
+}
+
 # If using bumpversion (python) for your version bumping
 # needs, you can uncomment this to get bumpversion and
 # fabric (python task runner)
@@ -50,16 +60,6 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   }
 
   ### BEGIN nokogiri deps
-  class update-package-manager {
-    exec { "update":
-      path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
-      command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
-    }
-    notify { "apt-get update complete":
-      require => Exec['update']
-    }
-  }
-
   Class['update-package-manager'] -> Package <| |>
 
   package {"libssl-dev":
@@ -74,7 +74,6 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
 
   include update-package-manager
   ### END nokogiri deps
-  }
 
   class { "nsidc_solr": }
 
