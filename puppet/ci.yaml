@@ -104,7 +104,11 @@ nsidc_jenkins::jobs:
     trigger_job: "%{hiera('project')}_A08_Integration_Acceptance_Tests"
 
   "%{hiera('project')}_A08_Integration_Acceptance_Tests":
-    command: bundle exec rake jenkins:ci:acceptance
+    command: |
+      ENV=integration
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /vagrant; rake spec:acceptance'
     workspace: /var/lib/jenkins/workspaces/search-solr/integration
 
   "%{hiera('project')}_B01_QA_Checkout_Project":
@@ -172,8 +176,12 @@ nsidc_jenkins::jobs:
     trigger_job: "%{hiera('project')}_B07_QA_Acceptance_Tests"
 
   "%{hiera('project')}_B07_QA_Acceptance_Tests":
-    command: bundle exec rake jenkins:ci:acceptance
-    workspace: /var/lib/jenkins/workspaces/search-solr/qa
+    command: |
+      ENV=integration
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /vagrant; rake spec:acceptance'
+    workspace: /var/lib/jenkins/workspaces/search-solr/integration
 
   "%{hiera('project')}_C01_Staging_Checkout_Project":
     git:
@@ -244,8 +252,12 @@ nsidc_jenkins::jobs:
     trigger_job: "%{hiera('project')}_C07_Staging_Acceptance_Tests"
 
   "%{hiera('project')}_C07_Staging_Acceptance_Tests":
-    command: bundle exec rake jenkins:ci:acceptance
-    workspace: /var/lib/jenkins/workspaces/search-solr/staging
+    command: |
+      ENV=integration
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /vagrant; rake spec:acceptance'
+    workspace: /var/lib/jenkins/workspaces/search-solr/integration
 
   "search-solr-tools_D01_Blue_Checkout_Project":
     git:
