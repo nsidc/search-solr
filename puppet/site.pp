@@ -49,6 +49,33 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
     require         => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
   }
 
+  ### BEGIN nokogiri deps
+  class update-package-manager {
+    exec { "update":
+      path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
+      command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
+    }
+    notify { "apt-get update complete":
+      require => Exec['update']
+    }
+  }
+
+  Class['update-package-manager'] -> Package <| |>
+
+  package {"libssl-dev":
+    ensure => present
+  } ->
+  package {"build-essential":
+    ensure => present
+  } ->
+  package {"libxml2-dev":
+    ensure => present
+  }
+
+  include update-package-manager
+  ### END nokogiri deps
+  }
+
   class { "nsidc_solr": }
 
   # Configure Solr with NSIDC/ADE Search cores
