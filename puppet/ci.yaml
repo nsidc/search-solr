@@ -96,13 +96,16 @@ nsidc_jenkins::jobs:
     command: |
       ENV=integration
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all["integration"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_json["integration"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all_ade["integration"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_auto_suggest["integration"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:ade_auto_suggest["integration"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
     trigger_job: "%{hiera('project')}_A08_Integration_Acceptance_Tests"
 
   "%{hiera('project')}_A08_Integration_Acceptance_Tests":
     command: bundle exec rake jenkins:ci:acceptance
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
+    workspace: /var/lib/jenkins/workspaces/search-solr/integration
 
   "%{hiera('project')}_B01_QA_Checkout_Project":
     git:
@@ -154,20 +157,23 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV --project=search-solr --provision
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
+    workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "search-solr-tools_B06_QA_Harvest"
 
   "search-solr-tools_B06_QA_Harvest":
     command: |
       ENV=qa
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all["qa"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_json["qa"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all_ade["qa"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_auto_suggest["qa"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:ade_auto_suggest["qa"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/qa
     trigger_job: "%{hiera('project')}_B07_QA_Acceptance_Tests"
 
   "%{hiera('project')}_B07_QA_Acceptance_Tests":
     command: bundle exec rake jenkins:ci:acceptance
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
+    workspace: /var/lib/jenkins/workspaces/search-solr/qa
 
   "%{hiera('project')}_C01_Staging_Checkout_Project":
     git:
@@ -223,40 +229,23 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV --project=search-solr --provision
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
+    workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "search-solr-tools_C06_Staging_Harvest"
 
   "search-solr-tools_C06_Staging_Harvest":
     command: |
       ENV=staging
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all["staging"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_json["staging"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all_ade["staging"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_auto_suggest["staging"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:ade_auto_suggest["staging"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "%{hiera('project')}_C07_Staging_Acceptance_Tests"
 
   "%{hiera('project')}_C07_Staging_Acceptance_Tests":
     command: bundle exec rake jenkins:ci:acceptance
-    workspace: /var/lib/jenkins/workspaces/search-solr-tools/integration
-
-  "%{hiera('project')}_D01_Blue_Provision":
-    git:
-      repo: "%{hiera('gitrepo')}"
-      wipe_workspace: true
-    parameters:
-      - type: string
-        name: ref
-        description: git ref (branch, tag, or SHA) to checkout
-        default: staging
-    command: |
-      ENV=blue
-
-      git checkout $ref
-
-      vagrant nsidc hijack --env=$ENV || true
-      vagrant nsidc destroy --env=$ENV || true
-      vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
-    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    workspace: /var/lib/jenkins/workspaces/search-solr/staging
 
   "search-solr-tools_D01_Blue_Checkout_Project":
     git:
@@ -275,10 +264,65 @@ nsidc_jenkins::jobs:
   "search-solr-tools_D02_Blue_Install_Dependencies":
     command: bundle install
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/blue
-    trigger_job: "%{hiera('project')}_D03_Blue_Harvest"
+    trigger_job: "%{hiera('project')}_D03_Blue_Provision"
 
-  "search-solr-tools_D03_Blue_Harvest":
-    command: bundle exec rake harvest:all["integration"]
+  "%{hiera('project')}_D03_Blue_Provision":
+    git:
+      repo: "%{hiera('gitrepo')}"
+      wipe_workspace: true
+    parameters:
+      - type: string
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: staging
+    command: |
+      ENV=blue
+
+      git checkout $ref
+
+      vagrant nsidc hijack --env=$ENV || true
+      vagrant nsidc destroy --env=$ENV || true
+      vagrant nsidc up --env=$ENV
+      bundle exec rake jenkins:release:tag_deployment[$ENV]
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    trigger_job: "search-solr-tools_D04_Blue_Checkout_Project"
+
+  "search-solr-tools_D04_Blue_Checkout_Project":
+    git:
+      repo: git@bitbucket.org:nsidc/search-solr-tools.git
+      wipe_workspace: true
+    parameters:
+      - type: string
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: latest
+    command: |
+      ENV=blue
+      git checkout $ref
+
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      sudo puppet apply --environment=$ENV --debug --verbose --modulepath=./puppet/modules --hiera_config=./puppet/hiera.yaml ./puppet/site.pp
+    workspace: /var/lib/jenkins/workspaces/search-solr-tools/blue
+    trigger_job: "search-solr-tools_D05_Blue_Configure_Tools"
+
+  "search-solr-tools_D05_Blue_Configure_Tools":
+    command: |
+      ENV=blue
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      vagrant nsidc up --env=$ENV --project=search-solr --provision
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'sudo cp -r /vagrant/* /opt/search-solr-tools'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+    workspace: /var/lib/jenkins/workspaces/search-solr-tools/blue
+    trigger_job: "search-solr-tools_D06_Blue_Harvest"
+
+  "search-solr-tools_D06_Blue_Harvest":
+    command: |
+      ENV=blue
+      (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_json["blue"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:all_ade["blue"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:nsidc_auto_suggest["blue"]'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; rake harvest:ade_auto_suggest["blue"]'
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/blue
 
   "%{hiera('project')}_E01_Release_Bump_Version":
