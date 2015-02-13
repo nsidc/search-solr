@@ -189,10 +189,11 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   }
 
   # Work directory will prevent solr from writing to /tmp
-  file { "${solr_path}/solr/work":
+  file { "${solr_path}/work":
     ensure => "directory",
     owner   => solr,
-    group   => solr
+    group   => solr,
+    notify  => Service["solr"]
   }
 
   file { "${solr_tools_path}":
