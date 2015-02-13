@@ -1,5 +1,4 @@
 require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:acceptance) do |t|
