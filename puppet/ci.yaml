@@ -143,7 +143,6 @@ nsidc_jenkins::jobs:
 
       (vagrant nsidc hijack --env=$ENV || true)
       vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
     trigger_job: "search-solr-tools_B04_QA_Checkout_Project"
 
