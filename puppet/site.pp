@@ -163,6 +163,7 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
     notify  => Service["solr"]
   }
 
+  # Create data and tlog directories so Solr can write to them
   file { "${solr_path}/solr/nsidc_oai/data":
     ensure => "directory",
     owner   => solr,
@@ -182,6 +183,13 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   }
 
   file { "${solr_path}/solr/auto_suggest/data/tlog":
+    ensure => "directory",
+    owner   => solr,
+    group   => solr
+  }
+
+  # Work directory will prevent solr from writing to /tmp
+  file { "${solr_path}/solr/work":
     ensure => "directory",
     owner   => solr,
     group   => solr
