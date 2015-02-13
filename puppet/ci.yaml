@@ -243,7 +243,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/search-solr-tools/staging
     trigger_job: "search-solr-tools_C05_Staging_Configure_Tools"
 
-  "search-solr-tools_A05_Staging_Configure_Tools":
+  "search-solr-tools_C05_Staging_Configure_Tools":
     command: |
       ENV=staging
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
