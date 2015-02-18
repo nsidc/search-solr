@@ -14,18 +14,6 @@ class update-package-manager {
   }
 }
 
-# Ensure the brightbox apt repository gets added before installing ruby
-include apt
-apt::ppa{'ppa:brightbox/ruby-ng':}
-class {'ruby':
-  require            => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ],
-  version            => '1.9.3',
-  set_system_default => true
-}
-class {'ruby::dev':
-  require         => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-}
-
 ### BEGIN nokogiri deps
 Class['update-package-manager'] -> Package <| |>
 
@@ -75,6 +63,18 @@ if $environment == 'ci' {
 }
 
 if ($environment == 'local') or ($environment == 'dev') or ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red') {
+  # Ensure the brightbox apt repository gets added before installing ruby
+  include apt
+  apt::ppa{'ppa:brightbox/ruby-ng':}
+  class {'ruby':
+    require            => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ],
+    version            => '1.9.3',
+    set_system_default => true
+  }
+  class {'ruby::dev':
+    require         => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+  }
+
   class { "nsidc_solr": }
 
   # Configure Solr with NSIDC/ADE Search cores
