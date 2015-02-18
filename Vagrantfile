@@ -5,7 +5,9 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8983, host: 8983
 
   config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "spec/"]
-  config.vm.synced_folder ".", "/opt/search-solr", type: "rsync", rsync__exclude: [".git/", "spec/"]
+
+  # The search-solr project should be saved so that we can run Acceptance tests on the CI machine.
+  config.vm.synced_folder ".", "/opt/search-solr", type: "rsync", rsync__exclude: [".git/", "puppet/"]
 
   # On the CI machine, the search-solr-tools git project will be checked out once per each environment.
   # We want to grab the correct one for this env and rsync it.  We can do that because the current Vagrantfile
