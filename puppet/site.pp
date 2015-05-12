@@ -197,8 +197,6 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   }
 
   file { "${solr_tools_path}":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
+    ensure => "directory"
   }
 }
