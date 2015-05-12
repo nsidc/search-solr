@@ -78,11 +78,11 @@ nsidc_jenkins::jobs:
       ENV=integration
 
       (vagrant nsidc hijack --env=$ENV || true)
-      vagrant nsidc destroy --env=$ENV
+      (vagrant nsidc destroy --env=$ENV || true)
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
 
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install --path=.gem'
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     trigger_job: "search-solr-tools_A06_Integration_Harvest_NSIDC"
 
@@ -149,11 +149,11 @@ nsidc_jenkins::jobs:
       ENV=qa
 
       (vagrant nsidc hijack --env=$ENV || true)
-      vagrant nsidc destroy --env=$ENV
+      (vagrant nsidc destroy --env=$ENV || true)
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
 
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install --path=.gem'
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
     trigger_job: "search-solr-tools_B05_QA_Harvest_NSIDC"
 
@@ -224,7 +224,7 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
 
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install --path=.gem'
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
     trigger_job: "search-solr-tools_C05_Staging_Harvest_NSIDC"
 
@@ -287,7 +287,7 @@ nsidc_jenkins::jobs:
       vagrant nsidc up --env=$ENV
       bundle exec rake jenkins:release:tag_deployment[$ENV]
 
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install'
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle install --path=.gem'
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
     trigger_job: "search-solr-tools_D03_Blue_Harvest_NSIDC"
 
