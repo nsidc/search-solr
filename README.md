@@ -14,6 +14,7 @@ past versions of the README, see:
 * [v0.1.0](https://bitbucket.org/nsidc/vagrant-nsidc-plugin/src/v0.1.0/?at=v0.1.0)
 * [v0.1.1](https://bitbucket.org/nsidc/vagrant-nsidc-plugin/src/v0.1.1/?at=v0.1.1)
 * [v0.1.2](https://bitbucket.org/nsidc/vagrant-nsidc-plugin/src/v0.1.2/?at=v0.1.2)
+* [v0.1.3](https://bitbucket.org/nsidc/vagrant-nsidc-plugin/src/v0.1.3/?at=v0.1.3)
 
 
 # Requirements
