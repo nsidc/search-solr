@@ -82,6 +82,7 @@
 
     <fieldType name="alphaNumericSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
+        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.TrimFilterFactory" />

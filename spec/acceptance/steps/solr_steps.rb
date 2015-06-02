@@ -21,6 +21,16 @@ module SolrSteps
     @page.total_results.should be > 0
     @page.results.size.should be <= @page.total_results
   end
+
+  step 'The last :n searches should have the same number of results' do |n|
+    counts = @page.result_counts
+    length = counts.length
+
+    last_n_counts = counts[(length - n.to_i)..(length - 1)]
+
+    expect(last_n_counts.uniq.size).to eql 1
+    expect(last_n_counts.first).to eql counts.last
+  end
 end
 
 RSpec.configure { |c| c.include SolrSteps }
