@@ -3,8 +3,11 @@ require 'nokogiri'
 
 # class to query solr with specific terms and examine the results as Nokogiri documents
 class SolrSearchPage
+  attr_reader :result_counts
+
   def initialize(host, port, collection_path, collection)
     @url = "http://#{host}:#{port}/#{collection_path}/#{collection}"
+    @result_counts = []
   end
 
   def query(terms)
@@ -12,6 +15,7 @@ class SolrSearchPage
 
     @response = RestClient.get query_url
     @response_doc = Nokogiri.XML @response.body
+    @result_counts.push(results.length)
   end
 
   def valid?

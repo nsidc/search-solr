@@ -1,3 +1,8 @@
+## Unreleased
+
+  - add charFilter so accented characters are searchable without the accents,
+    e.g., search for "Quebec" *will* find "Québec"
+
 ## v0.0.3 (2015-02-09)
 
   - Removed unused rake tasks.
