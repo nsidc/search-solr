@@ -28,6 +28,22 @@ nsidc_jenkins::plugins:
 
 search-solr-tools-name: search-solr-tools
 search_solr_tools_repo: git@bitbucket.org:nsidc/search-solr-tools.git
+deploy_solr_tools_command: |
+  rm -rf .vagrant-$ENV
+  vagrant nsidc hijack --env=$ENV --project=search-solr || true
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt; \
+  sudo rm -rf /opt/search-solr-tools; \
+  git clone %{hiera('search_solr_tools_repo')}; \
+  cd %{hiera('search-solr-tools-name')}; \
+  git checkout $ref; \
+  bundle install'
+
+provision_solr_command: |
+  (vagrant nsidc hijack --env=$ENV || true)
+  (vagrant nsidc destroy --env=$ENV || true)
+  vagrant nsidc up --env=$ENV
+  bundle exec rake jenkins:release:tag_deployment[$ENV]
+
 # Jenkins Jobs
 nsidc_jenkins::jobs:
   # clone the project into the shared workspace
@@ -64,11 +80,7 @@ nsidc_jenkins::jobs:
   "A04_%{hiera('project')}_Integration_Provision":
     command: |
       ENV=integration
-
-      (vagrant nsidc hijack --env=$ENV || true)
-      (vagrant nsidc destroy --env=$ENV || true)
-      vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
+      %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
     trigger_job: "A05_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
 
@@ -80,13 +92,7 @@ nsidc_jenkins::jobs:
         default: master
     command: |
       ENV=integration
-      vagrant nsidc hijack --env=$ENV --project=search-solr || true
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt; \
-      sudo chown vagrant /opt/search-solr-tools; \
-      git clone %{hiera('search_solr_tools_repo')}; \
-      cd %{hiera('search-solr-tools-name')}; \
-      git checkout $ref; \
-      bundle install'
+      %{hiera('deploy_solr_tools_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_NSIDC"
 
@@ -137,11 +143,7 @@ nsidc_jenkins::jobs:
   "B03_%{hiera('project')}_QA_Provision":
     command: |
       ENV=qa
-
-      (vagrant nsidc hijack --env=$ENV || true)
-      (vagrant nsidc destroy --env=$ENV || true)
-      vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
+      %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
     trigger_job: "B04_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
 
@@ -153,13 +155,7 @@ nsidc_jenkins::jobs:
         default: master
     command: |
       ENV=qa
-      vagrant nsidc hijack --env=$ENV --project=search-solr || true
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt; \
-      sudo chown vagrant /opt/search-solr-tools; \
-      git clone %{hiera('search_solr_tools_repo')}; \
-      cd %{hiera('search-solr-tools-name')}; \
-      git checkout $ref; \
-      bundle install'
+      %{hiera('deploy_solr_tools_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
     trigger_job: "B05_%{hiera('search-solr-tools-name')}_QA_Harvest_NSIDC"
 
@@ -210,11 +206,7 @@ nsidc_jenkins::jobs:
   "C03_%{hiera('project')}_Staging_Provision":
     command: |
       ENV=staging
-
-      vagrant nsidc hijack --env=$ENV || true
-      vagrant nsidc destroy --env=$ENV || true
-      vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
+      %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/staging
     trigger_job: "C04_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
 
@@ -226,13 +218,7 @@ nsidc_jenkins::jobs:
         default: master
     command: |
       ENV=staging
-      vagrant nsidc hijack --env=$ENV --project=search-solr || true
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt; \
-      sudo chown jenkins /opt/search-solr-tools; \
-      git clone %{hiera('search_solr_tools_repo')}; \
-      cd %{hiera('search-solr-tools-name')}; \
-      git checkout $ref; \
-      bundle install'
+      %{hiera('deploy_solr_tools_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
     trigger_job: "C05_%{hiera('search-solr-tools-name')}_Staging_Harvest_NSIDC"
 
@@ -274,14 +260,9 @@ nsidc_jenkins::jobs:
         default: staging
     command: |
       ENV=blue
-
       git checkout $ref
       bundle install
-
-      vagrant nsidc hijack --env=$ENV || true
-      vagrant nsidc destroy --env=$ENV || true
-      vagrant nsidc up --env=$ENV
-      bundle exec rake jenkins:release:tag_deployment[$ENV]
+      %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
 
   "D02_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem":
@@ -292,13 +273,7 @@ nsidc_jenkins::jobs:
         default: master
     command: |
       ENV=blue
-      vagrant nsidc hijack --env=$ENV --project=search-solr || true
-      vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt; \
-      sudo chown jenkins /opt/search-solr-tools; \
-      git clone %{hiera('search_solr_tools_repo')}; \
-      cd %{hiera('search-solr-tools-name')}; \
-      git checkout $ref; \
-      bundle install'
+      %{hiera('deploy_solr_tools_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
     trigger_job: "D03_%{hiera('search-solr-tools-name')}_Blue_Harvest_NSIDC"
 
