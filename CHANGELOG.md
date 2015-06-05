@@ -1,4 +1,4 @@
-## Unreleased
+## v1.0.0 (2015-06-05)
 
   - add charFilter so accented characters are searchable without the accents,
     e.g., search for "Quebec" *will* find "Québec"
