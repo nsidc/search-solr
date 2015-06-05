@@ -271,6 +271,7 @@ nsidc_jenkins::jobs:
       bundle install
       %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/blue
+    trigger_job: "D02_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
 
   "D02_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem":
     parameters:
