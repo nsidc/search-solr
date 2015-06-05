@@ -41,17 +41,20 @@ deploy_solr_tools_command: |
   bundle install'
 
 provision_solr_command: |
+  rm -rf .vagrant-$ENV
   (vagrant nsidc hijack --env=$ENV || true)
   (vagrant nsidc destroy --env=$ENV || true)
   vagrant nsidc up --env=$ENV
   bundle exec rake jenkins:release:tag_deployment[$ENV]
 
 harvest_nsidc_command: |
+  rm -rf .vagrant-$ENV
   (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
   vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle exec rake harvest:nsidc_json["$ENV"]'
   vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle exec rake harvest:nsidc_auto_suggest["$ENV"]'
 
 harvest_ade_command: |
+  rm -rf .vagrant-$ENV
   (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
   vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle exec rake harvest:all_ade["$ENV"]'
   vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr-tools; bundle exec rake harvest:ade_auto_suggest["$ENV"]'
@@ -126,6 +129,7 @@ nsidc_jenkins::jobs:
   "A08_%{hiera('project')}_Integration_Acceptance_Tests":
     command: |
       ENV=integration
+      rm -rf .vagrant-$ENV
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr; bundle install --path=.gem; bundle exec rake spec:acceptance'
     workspace: /var/lib/jenkins/workspaces/search-solr/integration
@@ -185,6 +189,7 @@ nsidc_jenkins::jobs:
   "B07_%{hiera('project')}_QA_Acceptance_Tests":
     command: |
       ENV=qa
+      rm -rf .vagrant-$ENV
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr; bundle install --path=.gem; bundle exec rake spec:acceptance'
     workspace: /var/lib/jenkins/workspaces/search-solr/qa
@@ -244,6 +249,7 @@ nsidc_jenkins::jobs:
   "C07_%{hiera('project')}_Staging_Acceptance_Tests":
     command: |
       ENV=staging
+      rm -rf .vagrant-$ENV
       (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
       vagrant nsidc ssh --env=$ENV --project=search-solr -c 'cd /opt/search-solr; bundle install --path=.gem; bundle exec rake spec:acceptance'
     workspace: /var/lib/jenkins/workspaces/search-solr/staging
