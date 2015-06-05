@@ -49,3 +49,6 @@ DEPENDENCIES
   rspec
   turnip
   yarjuf
+
+BUNDLED WITH
+   1.10.2
