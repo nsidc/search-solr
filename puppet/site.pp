@@ -66,13 +66,17 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
   # Ensure the brightbox apt repository gets added before installing ruby
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
-  class {'ruby':
-    require            => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ],
-    version            => '1.9.3',
-    set_system_default => true
-  }
-  class {'ruby::dev':
-    require         => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+
+  package { 'ruby2.2':
+    ensure => present,
+    require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+  } ->
+  package { 'ruby2.2-dev':
+    ensure => present
+  } ->
+  exec { 'install bundler':
+    command => 'sudo gem install bundler',
+    path => '/usr/bin'
   }
 
   class { "nsidc_solr": }
