@@ -75,7 +75,7 @@ if ($environment == 'local') or ($environment == 'dev') or ($environment == 'int
     ensure => present
   } ->
   exec { 'install bundler':
-    command => 'sudo gem install bundler',
+    command => 'sudo gem install bundler -v 1.10.3',
     path => '/usr/bin'
   }
 
