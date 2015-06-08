@@ -64,43 +64,33 @@ harvest_ade_command: |
 nsidc_jenkins::jobs:
   # clone the project into the shared workspace
   "A01_%{hiera('project')}_Integration_Checkout_Project":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
+    parameters:
+      - type: string
+        name: ref
+        description: git ref (branch, tag, or SHA) to checkout
+        default: master
     git:
       repo: "%{hiera('gitrepo')}"
       poll_scm: true
-    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    trigger_job: "A02_%{hiera('project')}_Integration_Configure_System"
-
-  # use puppet to install system dependencies, such as Bundler
-  "A02_%{hiera('project')}_Integration_Configure_System":
+      checkout_local: false
     command: |
-      cd puppet
-      librarian-puppet clean
-      librarian-puppet update
-      cd -
-      sudo puppet apply --environment=ci --debug --verbose --modulepath=./puppet/modules --hiera_config=./puppet/hiera.yaml ./puppet/site.pp
+      git checkout $ref
+    trigger_job: "A02_%{hiera('project')}_Integration_Install_Dependencies"
 
-      # Because running `puppet apply` modifies the config.xml for each job
-      # defined in ci.yaml, Jenkins has trouble triggering the next job through
-      # normal methods (ie, using the trigger_job param), but we can use the
-      # Jenkins API to trigger the next job with curl. Just make sure the name
-      # of the job in the curl command is correct:
-      echo "A03_Triggering a new build of %{hiera('project')}_Integration_Install_Dependencies"
-      curl localhost:8080/job/03_%{hiera('project')}_Integration_Install_Dependencies/build
+  "A02_%{hiera('project')}_Integration_Install_Dependencies":
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-
-  "A03_%{hiera('project')}_Integration_Install_Dependencies":
     command: bundle install
-    workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    trigger_job: "A04_%{hiera('project')}_Integration_Provision"
+    trigger_job: "A03_%{hiera('project')}_Integration_Provision"
 
-  "A04_%{hiera('project')}_Integration_Provision":
+  "A03_%{hiera('project')}_Integration_Provision":
     command: |
       ENV=integration
       %{hiera('provision_solr_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
-    trigger_job: "A05_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
+    trigger_job: "A04_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem"
 
-  "A05_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem":
+  "A04_%{hiera('search-solr-tools-name')}_Deploy_solr-search-tools-gem":
     parameters:
       - type: string
         name: ref
@@ -110,23 +100,23 @@ nsidc_jenkins::jobs:
       ENV=integration
       %{hiera('deploy_solr_tools_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_NSIDC"
+    trigger_job: "A05_%{hiera('search-solr-tools-name')}_Integration_Harvest_NSIDC"
 
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_NSIDC":
+  "A05_%{hiera('search-solr-tools-name')}_Integration_Harvest_NSIDC":
     command: |
       ENV=integration
       %{hiera('harvest_nsidc_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
-    trigger_job: "A07_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE"
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE"
 
-  "A07_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE":
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE":
     command: |
       ENV=integration
       %{hiera('harvest_ade_command')}
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
-    trigger_job: "A08_%{hiera('project')}_Integration_Acceptance_Tests"
+    trigger_job: "A07_%{hiera('project')}_Integration_Acceptance_Tests"
 
-  "A08_%{hiera('project')}_Integration_Acceptance_Tests":
+  "A07_%{hiera('project')}_Integration_Acceptance_Tests":
     command: |
       ENV=integration
       rm -rf .vagrant-$ENV
