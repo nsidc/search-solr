@@ -1,3 +1,7 @@
+## v2.0.0
+
+  - Upgrade from Ruby version 1.9.3 to 2.2.2
+
 ## v1.0.0 (2015-06-05)
 
   - add charFilter so accented characters are searchable without the accents,
