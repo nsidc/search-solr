@@ -155,7 +155,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
     parameters:
       - type: string
-        name: version
+        name: gem_version
         description: >-
           The version of search_solr_tools to install; if none is given, the
           latest (non-prerelease) release will be installed.
@@ -217,7 +217,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
     parameters:
       - type: string
-        name: version
+        name: gem_version
         description: >-
           The version of search_solr_tools to install; if none is given, the
           latest (non-prerelease) release will be installed.
@@ -272,7 +272,7 @@ nsidc_jenkins::jobs:
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
     parameters:
       - type: string
-        name: version
+        name: gem_version
         description: >-
           The version of search_solr_tools to install; if none is given, the
           latest (non-prerelease) release will be installed.
