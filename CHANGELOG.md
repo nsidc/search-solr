@@ -1,4 +1,4 @@
-## v2.0.0
+## Unreleased
 
   - Upgrade from Ruby version 1.9.3 to 2.2.2
   - Use the new search_solr_tools gem, rather than cloning the search-solr-tools
