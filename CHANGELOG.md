@@ -1,6 +1,8 @@
 ## v2.0.0
 
   - Upgrade from Ruby version 1.9.3 to 2.2.2
+  - Use the new search_solr_tools gem, rather than cloning the search-solr-tools
+    project and running its `rake` tasks.
 
 ## v1.0.0 (2015-06-05)
 
