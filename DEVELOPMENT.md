@@ -8,7 +8,8 @@
 4. Push to the branch (`git push -u origin my-new-feature`)
 5. Create a new Pull Request
 
-# Startup
+# Development environment
+## NSIDC
 
 Option 1: Provision in vSphere
 ```shell
@@ -26,9 +27,12 @@ vagrant nsidc up --env=local
 The Solr dashboard for the local environment is accessible from
 [http://localhost:8983/solr]()
 
+## Non-NSIDC
+
+Follow machine setup (or use your own automation) listed in [README](https://bitbucket.org/nsidc/puppet-nsidc-solr/src/master/README.md).
+
 # Solr Configuration Files
 
 Solr is configured using XML files. Cores are defined in `config/solr.xml`.
 The Solr cores each require a schema file and a Solr configuration file.
 All configuration files are found under `config/`.
-
