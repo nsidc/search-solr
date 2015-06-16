@@ -35,7 +35,7 @@ requirements met:
     *  [zlibc](http://www.zlibc.linux.lu/)
     *  [zlib1g/zlib1g-dev](http://zlib.net/)
 * [Solr 4.10.3](https://archive.apache.org/dist/lucene/solr/4.10.3/) installed
-* All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
+* All [requirements](https://lucene.apache.org/solr/4_10_3/SYSTEM_REQUIREMENTS.html) for Solr 4.10.3
 
 
 # Setup
