@@ -16,7 +16,7 @@ vagrant nsidc up --env=dev
 ```
 
 The Solr dashboard for the dev environment is accessible from
-[http://dev.search-solr.apps.int.nsidc.org:9283/solr]()
+[http://dev.search-solr.apps.int.nsidc.org:8983/solr]()
 
 Option 2: Provision in VirtualBox
 ```shell
@@ -24,7 +24,7 @@ vagrant nsidc up --env=local
 ```
 
 The Solr dashboard for the local environment is accessible from
-[http://localhost:9283/solr]()
+[http://localhost:8983/solr]()
 
 # Solr Configuration Files
 
