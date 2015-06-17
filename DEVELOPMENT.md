@@ -14,7 +14,7 @@
 
 Ruby environment for acceptance testing:
 
-* Ruby (>1.9.3) with development headers (ruby-dev/ruby-devel)
+* Ruby (>2.0.0) with development headers (ruby-dev/ruby-devel)
 * [Bundler](http://bundler.io/)
 * gcc or another compiler
 * Requirements for nokogiri:
