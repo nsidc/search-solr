@@ -15,7 +15,7 @@ For use at NSIDC, this project requires the [vagrant-nsidc-plugin](https://bitbu
 Dependencies are defined in the CI configuration and should be available upon machine provision.
 
 ## Non-NSIDC
-When using outside of the NSIDC environment, the configuration that would normally
+When using the gem outside of the NSIDC environment, the configuration that would normally
 be applied via the configuration in puppet/* will not be applied, and solr will
 not be setup to run.
 
@@ -59,7 +59,9 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 
 Solr by default comes with a configured jetty out of the box.   You can run a local
 SOLR instance by running:
+
    `solr start -e cloud -noprompt`
+   
 (see https://lucene.apache.org/solr/quickstart.html).
 
 To configure solr to use NSIDC's schema.xml and other configurations, move the
