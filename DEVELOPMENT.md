@@ -9,6 +9,35 @@
 5. Create a new Pull Request
 
 # Development environment
+
+## Requirements
+
+*  Ruby environment for acceptance testing:
+  *  Ruby (>1.9.3) with development headers (ruby-dev/ruby-devel)
+  *  [Bundler](http://bundler.io/)
+  *  gcc or another compiler
+  *  Requirements for nokogiri and it's dependencies:
+    *  [libxml2/libxml2-dev](http://xmlsoft.org/)
+    *  [zlibc](http://www.zlibc.linux.lu/)
+    *  [zlib1g/zlib1g-dev](http://zlib.net/)
+    * Dependency build requirements:
+        * For Ubuntu/Debian, install the build-essential package.
+        * On the latest Fedora release installing the following will get you all of the requirements:
+
+          `yum groupinstall 'Development Tools'`
+
+          `yum install gcc-c++`
+
+  * [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
+  * All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
+
+  *Please note*:
+
+  * If you are having difficulty installing Nokogiri please review the
+  Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
+
+
+
 ## NSIDC
 
 Option 1: Provision in vSphere
@@ -29,7 +58,7 @@ The Solr dashboard for the local environment is accessible from
 
 ## Non-NSIDC
 
-Follow machine setup (or use your own automation) listed in [README](https://bitbucket.org/nsidc/puppet-nsidc-solr/src/master/README.md).
+Install the development requirements, then configure SOLR as noted in [README](https://bitbucket.org/nsidc/nsidc-solr/src/master/README.md).
 
 # Solr Configuration Files
 

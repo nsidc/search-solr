@@ -15,24 +15,19 @@ For use at NSIDC, this project requires the [vagrant-nsidc-plugin](https://bitbu
 Dependencies are defined in the CI configuration and should be available upon machine provision.
 
 ## Non-NSIDC
-When using the gem outside of the NSIDC environment, the configuration that would normally
+When using the project outside of the NSIDC environment, the configuration that would normally
 be applied via the configuration in puppet/* will not be applied, and solr will
 not be setup to run.
 
 To use this project you will have to set up an environment with the following
 requirements met:
 
-*  Ruby environment for acceptance testing:
-  *  Ruby (>1.9.3) with development headers (ruby-dev/ruby-devel)
-  *  [Bundler](http://bundler.io/)
-  *  gcc or another compiler
-  *  Requirements for nokogiri:
-    *  [libxml2/libxml2-dev](http://xmlsoft.org/)
-    *  [zlibc](http://www.zlibc.linux.lu/)
-    *  [zlib1g/zlib1g-dev](http://zlib.net/)
 * [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
 * All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
 
+
+**If you are having difficulty installing Nokogiri** please review the
+Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
 # Setup
 
@@ -61,7 +56,7 @@ Solr by default comes with a configured jetty out of the box.   You can run a lo
 SOLR instance by running:
 
    `solr start -e cloud -noprompt`
-   
+
 (see https://lucene.apache.org/solr/quickstart.html).
 
 To configure solr to use NSIDC's schema.xml and other configurations, move the
