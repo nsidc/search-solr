@@ -19,7 +19,7 @@ For use at NSIDC, this project requires the [vagrant-nsidc-plugin](https://bitbu
 Dependencies are defined in the CI configuration and should be available upon machine provision.
 
 ## Non-NSIDC
-When using outside of the NSIDC environment, the confgiruation that would normally
+When using outside of the NSIDC environment, the configuration that would normally
 be applied via the configuration in puppet/* will not be applied, and solr will
 not be setup to run.
 
