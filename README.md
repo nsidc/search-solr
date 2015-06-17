@@ -58,8 +58,9 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 ## Non-NSIDC
 
 Solr by default comes with a configured jetty out of the box.   You can run a local
-SOLR instance from {}/solr start -e cloud -noprompt (see
-   https://lucene.apache.org/solr/quickstart.html).
+SOLR instance by running:
+   `solr start -e cloud -noprompt`
+(see https://lucene.apache.org/solr/quickstart.html).
 
 To configure solr to use NSIDC's schema.xml and other configurations, move the
 files in config/* to the location (modified for your environment) listed in the
