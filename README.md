@@ -4,7 +4,7 @@ This vagrant project stands up a Solr instance for NSIDC Search / Arctic Data
 Explorer.
 
 See
-[CHANGELOG.md](https://bitbucket.org/nsidc/puppet-nsidc-solr/src/master/CHANGELOG.md)
+[CHANGELOG.md](https://bitbucket.org/nsidc/search-solr/src/master/CHANGELOG.md)
 for information on past versions.
 
 # Requirements
