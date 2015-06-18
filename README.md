@@ -87,4 +87,4 @@ Please note that this should serve only as an example of how to configure solr u
 ## Development
 
 Instructions and notes for developing this project are in
-[DEVELOPMENT](https://bitbucket.org/nsidc/puppet-nsidc-solr/src/master/DEVELOPMENT.md).
+[DEVELOPMENT](https://bitbucket.org/nsidc/search-solr/src/master/DEVELOPMENT.md).
