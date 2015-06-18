@@ -48,16 +48,41 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 
 ## Non-NSIDC
 
-Solr by default comes with a configured jetty out of the box.   You can run a local
-SOLR instance by running:
+(These actions should mirror the actions being applied by puppet in the `puppet/site.pp` manifest)
 
-   `solr start -e cloud -noprompt`
+* Download the SOLR source and unpack it:
 
-(see https://lucene.apache.org/solr/quickstart.html).
+```
+  tar -xvzf solr-4.3.0.tgz
+```
 
-To configure solr to use NSIDC's schema.xml and other configurations, move the
-files in config/* to the location (modified for your environment) listed in the
-puppet/site.pp
+*  Copy the 'collection1' core directory to add all the defaults/create the `nsidc_oai` and `auto_suggest` cores:
+
+```
+cd ${solr_path}/example/solr`
+cp -Rp collection1 nsidc_oai
+cp -Rp collection1 auto_suggest
+rm _Rf collection1
+```
+
+* Copy the following files from this repo to the listed target directories to configure SOLR:
+
+```
+config/solr.xml -> ${solr_path}/example/solr/solr.xml
+config/solrconfig.nsidc_oai.xml ->  ${solr_path}/example/solr/nsidc_oai/conf/solrconfig.xml
+config/solrconfig.autosuggest.xml -> ${solr_path}/example/solr/auto_suggest/conf/solrconfig.xml
+config/schema.xml -> ${solr_path}/example/solr/nsidc_oai/conf/schema.xml
+config/schema.autosuggest.xml -> ${solr_path}/example/solr/auto_suggest/conf/schema.xml
+```
+
+* Start SOLR:
+
+```
+cd ${solr_path}/example
+java -jar start.jar
+```
+
+Please note that this should serve only as an example of how to configure solr utilizing our configuration with the example from the solr distribution.  Before utilizing this example in a non-experimental setting you should consider utilizing a proper webserver (e.g. jetty) and configuring the location/cores/etc as applies to your particular environment.
 
 ## Development
 
