@@ -25,10 +25,6 @@ requirements met:
 * [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
 * All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
 
-
-**If you are having difficulty installing Nokogiri** please review the
-Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
-
 # Setup
 
 ## NSIDC
