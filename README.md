@@ -7,27 +7,14 @@ See
 [CHANGELOG.md](https://bitbucket.org/nsidc/search-solr/src/master/CHANGELOG.md)
 for information on past versions.
 
-# Requirements
+# Requirements and Setup at NSIDC
 
-## NSIDC
+## Requirements
 For use at NSIDC, this project requires the [vagrant-nsidc-plugin](https://bitbucket.org/nsidc/vagrant-nsidc-plugin).
 
 Dependencies are defined in the CI configuration and should be available upon machine provision.
 
-## Non-NSIDC
-When using the project outside of the NSIDC environment, the configuration that would normally
-be applied via the configuration in puppet/* will not be applied, and solr will
-not be setup to run.
-
-To use this project you will have to set up an environment with the following
-requirements met:
-
-* [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
-* All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
-
-# Setup
-
-## NSIDC
+## Setup
 The virtual machine will be provisioned using the
 [puppet-nsidc-solr](https://bitbucket.org/nsidc/puppet-nsidc-solr) module.
 NSIDC Search / Arctic Data Explorer configurations will be applied once Solr is
@@ -46,7 +33,22 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 [ search-solr-tools](https://bitbucket.org/nsidc/search-solr-tools) will be deployed
  and available on the newly-provisioned machine.  
 
-## Non-NSIDC
+
+# Requirements and Setup for Non-NSIDC users
+
+## Requirements
+
+When using the project outside of the NSIDC environment, the configuration that would normally
+be applied via the configuration in puppet/* will not be applied, and solr will
+not be setup to run.
+
+To use this project you will have to set up an environment with the following
+requirements met:
+
+* [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
+* All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
+
+## Setup
 
 (These actions should mirror the actions being applied by puppet in the `puppet/site.pp` manifest)
 
@@ -62,7 +64,7 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 cd ${solr_path}/example/solr`
 cp -Rp collection1 nsidc_oai
 cp -Rp collection1 auto_suggest
-rm _Rf collection1
+rm -Rf collection1
 ```
 
 * Copy the following files from this repo to the listed target directories to configure SOLR:
@@ -84,7 +86,7 @@ java -jar start.jar
 
 Please note that this should serve only as an example of how to configure solr utilizing our configuration with the example from the solr distribution.  Before utilizing this example in a non-experimental setting you should consider utilizing a proper webserver (e.g. jetty) and configuring the location/cores/etc as applies to your particular environment.
 
-## Development
+# Development
 
 Instructions and notes for developing this project are in
 [DEVELOPMENT](https://bitbucket.org/nsidc/search-solr/src/master/DEVELOPMENT.md).
