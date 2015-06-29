@@ -1,4 +1,4 @@
-## Unreleased
+## v2.0.1 (2015-06-29)
 
   - Update project documentation.
 
