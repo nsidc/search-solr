@@ -27,7 +27,7 @@ nsidc_jenkins::plugins:
   simple-theme-plugin: {}
 
 search-solr-tools-name: search-solr-tools
-search_solr_tools_repo: git@bitbucket.org:nsidc/search-solr-tools.git
+search_solr_tools_repo: git@github.com:nsidc/search-solr-tools.git
 deploy_solr_tools_command: |
   rm -rf .vagrant-$ENV
   vagrant nsidc hijack --env=$ENV --project=search-solr || true

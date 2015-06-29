@@ -11,7 +11,7 @@
 # Development environment
 
 Please note that successful passing acceptance tests require a harvest of data from
-[search-solr-tools](https://bitbucket.org/nsidc/search-solr-tools).
+[search-solr-tools](https://github.com/nsidc/search-solr-tools).
 
 ## Requirements
 
@@ -57,7 +57,8 @@ The Solr dashboard for the local environment is accessible from
 
 ## Non-NSIDC
 
-Install the development requirements, then configure SOLR as noted in [README](https://bitbucket.org/nsidc/nsidc-solr/src/master/README.md).
+Install the development requirements, then configure SOLR as noted in
+[`README.md`](https://github.com/nsidc/nsidc-solr/blob/master/README.md).
 
 # Solr Configuration Files
 

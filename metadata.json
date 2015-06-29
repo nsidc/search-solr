@@ -4,7 +4,7 @@
     "author": "NSIDC",
     "license": "NSIDC",
     "summary": "Solr instance for NSIDC Search / Arctic Data Explorer.",
-    "source": "https://bitbucket.org/nsidc/search-solr",
+    "source": "https://github.com/nsidc/search-solr",
     "operatingsystem_support": [
     {
       "operatingsystem": "Ubuntu",

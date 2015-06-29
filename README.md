@@ -4,7 +4,7 @@ This vagrant project stands up a Solr instance for NSIDC Search / Arctic Data
 Explorer.
 
 See
-[CHANGELOG.md](https://bitbucket.org/nsidc/search-solr/src/master/CHANGELOG.md)
+[CHANGELOG.md](https://github.com/nsidc/search-solr/blob/master/CHANGELOG.md)
 for information on past versions.
 
 # Requirements and Setup at NSIDC
@@ -30,9 +30,8 @@ Once provisioning is complete, the Solr dashboard is accessible from
 <environment> is one of dev, integration, qa, etc.
 
 Additionally if the VM is brought up via the CI jenkins job (as defined in ci.yaml)
-[ search-solr-tools](https://bitbucket.org/nsidc/search-solr-tools) will be deployed
- and available on the newly-provisioned machine.  
-
+[search-solr-tools](https://github.com/nsidc/search-solr-tools) will be deployed
+ and available on the newly-provisioned machine.
 
 # Requirements and Setup for Non-NSIDC users
 
@@ -89,4 +88,4 @@ Please note that this should serve only as an example of how to configure solr u
 # Development
 
 Instructions and notes for developing this project are in
-[DEVELOPMENT](https://bitbucket.org/nsidc/search-solr/src/master/DEVELOPMENT.md).
+[DEVELOPMENT](https://github.com/nsidc/search-solr/blob/master/DEVELOPMENT.md).
