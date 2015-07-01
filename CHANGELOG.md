@@ -1,4 +1,4 @@
-## Unreleased
+## v2.0.2 (2015-07-01)
 
   - Add R2R to list of ADE data centers to harvest (added to harvest with v3.2.0
     of search_solr_tools)
