@@ -55,8 +55,7 @@ harvest_nsidc_command: |
 harvest_ade_command: |
   rm -rf .vagrant-$ENV
   (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data_center=cisl echo eol ices nmi nodc rda usgs bco_dmo tdar pdc ade_auto_suggest --environment=$ENV"
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data_center=ade_auto_suggest --environment=$ENV"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data_center=cisl echo eol ices nmi nodc rda usgs bco_dmo tdar pdc r2r ade_auto_suggest --environment=$ENV"
 
 
 # Jenkins Jobs
