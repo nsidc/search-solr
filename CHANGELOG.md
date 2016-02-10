@@ -1,8 +1,3 @@
-## v2.0.4 (2016-02-10)
-
-  - Add GTN-P to list of ADE data centers to harvest (added to harvest with v3.3.4
-    of search_solr_tools)
-
 ## v2.0.2 (2015-07-01)
 
   - Add R2R to list of ADE data centers to harvest (added to harvest with v3.2.0
