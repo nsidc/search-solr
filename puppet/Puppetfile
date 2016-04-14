@@ -9,11 +9,6 @@ mod "nsidc/nsidc_jenkins",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git",
   :ref => 'latest'
 
-# Module for installing python and pip.
-# You may want to use this if using python's bumpversion
-# for doing your version bumping.
-mod 'stankevich/python'
-
 mod "nsidc/nsidc_solr",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-solr.git",
   :ref  => "latest"
