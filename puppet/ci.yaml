@@ -4,6 +4,17 @@ classes:
   - nsidc_jenkins
   - nsidc_nfs
 
+nsidc_miniconda::install:
+  /opt/miniconda:
+    version: '3.9.1'
+    build: true
+    config:
+      channels:
+        anaconda_nsidc_main: true
+    packages:
+      - bumpversion==0.5.1
+      - fabric==1.10.1
+
 # NFS Mounts
 nsidc_nfs::sharemounts:
   /share/sw/packages:
