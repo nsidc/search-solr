@@ -26,8 +26,8 @@ vagrant nsidc up --env=dev
 ```
 
 Once provisioning is complete, the Solr dashboard is accessible from
-[http://<environment>.search-solr.apps.int.nsidc.org:8983/solr](), where
-<environment> is one of dev, integration, qa, etc.
+[http://&lt;environment&gt;.search-solr.apps.int.nsidc.org:8983/solr](), where
+&lt;environment&gt; is one of dev, integration, qa, etc.
 
 Additionally if the VM is brought up via the CI jenkins job (as defined in ci.yaml)
 [search-solr-tools](https://github.com/nsidc/search-solr-tools) will be deployed
