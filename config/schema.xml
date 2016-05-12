@@ -31,6 +31,7 @@
     <field name="normalized_authoritative_id" type="normalized" indexed="true" stored="true" multiValued="true" />
     <field name="popularity" type="int" indexed="true" stored="true" multiValued="false" />
     <field name="source" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="sponsored_programs" type="string" indexed="true" stored="true" multiValued="true" />
 
     <field name="full_parameters" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="copy_parameters" type="string" indexed="true" stored="true" multiValued="true" />
