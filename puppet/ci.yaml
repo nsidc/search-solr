@@ -53,7 +53,7 @@ deploy_solr_tools_command: |
   # 'gem uninstall -x' removes the installed version and related executables
   # 'gem list' will show the installed versions to confirm that only the desired
   #    version is installed
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "sudo gem cleanup search_solr_tools; sudo gem uninstall -x search_solr_tools; sudo gem install search_solr_tools $VERSION -s http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/ruby/nsidc; sudo gem list --local search_solr_tools"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "sudo gem cleanup search_solr_tools; sudo gem uninstall -x search_solr_tools; sudo gem install search_solr_tools $VERSION; sudo gem list --local search_solr_tools"
 
 provision_solr_command: |
   rm -rf .vagrant-$ENV
