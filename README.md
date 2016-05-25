@@ -14,6 +14,10 @@ For use at NSIDC, this project requires the [vagrant-nsidc-plugin](https://bitbu
 
 Dependencies are defined in the CI configuration and should be available upon machine provision.
 
+Note that the `search-solr-tools` gem is **not** installed via Bundler.
+See the entries matching the strings `deploy_solr_tools_command` and
+`Deploy_solr-search-tools-gem` in `puppet/ci.yaml`.
+
 ## Setup
 The virtual machine will be provisioned using the
 [puppet-nsidc-solr](https://bitbucket.org/nsidc/puppet-nsidc-solr) module.

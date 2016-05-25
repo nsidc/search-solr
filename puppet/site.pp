@@ -40,7 +40,7 @@ if $environment == 'ci' {
   }
 }
 
-if ($environment == 'local') or ($environment == 'dev') or ($environment == 'integration') or ($environment == 'qa') or ($environment == 'staging') or ($environment == 'production') or ($environment == 'blue') or ($environment == 'green') or ($environment == 'red') {
+unless $environment == 'ci' {
   # Ensure the brightbox apt repository gets added before installing ruby
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
