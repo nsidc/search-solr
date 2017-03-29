@@ -52,6 +52,11 @@ unless $environment == 'ci' {
   package { 'ruby2.2-dev':
     ensure => present
   } ->
+
+  exec { 'set ruby':
+    command => '/usr/bin/ruby-switch --set ruby2.2'
+  } ->
+
   exec { 'install bundler':
     command => 'sudo gem install bundler -v 1.10.3',
     path => '/usr/bin'
