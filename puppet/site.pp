@@ -45,6 +45,11 @@ unless $environment == 'ci' {
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
 
+  # dep for geos gems
+  package {"libgeos-dev":
+    ensure => present
+  }
+
   package { 'ruby2.2':
     ensure => present,
     require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
