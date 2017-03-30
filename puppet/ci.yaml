@@ -114,11 +114,135 @@ nsidc_jenkins::jobs:
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE"
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo":
     command: |
       ENV=integration
-      %{hiera('harvest_ade_command')}
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=bco_dmo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=echo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_eol"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_eol":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=eol  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_gtnp"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_gtnp":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=gtnp  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ices  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ncdc_paleo"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ncdc_paleo":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ncdc_paleo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nmi  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nodc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=pdc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=r2r  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=rda  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=tdar  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=usgs  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
+    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+
+  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest":
+    command: |
+      ENV=integration
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ade_auto_suggest  --environment=$ENV"
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/integration
     trigger_job: "A07_%{hiera('project')}_Integration_Acceptance_Tests"
+    trigger_threshold: FAILURE
+
 
   "A07_%{hiera('project')}_Integration_Acceptance_Tests":
     command: |
@@ -176,11 +300,134 @@ nsidc_jenkins::jobs:
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE"
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo":
     command: |
       ENV=qa
-      %{hiera('harvest_ade_command')}
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=bco_dmo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=echo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_eol"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_eol":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=eol  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_gtnp"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_gtnp":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=gtnp  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ices  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ncdc_paleo"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ncdc_paleo":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ncdc_paleo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nmi  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nodc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=pdc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=r2r  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=rda  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=tdar  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=usgs  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
+    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+
+  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest":
+    command: |
+      ENV=qa
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ade_auto_suggest  --environment=$ENV"
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/qa
     trigger_job: "B07_%{hiera('project')}_QA_Acceptance_Tests"
+    trigger_threshold: FAILURE
 
   "B07_%{hiera('project')}_QA_Acceptance_Tests":
     command: |
@@ -238,11 +485,133 @@ nsidc_jenkins::jobs:
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE"
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo":
     command: |
       ENV=staging
-      %{hiera('harvest_ade_command')}
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=bco_dmo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=echo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_eol"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_eol":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=eol  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_gtnp"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_gtnp":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=gtnp  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ices  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ncdc_paleo"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ncdc_paleo":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ncdc_paleo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nmi  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nodc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=pdc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=r2r  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=rda  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=tdar  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=usgs  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
+    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest":
+    command: |
+      ENV=staging
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ade_auto_suggest  --environment=$ENV"
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/staging
     trigger_job: "C07_%{hiera('project')}_Staging_Acceptance_Tests"
+    trigger_threshold: FAILURE
 
   "C07_%{hiera('project')}_Staging_Acceptance_Tests":
     command: |
@@ -293,10 +662,134 @@ nsidc_jenkins::jobs:
     trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE"
 
   "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE":
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo":
     command: |
       ENV=blue
-      %{hiera('harvest_ade_command')}
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=bco_dmo  --environment=$ENV"
     workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=echo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_eol"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_eol":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=eol  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_gtnp"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_gtnp":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=gtnp  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ices  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ncdc_paleo"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ncdc_paleo":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ncdc_paleo  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nmi  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=nodc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=pdc  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=r2r  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=rda  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=tdar  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=usgs  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+
+  "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest":
+    command: |
+      ENV=blue
+      vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=ade_auto_suggest  --environment=$ENV"
+    workspace: /var/lib/jenkins/workspaces/%{hiera('search-solr-tools-name')}/blue
+    trigger_job: "A07_%{hiera('project')}_Blue_Acceptance_Tests"
+    trigger_threshold: FAILURE
 
   "E01_%{hiera('project')}_Release_Bump_Version":
     git:
