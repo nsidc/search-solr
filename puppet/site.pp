@@ -45,6 +45,11 @@ unless $environment == 'ci' {
   include apt
   apt::ppa{'ppa:brightbox/ruby-ng':}
 
+  # dep for geos gems
+  package {"libgeos-dev":
+    ensure => present
+  }
+
   package { 'ruby2.2':
     ensure => present,
     require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
@@ -52,6 +57,11 @@ unless $environment == 'ci' {
   package { 'ruby2.2-dev':
     ensure => present
   } ->
+
+  exec { 'set ruby':
+    command => '/usr/bin/ruby-switch --set ruby2.2'
+  } ->
+
   exec { 'install bundler':
     command => 'sudo gem install bundler -v 1.10.3',
     path => '/usr/bin'
