@@ -1,5 +1,5 @@
 # Load modules and classes
-hiera_include('classes')
+lookup('classes', {merge => unique}).include
 
 $solr_path = "/opt/solr"
 $solr_tools_path = "/opt/search-solr-tools"
