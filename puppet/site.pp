@@ -4,20 +4,23 @@ lookup('classes', {merge => unique}).include
 $solr_path = "/opt/solr"
 $solr_tools_path = "/opt/search-solr-tools"
 
-class update-package-manager {
-  exec { "update":
-    path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
-    command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
-  }
-  notify { "apt-get update complete":
-    require => Exec['update']
-  }
-}
+# class update_package_manager {
+#   exec { "update":
+#     path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
+#     command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
+#   }
+#   notify { "apt-get update complete":
+#     require => Exec['update']
+#   }
+# }
 
 ### BEGIN nokogiri deps
-Class['update-package-manager'] -> Package <| |>
+# Class['update_package_manager'] -> Package <| |>
 
-package {"libssl-dev":
+exec { 'apt-get update':
+  command => 'sudo apt-get update',
+  path => ['/usr/bin/'],
+} -> package {"libssl-dev":
   ensure => present
 } ->
 package {"build-essential":
@@ -25,51 +28,60 @@ package {"build-essential":
 } ->
 package {"libxml2-dev":
   ensure => present
+} ->
+package {"libxml2":
+  ensure => present
+} ->
+package {"libxslt1-dev":
+  ensure => present
 }
 
-include update-package-manager
+# include update_package_manager
 ### END nokogiri deps
+
+apt::ppa{'ppa:brightbox/ruby-ng':}
+
+package { 'ruby-switch':
+  ensure => present,
+} ->
+package { 'ruby2.2':
+  ensure => present,
+  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+} ->
+package { 'ruby2.2-dev':
+  ensure => present,
+  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+} ->
+
+exec { 'set ruby':
+  command => 'ruby-switch --set ruby2.2',
+  path => ['/usr/bin'],
+  require => Package['ruby-switch']
+} ->
+
+exec { 'install bundler':
+  command => 'sudo gem install bundler -v 1.10.3',
+  path => '/usr/bin'
+}
+
 
 if $environment == 'ci' {
   package { 'rake':
     provider => 'gem',
     ensure   => 'installed'
   }
-  package { 'bundler':
-    provider => 'gem'
-  }
 }
 
 unless $environment == 'ci' {
-  # Ensure the brightbox apt repository gets added before installing ruby
-  include apt
-  apt::ppa{'ppa:brightbox/ruby-ng':}
-
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present
   }
 
-  package { 'ruby2.2':
-    ensure => present,
-    require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-  } ->
-  package { 'ruby2.2-dev':
-    ensure => present
-  } ->
-
-  exec { 'set ruby':
-    command => '/usr/bin/ruby-switch --set ruby2.2'
-  } ->
-
-  exec { 'install bundler':
-    command => 'sudo gem install bundler -v 1.10.3',
-    path => '/usr/bin'
-  }->
-
   # nokogiri 'build native' dep
   package { 'zlib1g-dev':
-    ensure => present
+    ensure => present,
+    require => Exec['install bundler']
   }
 
   class { "nsidc_solr": }
@@ -111,7 +123,7 @@ unless $environment == 'ci' {
   }
 
   file { "${solr_path}/solr/solr.xml":
-    mode    => 0644,
+    mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/solr.xml",
@@ -121,7 +133,7 @@ unless $environment == 'ci' {
   }
 
   file { "${solr_path}/solr/nsidc_oai/conf/solrconfig.xml":
-    mode    => 0644,
+    mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/solrconfig.nsidc_oai.xml",
@@ -131,7 +143,7 @@ unless $environment == 'ci' {
   }
 
   file { "${solr_path}/solr/auto_suggest/conf/solrconfig.xml":
-    mode    => 0644,
+    mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/solrconfig.autosuggest.xml",
@@ -141,7 +153,7 @@ unless $environment == 'ci' {
   }
 
   file { "${solr_path}/solr/nsidc_oai/conf/schema.xml":
-    mode    => 0644,
+    mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/schema.xml",
@@ -151,7 +163,7 @@ unless $environment == 'ci' {
   }
 
   file { "${solr_path}/solr/auto_suggest/conf/schema.xml":
-    mode    => 0644,
+    mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/schema.autosuggest.xml",
