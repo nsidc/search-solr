@@ -17,10 +17,7 @@ $solr_tools_path = "/opt/search-solr-tools"
 ### BEGIN nokogiri deps
 # Class['update_package_manager'] -> Package <| |>
 
-exec { 'apt-get update':
-  command => 'sudo apt-get update',
-  path => ['/usr/bin/'],
-} -> package {"libssl-dev":
+package {"libssl-dev":
   ensure => present
 } ->
 package {"build-essential":
