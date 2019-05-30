@@ -2,5 +2,10 @@
 project: search-solr
 gitrepo: git@github.com:nsidc/search-solr.git
 
-puppet:
-  enabled: true
+vsphere:
+  template:
+    default: xenial64-nsidc-puppet4
+    ci: xenial64-docker-puppet4-jenkins1
+virtualbox:
+  box: xenial64-nsidc
+  box_url: http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/vagrant/boxes/xenial64-nsidc.box

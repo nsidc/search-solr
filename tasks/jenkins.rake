@@ -19,7 +19,7 @@ namespace :jenkins do
       args.with_defaults(part: 'patch')
 
       # bump VERSION in version.rb, stage version.rb
-      sh "bundle exec rake bump[#{args[:part]}]"
+      sh "bundle exec bump #{args[:part]} --replace-in metadata.json"
       sh "git add #{metadata_json}"
       version = current_version
 

@@ -13,9 +13,5 @@ mod "nsidc/nsidc_solr",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-solr.git",
   :ref  => "latest"
 
-mod "nsidc/nsidc_miniconda",
-  :git => "git@bitbucket.org:/nsidc/puppet-nsidc-miniconda.git",
-  :ref => 'latest'
-
 # Module for installing packages from apt
-mod 'puppetlabs/apt', "1.8.0"
+mod 'puppetlabs/apt', "< 2.0.0"
