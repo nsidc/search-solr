@@ -23,16 +23,6 @@ package {"libssl-dev":
 package {"build-essential":
   ensure => present
 } ->
-package {"libxml2-dev":
-  ensure => present
-} ->
-package {"libxml2":
-  ensure => present
-} ->
-package {"libxslt1-dev":
-  ensure => present
-}
-
 # include update_package_manager
 ### END nokogiri deps
 
@@ -56,11 +46,33 @@ exec { 'set ruby':
   require => Package['ruby-switch']
 } ->
 
-exec { 'install bundler':
-  command => 'sudo gem install bundler -v 1.17.2',
-  path => '/usr/bin'
+package { 'bundler':
+  provider => 'gem',
+  ensure   => 'installed',
 }
 
+# update rubygems and install application gems
+exec { 'install rubygems update':
+  command => 'gem install rubygems-update',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root',
+  require => [ Package['bundler'] ]
+} ->
+ 
+exec { 'update rubygems':
+  command => 'update_rubygems',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root'
+} ->
+
+exec { 'gem update':
+  command => 'gem update --system',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root'
+}
 
 if $environment == 'ci' {
   package { 'rake':
@@ -78,7 +90,7 @@ unless $environment == 'ci' {
   # nokogiri 'build native' dep
   package { 'zlib1g-dev':
     ensure => present,
-    require => Exec['install bundler']
+    require => Package['bundler']
   }
 
   class { "nsidc_solr": }

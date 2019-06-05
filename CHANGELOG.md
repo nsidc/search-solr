@@ -2,6 +2,8 @@
 
   - Update Vagrant and Puppet plugins, and associated code to 
     allow deployment
+  - Updated CI jobs for ADE (remove inactive data center; update URLs for
+    others).
 
 ## v2.0.2 (2015-07-01)
 
