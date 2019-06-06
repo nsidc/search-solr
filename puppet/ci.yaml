@@ -49,7 +49,7 @@ harvest_ade_command: |
       set +e
   fi
   vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=${data_center} --environment=${ENV}"
-  done
+  true
 
 integration_workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration
 qa_workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/qa
