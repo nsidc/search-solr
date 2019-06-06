@@ -111,7 +111,7 @@ nsidc_jenkins::jobs:
     description: Start a sequential harvest of all of the ADE metadata sources.
     workspace: "%{hiera('integration_workspace')}"
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc":
     description: Harvest from a single data center
@@ -121,7 +121,7 @@ nsidc_jenkins::jobs:
       data_center=adc
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest":
     description: Harvest from a single data center
@@ -131,7 +131,7 @@ nsidc_jenkins::jobs:
       data_center=ade_auto_suggest
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo":
     description: Harvest from a single data center
@@ -141,7 +141,7 @@ nsidc_jenkins::jobs:
       data_center=bco_dmo
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo":
     description: Harvest from a single data center
@@ -151,7 +151,7 @@ nsidc_jenkins::jobs:
       data_center=echo
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices":
     description: Harvest from a single data center
@@ -161,7 +161,7 @@ nsidc_jenkins::jobs:
       data_center=ices
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi":
     description: Harvest from a single data center
@@ -171,7 +171,7 @@ nsidc_jenkins::jobs:
       data_center=nmi
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc":
     description: Harvest from a single data center
@@ -181,7 +181,7 @@ nsidc_jenkins::jobs:
       data_center=nodc
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc":
     description: Harvest from a single data center
@@ -191,7 +191,7 @@ nsidc_jenkins::jobs:
       data_center=pdc
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r":
     description: Harvest from a single data center
@@ -201,7 +201,7 @@ nsidc_jenkins::jobs:
       data_center=r2r
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda":
     description: Harvest from a single data center
@@ -211,7 +211,7 @@ nsidc_jenkins::jobs:
       data_center=rda
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar":
     description: Harvest from a single data center
@@ -221,7 +221,7 @@ nsidc_jenkins::jobs:
       data_center=tdar
       %{hiera('harvest_ade_command')}
     trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs":
     description: Harvest from a single data center
@@ -231,7 +231,7 @@ nsidc_jenkins::jobs:
       data_center=usgs
       %{hiera('harvest_ade_command')}
     trigger_job: "A07_%{hiera('project')}_Integration_Acceptance_Tests"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "A07_%{hiera('project')}_Integration_Acceptance_Tests":
     command: |
@@ -292,7 +292,7 @@ nsidc_jenkins::jobs:
     description: Start a sequential harvest of all of the ADE metadata sources.
     workspace: "%{hiera('qa_workspace')}"
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc":
     description: Harvest from a single data center
@@ -302,7 +302,7 @@ nsidc_jenkins::jobs:
       data_center=adc
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest":
     description: Harvest from a single data center
@@ -312,7 +312,7 @@ nsidc_jenkins::jobs:
       data_center=ade_auto_suggest
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo":
     description: Harvest from a single data center
@@ -322,7 +322,7 @@ nsidc_jenkins::jobs:
       data_center=bco_dmo
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo":
     description: Harvest from a single data center
@@ -332,7 +332,7 @@ nsidc_jenkins::jobs:
       data_center=echo
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices":
     description: Harvest from a single data center
@@ -342,7 +342,7 @@ nsidc_jenkins::jobs:
       data_center=ices
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi":
     description: Harvest from a single data center
@@ -352,7 +352,7 @@ nsidc_jenkins::jobs:
       data_center=nmi
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc":
     description: Harvest from a single data center
@@ -362,7 +362,7 @@ nsidc_jenkins::jobs:
       data_center=nodc
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc":
     description: Harvest from a single data center
@@ -372,7 +372,7 @@ nsidc_jenkins::jobs:
       data_center=pdc
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r":
     description: Harvest from a single data center
@@ -382,7 +382,7 @@ nsidc_jenkins::jobs:
       data_center=r2r
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda":
     description: Harvest from a single data center
@@ -392,7 +392,7 @@ nsidc_jenkins::jobs:
       data_center=rda
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar":
     description: Harvest from a single data center
@@ -402,7 +402,7 @@ nsidc_jenkins::jobs:
       data_center=tdar
       %{hiera('harvest_ade_command')}
     trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs":
     description: Harvest from a single data center
@@ -412,7 +412,7 @@ nsidc_jenkins::jobs:
       data_center=usgs
       %{hiera('harvest_ade_command')}
     trigger_job: "B07_%{hiera('project')}_QA_Acceptance_Tests"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "B07_%{hiera('project')}_QA_Acceptance_Tests":
     command: |
@@ -473,7 +473,7 @@ nsidc_jenkins::jobs:
     description: Start a sequential harvest of all of the ADE metadata sources.
     workspace: "%{hiera('staging_workspace')}"
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc":
     description: Harvest from a single data center
@@ -483,7 +483,7 @@ nsidc_jenkins::jobs:
       data_center=adc
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest":
     description: Harvest from a single data center
@@ -493,7 +493,7 @@ nsidc_jenkins::jobs:
       data_center=ade_auto_suggest
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo":
     description: Harvest from a single data center
@@ -503,7 +503,7 @@ nsidc_jenkins::jobs:
       data_center=bco_dmo
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo":
     description: Harvest from a single data center
@@ -513,7 +513,7 @@ nsidc_jenkins::jobs:
       data_center=echo
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices":
     description: Harvest from a single data center
@@ -523,7 +523,7 @@ nsidc_jenkins::jobs:
       data_center=ices
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi":
     description: Harvest from a single data center
@@ -533,7 +533,7 @@ nsidc_jenkins::jobs:
       data_center=nmi
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc":
     description: Harvest from a single data center
@@ -543,7 +543,7 @@ nsidc_jenkins::jobs:
       data_center=nodc
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc":
     description: Harvest from a single data center
@@ -553,7 +553,7 @@ nsidc_jenkins::jobs:
       data_center=pdc
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r":
     description: Harvest from a single data center
@@ -563,7 +563,7 @@ nsidc_jenkins::jobs:
       data_center=r2r
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda":
     description: Harvest from a single data center
@@ -573,7 +573,7 @@ nsidc_jenkins::jobs:
       data_center=rda
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar":
     description: Harvest from a single data center
@@ -583,7 +583,7 @@ nsidc_jenkins::jobs:
       data_center=tdar
       %{hiera('harvest_ade_command')}
     trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs":
     description: Harvest from a single data center
@@ -593,7 +593,7 @@ nsidc_jenkins::jobs:
       data_center=usgs
       %{hiera('harvest_ade_command')}
     trigger_job: "C07_%{hiera('project')}_Staging_Acceptance_Tests"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "C07_%{hiera('project')}_Staging_Acceptance_Tests":
     command: |
@@ -646,7 +646,7 @@ nsidc_jenkins::jobs:
     description: Start a sequential harvest of all of the ADE metadata sources.
     workspace: "%{hiera('blue_workspace')}"
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc":
     description: Harvest from a single data center
@@ -656,7 +656,7 @@ nsidc_jenkins::jobs:
       data_center=adc
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest":
     description: Harvest from a single data center
@@ -666,7 +666,7 @@ nsidc_jenkins::jobs:
       data_center=ade_auto_suggest
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo":
     description: Harvest from a single data center
@@ -676,7 +676,7 @@ nsidc_jenkins::jobs:
       data_center=bco_dmo
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo":
     description: Harvest from a single data center
@@ -686,7 +686,7 @@ nsidc_jenkins::jobs:
       data_center=echo
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices":
     description: Harvest from a single data center
@@ -696,7 +696,7 @@ nsidc_jenkins::jobs:
       data_center=ices
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi":
     description: Harvest from a single data center
@@ -706,7 +706,7 @@ nsidc_jenkins::jobs:
       data_center=nmi
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc":
     description: Harvest from a single data center
@@ -716,7 +716,7 @@ nsidc_jenkins::jobs:
       data_center=nodc
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc":
     description: Harvest from a single data center
@@ -726,7 +726,7 @@ nsidc_jenkins::jobs:
       data_center=pdc
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r":
     description: Harvest from a single data center
@@ -736,7 +736,7 @@ nsidc_jenkins::jobs:
       data_center=r2r
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda":
     description: Harvest from a single data center
@@ -746,7 +746,7 @@ nsidc_jenkins::jobs:
       data_center=rda
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar":
     description: Harvest from a single data center
@@ -756,7 +756,7 @@ nsidc_jenkins::jobs:
       data_center=tdar
       %{hiera('harvest_ade_command')}
     trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs"
-    trigger_threshold: UNSTABLE
+    trigger_threshold: FAILURE
 
   "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs":
     description: Harvest from a single data center
