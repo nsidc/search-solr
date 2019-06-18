@@ -4,6 +4,10 @@ lookup('classes', {merge => unique}).include
 $solr_path = "/opt/solr"
 $solr_tools_path = "/opt/search-solr-tools"
 
+# TODO: How can the java requirement be satisfied by the puppet-nsidc-solr
+# module? It's not installed correctly unless I include this class here.
+class { "java": }
+
 # class update_package_manager {
 #   exec { "update":
 #     path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
@@ -95,32 +99,34 @@ unless $environment == 'ci' {
 
   class { "nsidc_solr": }
 
-  # Configure Solr with NSIDC/ADE Search cores
-  file { "${solr_path}/solr/nsidc_oai":
-    ensure  => "absent",
-    force   => true,
-    alias   => "nsidc_oai-removed",
-    require => Exec["deploy-solr"],
-    notify  => Service["solr"]
-  }
+  $collection_dirs = [
+                       "${solr_path}/nsidc_oai",
+                       "${solr_path}/nsidc_oai/conf",
+                       "${solr_path}/nsidc_oai/data",
+                       "${solr_path}/auto_suggest",
+                       "${solr_path}/auto_suggest/conf",
+                       "${solr_path}/auto_suggest/data"
+                     ]
 
-  file { "${solr_path}/solr/auto_suggest":
-    ensure  => "absent",
-    force   => true,
-    alias   => "autosuggest-removed",
-    require => File["nsidc_oai-removed"],
-    notify  => Service["solr"]
+  file { $collection_dirs:
+    ensure  => 'directory',
+    recurse => true,
+    purge   => true,
+    owner   => solr,
+    group   => solr,
+    require => Exec['deploy-solr'],
+    notify  => Service['solr']
   }
 
   exec { "setup-solr-auto-suggest-collection":
-    command => "/usr/bin/sudo /bin/cp -r ${solr_path}/solr/collection1 ${solr_path}/solr/nsidc_oai",
+    command => "/usr/bin/sudo ls ${solr_path}/nsidc_oai",
     cwd     => "$solr_path",
-    require => File["autosuggest-removed"],
+    require => File[$collection_dirs],
     notify  => Service["solr"]
   }
 
   exec { "setup-solr-collection":
-    command => "/usr/bin/sudo /bin/mv ${solr_path}/solr/collection1 ${solr_path}/solr/auto_suggest",
+    command => "/usr/bin/sudo ls ${solr_path}/auto_suggest",
     cwd     => "$solr_path",
     require => Exec["setup-solr-auto-suggest-collection"],
     notify  => Service["solr"]
@@ -131,79 +137,64 @@ unless $environment == 'ci' {
     require => Exec["setup-solr-collection"]
   }
 
-  file { "${solr_path}/solr/solr.xml":
+  file { "solr-xml":
+    path    => "${solr_path}/solr.xml",
     mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/solr.xml",
-    alias   => "solr-xml",
-    require => Exec["setup-solr-collection"],
-    notify  => Service["solr"]
+    require => Exec['setup-solr-collection'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/nsidc_oai/conf/solrconfig.xml":
+  file { 'solr-config':
+    path    => "${solr_path}/nsidc_oai/conf/solrconfig.xml",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/solrconfig.nsidc_oai.xml",
-    alias   => "solr-config",
-    require => File["solr-xml"],
-    notify  => Service["solr"]
+    source  => '/vagrant/config/solrconfig.nsidc_oai.xml',
+    require => File['solr-xml'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/auto_suggest/conf/solrconfig.xml":
+  file { 'solr-auto-suggest-config':
+    path    => "${solr_path}/auto_suggest/conf/solrconfig.xml",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/solrconfig.autosuggest.xml",
-    alias   => "solr-auto-suggest-config",
-    require => File["solr-config"],
-    notify  => Service["solr"]
+    source  => '/vagrant/config/solrconfig.autosuggest.xml',
+    require => File['solr-config'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/nsidc_oai/conf/schema.xml":
+  file { 'solr-schema-config':
+    path    => "${solr_path}/nsidc_oai/conf/schema.xml",
     mode    => '0644',
     owner   => solr,
     group   => solr,
     source  => "/vagrant/config/schema.xml",
-    alias   => "solr-schema-config",
     require => File["solr-auto-suggest-config"],
     notify  => Service["solr"]
   }
 
-  file { "${solr_path}/solr/auto_suggest/conf/schema.xml":
+  file { 'solr-schema-auto-suggest-config':
+    path    => "${solr_path}/auto_suggest/conf/schema.xml",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/schema.autosuggest.xml",
-    alias   => "solr-schema-auto-suggest-config",
-    require => File["solr-schema-config"],
-    notify  => Service["solr"]
+    source  => '/vagrant/config/schema.autosuggest.xml',
+    require => File['solr-schema-config'],
+    notify  => Service['solr']
   }
 
-  # Create data and tlog directories so Solr can write to them
-  file { "${solr_path}/solr/nsidc_oai/data":
-    ensure => "directory",
+  file { "solr-ulimit":
+    path    => "/etc/security/limits.d/solr.conf",
+    mode    => '0644',
     owner   => solr,
-    group   => solr
-  }
-
-  file { "${solr_path}/solr/nsidc_oai/data/tlog":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
-  }
-
-  file { "${solr_path}/solr/auto_suggest/data":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
-  }
-
-  file { "${solr_path}/solr/auto_suggest/data/tlog":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
+    group   => solr,
+    source  => "/vagrant/config/solr_ulimit.conf",
+    require => Exec['setup-solr-collection'],
+    notify  => Service['solr']
   }
 
   # Work directory will prevent solr from writing to /tmp
