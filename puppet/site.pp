@@ -1,12 +1,12 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
 
+class { '::java':
+  distribution => 'jre'
+}
+
 $solr_path = "/opt/solr"
 $solr_tools_path = "/opt/search-solr-tools"
-
-# TODO: How can the java requirement be satisfied by the puppet-nsidc-solr
-# module? It's not installed correctly unless I include this class here.
-class { "java": }
 
 # class update_package_manager {
 #   exec { "update":
@@ -184,16 +184,6 @@ unless $environment == 'ci' {
     group   => solr,
     source  => '/vagrant/config/schema.autosuggest.xml',
     require => File['solr-schema-config'],
-    notify  => Service['solr']
-  }
-
-  file { "solr-ulimit":
-    path    => "/etc/security/limits.d/solr.conf",
-    mode    => '0644',
-    owner   => solr,
-    group   => solr,
-    source  => "/vagrant/config/solr_ulimit.conf",
-    require => Exec['setup-solr-collection'],
     notify  => Service['solr']
   }
 
