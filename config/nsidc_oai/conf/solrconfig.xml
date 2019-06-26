@@ -210,9 +210,6 @@
     <!-- NSIDC -->
     <lockType>${solr.lock.type:simple}</lockType>
 
-    <!-- NSIDC -->
-    <unlockOnStartup>true</unlockOnStartup>
-
     <!-- Commit Deletion Policy
          Custom deletion policies can be specified here. The class must
          implement org.apache.lucene.index.IndexDeletionPolicy.
@@ -901,25 +898,10 @@
   <requestHandler name="/update/xslt"
                   startup="lazy"
                   class="solr.XsltUpdateRequestHandler"/>
+
   <!-- NSIDC -->
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
   </requestHandler>
-
-  <!-- NSIDC -->
-  <!-- for back compat with clients using /update/json and /update/csv -->
-  <requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler">
-    <lst name="defaults">
-      <str name="stream.contentType">application/json</str>
-    </lst>
-  </requestHandler>
-
-  <!-- NSIDC -->
-  <requestHandler name="/update/csv" class="solr.CSVRequestHandler">
-    <lst name="defaults">
-      <str name="stream.contentType">application/csv</str>
-    </lst>
-  </requestHandler>
-
 
   <initParams path="/update/**,/query,/select,/tvrh,/elevate,/spell,/browse">
     <lst name="defaults">
@@ -954,8 +936,6 @@
   <requestHandler name="/analysis/document" 
                    class="solr.DocumentAnalysisRequestHandler" 
                    startup="lazy" />
-  <requestHandler name="/admin/" 
-                   class="solr.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
      <lst name="invariants">
        <str name="q">solrpingquery</str>
@@ -1216,9 +1196,6 @@
   <searchComponent name="elevator" class="solr.QueryElevationComponent" >
     <!-- pick a fieldType to analyze queries -->
     <str name="queryFieldType">string</str>
-
-    <!-- NSIDC -->
-    <str name="config-file">elevate.xml</str>
   </searchComponent>
 
   <!-- A request handler for demonstrating the elevator component -->
