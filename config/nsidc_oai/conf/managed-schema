@@ -88,6 +88,17 @@
     <fieldType name="long" class="solr.LongPointField" positionIncrementGap="0"/>
     <fieldType name="double" class="solr.DoublePointField" positionIncrementGap="0"/>
 
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
+    
+    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+    <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+    <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+
     <!--
      Numeric field types that index each value at various levels of precision
      to accelerate range queries when the number of values between the range
@@ -104,7 +115,25 @@
     <fieldType name="tlong" class="solr.LongPointField" positionIncrementGap="0"/>
     <fieldType name="tdouble" class="solr.DoublePointField" positionIncrementGap="0"/>
 
+    <dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/>
+    <dynamicField name="*_is" type="pints"    indexed="true"  stored="true"/>
+    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
+    <dynamicField name="*_ss" type="strings"  indexed="true"  stored="true"/>
+    <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/>
+    <dynamicField name="*_ls" type="plongs"   indexed="true"  stored="true"/>
+    <dynamicField name="*_t" type="text_general" indexed="true" stored="true" multiValued="false"/>
+    <dynamicField name="*_txt" type="text_general" indexed="true" stored="true"/>
+    <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
+    <dynamicField name="*_bs" type="booleans" indexed="true" stored="true"/>
+    <dynamicField name="*_f"  type="pfloat"  indexed="true"  stored="true"/>
+    <dynamicField name="*_fs" type="pfloats"  indexed="true"  stored="true"/>
+    <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/>
+    <dynamicField name="*_ds" type="pdoubles" indexed="true"  stored="true"/>
+    <dynamicField name="random_*" type="random"/>
+    <dynamicField name="ignored_*" type="ignored"/>
+
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="false" omitNorms="true"/>
+    <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
 
     <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
          is a more restricted form of the canonical representation of dateTime
@@ -129,6 +158,10 @@
          Note: For faster range queries, consider the tdate type
       -->
     <fieldType name="date" class="solr.DatePointField" positionIncrementGap="0"/>
+
+    <!-- KD-tree versions of date fields -->
+    <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
+    <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
 
     <!-- A general text field that has reasonable, generic
          cross-language defaults: it tokenizes with StandardTokenizer,

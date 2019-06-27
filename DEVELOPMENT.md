@@ -1,3 +1,8 @@
+**NOTE: Do NOT expect the CI machine to build without making some manual changes
+to the `puppet` configuration for this project.** It appears that the `puppetlabs/java`
+dependency in the `nsidc_jenkins` Puppet module conflicts with the more recent
+`puppetlabs/java` module version used by `puppet-nsidc-solr`.
+
 ## Contributing
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
@@ -34,7 +39,7 @@ Ruby environment for acceptance testing:
 
   *Please note*:  If you are having difficulty installing Nokogiri please review the Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
-* [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
+* [Solr 8.1.1](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
 * All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
 
 ## NSIDC
@@ -65,3 +70,15 @@ Install the development requirements, then configure SOLR as noted in
 Solr is configured using XML files. Cores are defined in `config/solr.xml`.
 The Solr cores each require a schema file and a Solr configuration file.
 All configuration files are found under `config/`.
+
+Default endpoint
+http://localhost:8983/solr/
+
+change to `solr` user to more easily navigate on VM
+sudo su solr
+
+See puppet-nsidc-solr DEVELOPMENT.md for directories, config file locations,
+etc.
+
+from /opt/solr:
+./bin/solr/status

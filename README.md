@@ -41,19 +41,16 @@ Additionally if the VM is brought up via the CI jenkins job (as defined in ci.ya
 
 ## Requirements
 
-When using the project outside of the NSIDC environment, the configuration that would normally
-be applied via the configuration in puppet/* will not be applied, and solr will
-not be setup to run.
-
-To use this project you will have to set up an environment with the following
-requirements met:
-
-* [Solr 4.3.0](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
-* All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
+When using the project outside of the NSIDC environment, the configuration that
+would normally be managed by Puppet will not be applied, and Solr will not be
+installed.  You will have to manuall set up an environment with an installed instance of
+[Solr](http://lucene.apache.org/solr/downloads.html) and its dependencies.
+(`puppet-nsidc-solr` currently installs Solr version 8.1.1.)
 
 ## Setup
 
-(These actions should mirror the actions being applied by puppet in the `puppet/site.pp` manifest)
+These steps mirror the actions managed by the `puppet-nsidc-solr` module and this project's
+`puppet/site.pp` manifest.
 
 * Download the SOLR source and unpack it:
 
@@ -87,7 +84,11 @@ cd ${solr_path}/example
 java -jar start.jar
 ```
 
-Please note that this should serve only as an example of how to configure solr utilizing our configuration with the example from the solr distribution.  Before utilizing this example in a non-experimental setting you should consider utilizing a proper webserver (e.g. jetty) and configuring the location/cores/etc as applies to your particular environment.
+Please note that this should serve only as an example of how to configure solr
+utilizing our configuration with the example from the solr distribution.  Before
+utilizing this example in a non-experimental setting you should consider
+utilizing a proper webserver (e.g. jetty) and configuring the location/cores/etc
+as applies to your particular environment.
 
 # Development
 

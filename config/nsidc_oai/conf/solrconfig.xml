@@ -374,11 +374,11 @@
   <query>
 
     <!-- Maximum number of clauses allowed when parsing a boolean query string.
-         
+
          This limit only impacts boolean queries specified by a user as part of a query string,
          and provides per-collection controls on how complex user specified boolean queries can
          be.  Query strings that specify more clauses then this will result in an error.
-         
+
          If this per-collection limit is greater then the global `maxBooleanClauses` limit
          specified in `solr.xml`, it will have no effect, as that setting also limits the size
          of user specified boolean queries.
@@ -625,7 +625,7 @@
                     addHttpRequestToContext="false"/>
       -->
     <!-- NSIDC -->
-    <requestParsers enableRemoteStreaming="true" 
+    <requestParsers enableRemoteStreaming="true"
                      multipartUploadLimitInKB="2048000"
                      formdataUploadLimitInKB="2048"/>
 
@@ -712,10 +712,10 @@
       <str name="echoParams">explicit</str>
       <int name="rows">10</int>
       <!-- Default search field
-         <str name="df">text</str> 
+         <str name="df">text</str>
         -->
       <!-- Change from JSON to XML format (the default prior to Solr 7.0)
-         <str name="wt">xml</str> 
+         <str name="wt">xml</str>
         -->
     </lst>
     <!-- In addition to defaults, "appends" params can be specified
@@ -813,7 +813,7 @@
       <str name="v.template">browse</str>
       <str name="v.layout">layout</str>
       <str name="title">Solritas</str>
- 
+
       <!-- Query settings -->
       <str name="defType">edismax</str>
       <str name="qf">
@@ -825,14 +825,14 @@
       <str name="q.alt">*:*</str>
       <str name="rows">10</str>
       <str name="fl">*,score</str>
- 
+
       <str name="mlt.qf">
          text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
          title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
       </str>
       <str name="mlt.fl">text,features,name,sku,id,manu,cat,title,description,keywords,author,resourcename</str>
       <int name="mlt.count">3</int>
- 
+
       <!-- Faceting defaults -->
       <str name="facet">on</str>
       <str name="facet.field">cat</str>
@@ -858,10 +858,10 @@
       <str name="f.manufacturedate_dt.facet.range.gap">+1YEAR</str>
       <str name="f.manufacturedate_dt.facet.range.other">before</str>
       <str name="f.manufacturedate_dt.facet.range.other">after</str>
- 
-      <!-- Highlighting defaults -->                                        
+
+      <!-- Highlighting defaults -->
       <str name="hl">on</str>
-      <str name="hl.fl">content features title name</str>                                                             
+      <str name="hl.fl">content features title name</str>
       <str name="hl.encoder">html</str>
       <str name="hl.simple.pre">&lt;b&gt;</str>
       <str name="hl.simple.post">&lt;/b&gt;</str>
@@ -873,7 +873,7 @@
       <str name="f.content.hl.fragsize">200</str>
       <str name="f.content.hl.alternateField">content</str>
       <str name="f.content.hl.maxAlternateFieldLength">750</str>
- 
+
       <!-- Spell checking defaults -->
       <str name="spellcheck">on</str>
       <str name="spellcheck.extendedResults">false</str>
@@ -930,11 +930,11 @@
   </requestHandler>
 
   <!-- NSIDC below -->
-  <requestHandler name="/analysis/field" 
+  <requestHandler name="/analysis/field"
                   startup="lazy"
                   class="solr.FieldAnalysisRequestHandler" />
-  <requestHandler name="/analysis/document" 
-                   class="solr.DocumentAnalysisRequestHandler" 
+  <requestHandler name="/analysis/document"
+                   class="solr.DocumentAnalysisRequestHandler"
                    startup="lazy" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
      <lst name="invariants">
@@ -1131,7 +1131,7 @@
    </searchComponent>
 
 <requestHandler name="/clustering"
-                   startup="lazy"                                                                                       
+                   startup="lazy"
                    enable="${solr.clustering.enabled:false}"
                    class="solr.SearchHandler">
      <lst name="defaults">
@@ -1149,7 +1149,7 @@
         <!--<int name="carrot.numDescriptions">5</int>-->
         <!-- produce sub clusters -->
         <bool name="carrot.outputSubClusters">false</bool>
- 
+
         <str name="defType">edismax</str>
         <str name="qf">
           text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
@@ -1341,6 +1341,7 @@
 
        See http://wiki.apache.org/solr/GuessingFieldTypes
     -->
+
   <updateProcessor class="solr.UUIDUpdateProcessorFactory" name="uuid"/>
   <updateProcessor class="solr.RemoveBlankFieldUpdateProcessorFactory" name="remove-blank"/>
   <updateProcessor class="solr.FieldNameMutatingUpdateProcessorFactory" name="field-name-mutating">
@@ -1392,7 +1393,7 @@
   </updateProcessor>
 
   <!-- The update.autoCreateFields property can be turned to false to disable schemaless mode -->
-  <updateRequestProcessorChain name="add-unknown-fields-to-the-schema" default="${update.autoCreateFields:true}"
+  <updateRequestProcessorChain name="add-unknown-fields-to-the-schema" default="${update.autoCreateFields:false}"
            processor="uuid,remove-blank,field-name-mutating,parse-boolean,parse-long,parse-double,parse-date,add-schema-fields">
     <processor class="solr.LogUpdateProcessorFactory"/>
     <processor class="solr.DistributedUpdateProcessorFactory"/>
