@@ -38,8 +38,7 @@ Ruby environment for acceptance testing:
           `yum install gcc-c++`
 
   *Please note*:  If you are having difficulty installing Nokogiri please review
-  the Nokogiri [installation
-  tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
+  the Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
 * An installed instance of [Solr 8.1.1](https://lucene.apache.org/solr/guide/)
 
