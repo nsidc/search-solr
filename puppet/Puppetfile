@@ -12,7 +12,7 @@ mod "nsidc/nsidc_jenkins",
 # Module to install Solr
 mod "nsidc/nsidc_solr",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-solr.git",
-  :ref  => "srch-19"
+  :ref  => 'latest'
 
 # Module for installing packages from apt
 mod 'puppetlabs/apt', "< 2.0.0"

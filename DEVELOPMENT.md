@@ -37,10 +37,11 @@ Ruby environment for acceptance testing:
 
           `yum install gcc-c++`
 
-  *Please note*:  If you are having difficulty installing Nokogiri please review the Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
+  *Please note*:  If you are having difficulty installing Nokogiri please review
+  the Nokogiri [installation
+  tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
-* [Solr 8.1.1](https://archive.apache.org/dist/lucene/solr/4.3.0/) installed
-* All [requirements](https://lucene.apache.org/solr/4_3_0/SYSTEM_REQUIREMENTS.html) for Solr 4.3.0
+* An installed instance of [Solr 8.1.1](https://lucene.apache.org/solr/guide/)
 
 ## NSIDC
 
@@ -50,7 +51,23 @@ vagrant nsidc up --env=dev
 ```
 
 The Solr dashboard for the dev environment is accessible from
-[http://dev.search-solr.apps.int.nsidc.org:8983/solr]()
+[http://dev.search-solr.apps.int.nsidc.org:8983/solr]().
+
+### Working with Solr on the VM
+
+You may want to work as the `solr` user on the command line when investigating
+files on the VM:
+```
+sudo su solr
+```
+
+To get a status report for the local solr instance:
+
+```
+${solr_install_dir}/bin/solr/status
+```
+
+On NSIDC VMs, `${solr_install_dir}` is `opt/solr`.
 
 Option 2: Provision in VirtualBox
 ```shell
@@ -58,27 +75,12 @@ vagrant nsidc up --env=local
 ```
 
 The Solr dashboard for the local environment is accessible from
-[http://localhost:8983/solr]()
+[http://localhost:8983/solr]().
 
 ## Non-NSIDC
 
-Install the development requirements, then configure SOLR as noted in
-[`README.md`](https://github.com/nsidc/nsidc-solr/blob/master/README.md).
-
-# Solr Configuration Files
-
-Solr is configured using XML files. Cores are defined in `config/solr.xml`.
-The Solr cores each require a schema file and a Solr configuration file.
-All configuration files are found under `config/`.
-
-Default endpoint
-http://localhost:8983/solr/
-
-change to `solr` user to more easily navigate on VM
-sudo su solr
-
-See puppet-nsidc-solr DEVELOPMENT.md for directories, config file locations,
-etc.
-
-from /opt/solr:
-./bin/solr/status
+As much as possible, the installation and configuration of Solr for this project
+follows the defaults of the Solr package. Customizations to the Solr defaults
+are in the [config](config/) directory in this repository.  Refer to the 
+[Solr documentation](https://lucene.apache.org/solr/resources.html) for additional
+installation and configuration guidelines.

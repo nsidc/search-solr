@@ -1,25 +1,14 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
 
-$config_path = "/vagrant/config"
-$solr_default_path = "/opt/solr/server/solr/configsets/_default"
+$source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
 $solr_tools_path = "/opt/search-solr-tools"
 
 # If the structure of the Solr COTS tar file changes, the path to the default
-# version of solrconfig.xml may need to change too!
-$solrconfig_xml_path = "/opt/solr/server/solr/configsets/_default/conf/solrconfig.xml"
+# configuration and mapping file(s) will need to change as well.
+$solr_default_path = "/opt/solr/server/solr/configsets/_default"
 $example_iso_mappings = "/opt/solr/server/solr/configsets/sample_techproducts_configs/conf/mapping-ISOLatin1Accent.txt"
-
-# class update_package_manager {
-#   exec { "update":
-#     path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
-#     command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
-#   }
-#   notify { "apt-get update complete":
-#     require => Exec['update']
-#   }
-# }
 
 ### BEGIN nokogiri deps
 # Class['update_package_manager'] -> Package <| |>
@@ -130,18 +119,8 @@ unless $environment == 'ci' {
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/auto_suggest/core.properties",
+    source  => "${source_config}/auto_suggest/core.properties",
     require => File['init-solr-auto-suggest'],
-    notify  => Service['solr']
-  }
-
-  file { "customize-solr-auto-suggest-solrconfig":
-    path    => "${solr_home}/auto_suggest/conf/solrconfig.xml",
-    mode    => '0644',
-    owner   => solr,
-    group   => solr,
-    source  => "/vagrant/config/auto_suggest/conf/solrconfig.xml",
-    require => File['customize-solr-auto-suggest'],
     notify  => Service['solr']
   }
 
@@ -150,7 +129,7 @@ unless $environment == 'ci' {
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/auto_suggest/conf/managed-schema",
+    source  => "${source_config}/auto_suggest/conf/managed-schema",
     require => File['customize-solr-auto-suggest'],
     notify  => Service['solr']
   }
@@ -171,18 +150,8 @@ unless $environment == 'ci' {
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/nsidc_oai/core.properties",
+    source  => "${source_config}/nsidc_oai/core.properties",
     require => File['init-solr-nsidc-oai'],
-    notify  => Service['solr']
-  }
-
-  file { "customize-solr-nsidc-oai-solrconfig":
-    path    => "${solr_home}/nsidc_oai/conf/solrconfig.xml",
-    mode    => '0644',
-    owner   => solr,
-    group   => solr,
-    source  => "/vagrant/config/nsidc_oai/conf/solrconfig.xml",
-    require => File['customize-solr-nsidc-oai'],
     notify  => Service['solr']
   }
 
@@ -191,21 +160,43 @@ unless $environment == 'ci' {
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/nsidc_oai/conf/managed-schema",
+    source  => "${source_config}/nsidc_oai/conf/managed-schema",
     require => File['customize-solr-nsidc-oai'],
     notify  => Service['solr']
   }
 
-  $mappings =  ["${solr_home}/nsidc_oai/conf/mapping-ISOLatin1Accent.txt",
-                "${solr_home}/auto_suggest/conf/mapping-ISOLatin1Accent.txt"]
-
-  file { $mappings:
+  $iso_mappings =  [ "${solr_home}/nsidc_oai/conf/mapping-ISOLatin1Accent.txt",
+                     "${solr_home}/auto_suggest/conf/mapping-ISOLatin1Accent.txt" ]
+  file { $iso_mappings:
     ensure  => file,
     mode    => '0644',
     owner   => solr,
     group   => solr,
     source => $example_iso_mappings,
-    require => File['customize-solr-nsidc-oai'],
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
+    notify  => Service['solr']
+  }
+
+  $elevate =  [ "${solr_home}/nsidc_oai/conf/elevate.xml",
+                "${solr_home}/auto_suggest/conf/elevate.xml" ]
+  file { $elevate:
+    ensure  => file,
+    mode    => '0644',
+    owner   => solr,
+    group   => solr,
+    source  => "${source_config}/elevate.xml",
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
+    notify  => Service['solr']
+  }
+
+  $solrconfigs =  [ "${solr_home}/nsidc_oai/conf/solrconfig.xml",
+                    "${solr_home}/auto_suggest/conf/solrconfig.xml" ]
+  file { $solrconfigs:
+    mode    => '0644',
+    owner   => solr,
+    group   => solr,
+    source  => "${source_config}/solrconfig.xml",
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
     notify  => Service['solr']
   }
 
