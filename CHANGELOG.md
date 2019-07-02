@@ -1,4 +1,4 @@
-## Unreleased
+## v3.0.0 (2019-07-02)
 
   - Use default configuration for solr.xml and to initialize directories for configured cores.
   - Use managed schema instead of classic schema for configured cores.
