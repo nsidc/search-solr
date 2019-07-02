@@ -1,9 +1,11 @@
 ## Unreleased
 
-  - Update Vagrant and Puppet plugins, and associated code to 
-    allow deployment
-  - Updated CI jobs for ADE (remove inactive data center; update URLs for
-    others).
+  - Use default configuration for solr.xml and to initialize directories for configured cores.
+  - Use managed schema instead of classic schema for configured cores.
+  - Use built-in deployment script to set up Solr.
+  - Install `search_solr_tools` via `Gemfile`.
+  - Update Vagrant and Puppet plugins as needed to support latest Solr installation.
+  - Updated CI jobs for ADE (remove inactive data center; update URLs for others).
 
 ## v2.0.2 (2015-07-01)
 

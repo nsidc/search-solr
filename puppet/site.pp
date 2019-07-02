@@ -1,18 +1,14 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
 
-$solr_path = "/opt/solr"
+$source_config = "/vagrant/config"
+$solr_home = "/var/solr/data"
 $solr_tools_path = "/opt/search-solr-tools"
 
-# class update_package_manager {
-#   exec { "update":
-#     path => "/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:usr/sbin:/sbin:/usr/java/jdk/bin",
-#     command => "apt-get -y update; sudo apt-get -y install libxml2 libxml2-dev libxslt1-dev"
-#   }
-#   notify { "apt-get update complete":
-#     require => Exec['update']
-#   }
-# }
+# If the structure of the Solr COTS tar file changes, the path to the default
+# configuration and mapping file(s) will need to change as well.
+$solr_default_path = "/opt/solr/server/solr/configsets/_default"
+$example_iso_mappings = "/opt/solr/server/solr/configsets/sample_techproducts_configs/conf/mapping-ISOLatin1Accent.txt"
 
 ### BEGIN nokogiri deps
 # Class['update_package_manager'] -> Package <| |>
@@ -84,7 +80,19 @@ if $environment == 'ci' {
 unless $environment == 'ci' {
   # dep for geos gems
   package {"libgeos-dev":
-    ensure => present
+    ensure => present,
+    require => Package['bundler']
+  }
+
+  # install application gems
+  exec { 'do_bundle_install':
+    cwd => '/vagrant',
+    environment => 'HOME=/vagrant',
+    command => 'bundle install',
+    path => ['/usr/local/bin', '/usr/bin', '/bin'],
+    user => 'vagrant',
+    group => 'vagrant',
+    require => [ Package['bundler'] ]
   }
 
   # nokogiri 'build native' dep
@@ -95,119 +103,105 @@ unless $environment == 'ci' {
 
   class { "nsidc_solr": }
 
-  # Configure Solr with NSIDC/ADE Search cores
-  file { "${solr_path}/solr/nsidc_oai":
-    ensure  => "absent",
-    force   => true,
-    alias   => "nsidc_oai-removed",
-    require => Exec["deploy-solr"],
+  file { "init-solr-auto-suggest":
+    path => "${solr_home}/auto_suggest",
+    ensure => directory,
+    recurse => true,
+    owner   => solr,
+    group   => solr,
+    source => $solr_default_path,
+    require => Exec['deploy-solr'],
     notify  => Service["solr"]
   }
 
-  file { "${solr_path}/solr/auto_suggest":
-    ensure  => "absent",
-    force   => true,
-    alias   => "autosuggest-removed",
-    require => File["nsidc_oai-removed"],
-    notify  => Service["solr"]
-  }
-
-  exec { "setup-solr-auto-suggest-collection":
-    command => "/usr/bin/sudo /bin/cp -r ${solr_path}/solr/collection1 ${solr_path}/solr/nsidc_oai",
-    cwd     => "$solr_path",
-    require => File["autosuggest-removed"],
-    notify  => Service["solr"]
-  }
-
-  exec { "setup-solr-collection":
-    command => "/usr/bin/sudo /bin/mv ${solr_path}/solr/collection1 ${solr_path}/solr/auto_suggest",
-    cwd     => "$solr_path",
-    require => Exec["setup-solr-auto-suggest-collection"],
-    notify  => Service["solr"]
-  }
-
-  notify { 'done with step':
-    message => 'setup-solr-collection complete',
-    require => Exec["setup-solr-collection"]
-  }
-
-  file { "${solr_path}/solr/solr.xml":
+  file { "customize-solr-auto-suggest":
+    path => "${solr_home}/auto_suggest/core.properties",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/solr.xml",
-    alias   => "solr-xml",
-    require => Exec["setup-solr-collection"],
-    notify  => Service["solr"]
+    source  => "${source_config}/auto_suggest/core.properties",
+    require => File['init-solr-auto-suggest'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/nsidc_oai/conf/solrconfig.xml":
+  file { "customize-solr-auto-suggest-schema":
+    path    => "${solr_home}/auto_suggest/conf/managed-schema",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/solrconfig.nsidc_oai.xml",
-    alias   => "solr-config",
-    require => File["solr-xml"],
+    source  => "${source_config}/auto_suggest/conf/managed-schema",
+    require => File['customize-solr-auto-suggest'],
+    notify  => Service['solr']
+  }
+
+  file { "init-solr-nsidc-oai":
+    path => "${solr_home}/nsidc_oai",
+    ensure => directory,
+    recurse => true,
+    owner   => solr,
+    group   => solr,
+    source => $solr_default_path,
+    require => Exec['deploy-solr'],
     notify  => Service["solr"]
   }
 
-  file { "${solr_path}/solr/auto_suggest/conf/solrconfig.xml":
+  file { "customize-solr-nsidc-oai":
+    path => "${solr_home}/nsidc_oai/core.properties",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/solrconfig.autosuggest.xml",
-    alias   => "solr-auto-suggest-config",
-    require => File["solr-config"],
-    notify  => Service["solr"]
+    source  => "${source_config}/nsidc_oai/core.properties",
+    require => File['init-solr-nsidc-oai'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/nsidc_oai/conf/schema.xml":
+  file { "customize-solr-nsidc-oai-schema":
+    path    => "${solr_home}/nsidc_oai/conf/managed-schema",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/schema.xml",
-    alias   => "solr-schema-config",
-    require => File["solr-auto-suggest-config"],
-    notify  => Service["solr"]
+    source  => "${source_config}/nsidc_oai/conf/managed-schema",
+    require => File['customize-solr-nsidc-oai'],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/auto_suggest/conf/schema.xml":
+  $iso_mappings =  [ "${solr_home}/nsidc_oai/conf/mapping-ISOLatin1Accent.txt",
+                     "${solr_home}/auto_suggest/conf/mapping-ISOLatin1Accent.txt" ]
+  file { $iso_mappings:
+    ensure  => file,
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "/vagrant/config/schema.autosuggest.xml",
-    alias   => "solr-schema-auto-suggest-config",
-    require => File["solr-schema-config"],
-    notify  => Service["solr"]
+    source => $example_iso_mappings,
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
+    notify  => Service['solr']
   }
 
-  # Create data and tlog directories so Solr can write to them
-  file { "${solr_path}/solr/nsidc_oai/data":
-    ensure => "directory",
+  $elevate =  [ "${solr_home}/nsidc_oai/conf/elevate.xml",
+                "${solr_home}/auto_suggest/conf/elevate.xml" ]
+  file { $elevate:
+    ensure  => file,
+    mode    => '0644',
     owner   => solr,
-    group   => solr
+    group   => solr,
+    source  => "${source_config}/elevate.xml",
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
+    notify  => Service['solr']
   }
 
-  file { "${solr_path}/solr/nsidc_oai/data/tlog":
-    ensure => "directory",
+  $solrconfigs =  [ "${solr_home}/nsidc_oai/conf/solrconfig.xml",
+                    "${solr_home}/auto_suggest/conf/solrconfig.xml" ]
+  file { $solrconfigs:
+    mode    => '0644',
     owner   => solr,
-    group   => solr
-  }
-
-  file { "${solr_path}/solr/auto_suggest/data":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
-  }
-
-  file { "${solr_path}/solr/auto_suggest/data/tlog":
-    ensure => "directory",
-    owner   => solr,
-    group   => solr
+    group   => solr,
+    source  => "${source_config}/solrconfig.xml",
+    require => [ File['customize-solr-auto-suggest'], File['customize-solr-nsidc-oai'] ],
+    notify  => Service['solr']
   }
 
   # Work directory will prevent solr from writing to /tmp
-  file { "${solr_path}/work":
+  file { "${solr_home}/work":
     ensure => "directory",
     owner   => solr,
     group   => solr,
