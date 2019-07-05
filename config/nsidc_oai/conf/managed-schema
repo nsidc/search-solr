@@ -118,23 +118,6 @@
     <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
     <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
 
-    <dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/>
-    <dynamicField name="*_is" type="pints"    indexed="true"  stored="true"/>
-    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
-    <dynamicField name="*_ss" type="strings"  indexed="true"  stored="true"/>
-    <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/>
-    <dynamicField name="*_ls" type="plongs"   indexed="true"  stored="true"/>
-    <dynamicField name="*_t" type="text_general" indexed="true" stored="true" multiValued="false"/>
-    <dynamicField name="*_txt" type="text_general" indexed="true" stored="true"/>
-    <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
-    <dynamicField name="*_bs" type="booleans" indexed="true" stored="true"/>
-    <dynamicField name="*_f"  type="pfloat"  indexed="true"  stored="true"/>
-    <dynamicField name="*_fs" type="pfloats"  indexed="true"  stored="true"/>
-    <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/>
-    <dynamicField name="*_ds" type="pdoubles" indexed="true"  stored="true"/>
-    <dynamicField name="random_*" type="random"/>
-    <dynamicField name="ignored_*" type="ignored"/>
-
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="false"/>
     <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
 

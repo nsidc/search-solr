@@ -92,6 +92,7 @@ unless $environment == 'ci' {
     path => ['/usr/local/bin', '/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
+    logoutput => true,
     require => [ Package['bundler'] ]
   }
 
