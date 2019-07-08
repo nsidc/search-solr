@@ -1,3 +1,12 @@
+## Unreleased
+
+  - Use latest version of `search-solr-tools` gem.
+  - Modify CI job configuration for deploying `search-solr-tools` to simply do a
+    `bundle install`.
+  - Modify CI job configuration to use `bundle exec` when executing
+    `search-solr-tools`.
+  - Additional configuration file updates attempting to blend existing NSIDC configuration with new Solr defaults.
+
 ## v3.0.0 (2019-07-02)
 
   - Use default configuration for solr.xml and to initialize directories for configured cores.
