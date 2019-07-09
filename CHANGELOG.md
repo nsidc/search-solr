@@ -1,12 +1,15 @@
 ## Unreleased
 
-  - Use latest version of `search-solr-tools` gem.
+  - Use latest version of `search-solr-tools` gem when building VM.
   - Modify CI job configuration for deploying `search-solr-tools` to simply do a
     `bundle install`.
   - Modify CI job configuration to use `bundle exec` when executing
     `search-solr-tools`.
-  - Additional configuration file updates attempting to blend existing NSIDC configuration with new Solr defaults.
-  - Update Ruby version in Gemfile (this change was overlooked in the SRCH-15 work).
+  - Attempt to update Solr configuration files in a way that incorporates
+    existing NSIDC configuration (unless the configuration causes Solr ingest
+    errors) with new Solr defaults. Remove Solr defaults that appear to be
+    irrelevant to NSIDC's needs.
+  - Update Ruby version in Gemfile (originally intended this change to be part of the SRCH-15 work).
 
 ## v3.0.0 (2019-07-02)
 
