@@ -6,6 +6,7 @@
   - Modify CI job configuration to use `bundle exec` when executing
     `search-solr-tools`.
   - Additional configuration file updates attempting to blend existing NSIDC configuration with new Solr defaults.
+  - Update Ruby version in Gemfile (this change was overlooked in the SRCH-15 work).
 
 ## v3.0.0 (2019-07-02)
 
