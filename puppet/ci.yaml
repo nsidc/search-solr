@@ -14,21 +14,10 @@ nsidc_jenkins::plugins:
   simple-theme-plugin: {}
 
 search-solr-tools-name: search-solr-tools
-search_solr_tools_repo: git@github.com:nsidc/search-solr-tools.git
 deploy_solr_tools_command: |
   rm -rf .vagrant-$ENV
   vagrant nsidc hijack --env=$ENV --project=search-solr || true
-
-  VERSION=""
-  if [ ! -z "$gem_version" ]; then
-    VERSION="-v $gem_version"
-  fi
-
-  # 'gem cleanup' removes all versions of the gem but the latest
-  # 'gem uninstall -x' removes the installed version and related executables
-  # 'gem list' will show the installed versions to confirm that only the desired
-  #    version is installed
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "sudo gem cleanup search_solr_tools; sudo gem uninstall -x search_solr_tools; sudo gem install search_solr_tools $VERSION; sudo gem list --local search_solr_tools"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle install; bundle show search_solr_tools"
 
 provision_solr_command: |
   rm -rf .vagrant-$ENV
@@ -40,15 +29,15 @@ provision_solr_command: |
 harvest_nsidc_command: |
   rm -rf .vagrant-$ENV
   (vagrant nsidc hijack --env=$ENV --project=search-solr || true)
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data_center=nsidc --environment=$ENV"
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data_center=nsidc_auto_suggest --environment=$ENV"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle exec search_solr_tools harvest --data_center=nsidc --environment=$ENV"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle exec search_solr_tools harvest --data_center=nsidc_auto_suggest --environment=$ENV"
 
 harvest_ade_command: |
   if [ "$data_center" = "bco_dmo" ]
   then
       set +e
   fi
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "search_solr_tools harvest --data-center=${data_center} --environment=${ENV}"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle exec search_solr_tools harvest --data-center=${data_center} --environment=${ENV}"
   true
 
 integration_workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/integration

@@ -3,7 +3,6 @@ lookup('classes', {merge => unique}).include
 
 $source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
-$solr_tools_path = "/opt/search-solr-tools"
 
 # If the structure of the Solr COTS tar file changes, the path to the default
 # configuration and mapping file(s) will need to change as well.
@@ -206,9 +205,5 @@ unless $environment == 'ci' {
     owner   => solr,
     group   => solr,
     notify  => Service["solr"]
-  }
-
-  file { "${solr_tools_path}":
-    ensure => "directory"
   }
 }

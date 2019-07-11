@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
+ruby '~>2.5'
 
-gem 'search_solr_tools', '~> 3.11.0'
+gem 'search_solr_tools', '~> 4.0.1'
 
 gem 'rake'
 gem 'bump'

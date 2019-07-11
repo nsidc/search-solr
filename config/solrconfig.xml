@@ -907,7 +907,6 @@
 
   <initParams path="/update/**,/query,/select,/tvrh,/elevate,/spell,/browse">
     <lst name="defaults">
-      <str name="df">_text_</str>
     </lst>
   </initParams>
 
@@ -1228,7 +1227,6 @@
     <!-- pick a fieldType to analyze queries -->
     <str name="queryFieldType">string</str>
     <!-- NSIDC -->
-    <!-- TODO add empty xml file? -->
     <str name="config-file">elevate.xml</str>
   </searchComponent>
 
