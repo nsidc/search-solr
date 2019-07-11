@@ -1,4 +1,4 @@
-## Unreleased
+## v3.0.1 (2019-07-11)
 
   - Use latest version of `search-solr-tools` gem when building VM.
   - Modify CI job configuration for deploying `search-solr-tools` to simply do a
