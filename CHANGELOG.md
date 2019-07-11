@@ -2,6 +2,7 @@
 
   - Update paths to acceptance tests and include `spec` directory when rsyncing
     to provisioned machine.
+  - Force XML responses in acceptance test queries.
   - Remove `solr.xml` file (default version from the Solr installation is
     currently being used).
 
