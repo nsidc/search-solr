@@ -1,3 +1,10 @@
+## Unreleased
+
+  - Update paths to acceptance tests and include `spec` directory when rsyncing
+    to provisioned machine.
+  - Remove `solr.xml` file (default version from the Solr installation is
+    currently being used).
+
 ## v3.0.1 (2019-07-11)
 
   - Use latest version of `search-solr-tools` gem when building VM.
