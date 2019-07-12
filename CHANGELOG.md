@@ -1,4 +1,4 @@
-## Unreleased
+## v3.0.2 (2019-07-12)
 
   - Update paths to acceptance tests and include `spec` directory when rsyncing
     to provisioned machine.
