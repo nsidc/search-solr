@@ -812,6 +812,7 @@
                   startup="lazy"
                   class="solr.XsltUpdateRequestHandler"/>
 
+  <!-- NSIDC -->
   <requestHandler name="/update" class="solr.UpdateRequestHandler" />
 
   <!-- NSIDC TODO: Removed entries for /update/json and /update/csv as they were
@@ -852,6 +853,7 @@
      </lst>
      <lst name="defaults">
        <str name="echoParams">all</str>
+       <str name="indent">true</str>
      </lst>
   </requestHandler>
 
