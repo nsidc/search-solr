@@ -848,25 +848,24 @@
                    startup="lazy" />
 
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
-     <lst name="invariants">
-       <str name="q">solrpingquery</str>
-     </lst>
-     <lst name="defaults">
-       <str name="echoParams">all</str>
-       <str name="indent">true</str>
-     </lst>
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="indent">true</str>
+    </lst>
   </requestHandler>
 
   <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
-     <lst name="defaults">
+    <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="echoHandler">true</str>
-     </lst>
+    </lst>
   </requestHandler>
 
   <requestHandler name="/replication" class="solr.ReplicationHandler" />
   <!-- NSIDC above -->
-
 
   <!-- Search Components
 
