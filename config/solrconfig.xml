@@ -133,6 +133,9 @@
   -->
   <codecFactory class="solr.SchemaCodecFactory"/>
 
+  <!-- Use static schema.xml file -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        Index Config - These settings control low-level behavior of indexing
        Most example settings here show the default value, but are commented
@@ -152,7 +155,7 @@
     <!-- Expert: Enabling compound file will use less files for the index,
          using fewer file descriptors on the expense of performance decrease.
          Default in Lucene is "true". Default in Solr is "false" (since 3.6) -->
-    <!-- <useCompoundFile>false</useCompoundFile> -->
+    <useCompoundFile>true</useCompoundFile>
 
     <!-- ramBufferSizeMB sets the amount of RAM that may be used by Lucene
          indexing for buffering added documents and deletions before they are
@@ -168,15 +171,12 @@
          The Merge Policy in Lucene controls how merging of segments is done.
          The default since Solr/Lucene 3.3 is TieredMergePolicy.
          The default since Lucene 2.3 was the LogByteSizeMergePolicy,
-         Even older versions of Lucene used LogDocMergePolicy.
-      -->
-    <!--
-        <mergePolicyFactory class="org.apache.solr.index.TieredMergePolicyFactory">
-          <int name="maxMergeAtOnce">10</int>
-          <int name="segmentsPerTier">10</int>
-          <double name="noCFSRatio">0.1</double>
-        </mergePolicyFactory>
-      -->
+         Even older versions of Lucene used LogDocMergePolicy. -->
+    <mergePolicyFactory class="org.apache.solr.index.TieredMergePolicyFactory">
+      <int name="maxMergeAtOnce">5</int>
+      <int name="segmentsPerTier">5</int>
+      <double name="noCFSRatio">0.1</double>
+    </mergePolicyFactory>
 
     <!-- Expert: Merge Scheduler
          The Merge Scheduler in Lucene controls how merges are
@@ -184,9 +184,10 @@
          can perform merges in the background using separate threads.
          The SerialMergeScheduler (Lucene 2.2 default) does not.
      -->
-    <!--
-       <mergeScheduler class="org.apache.lucene.index.ConcurrentMergeScheduler"/>
-       -->
+    <mergeScheduler class="org.apache.lucene.index.ConcurrentMergeScheduler">
+      <int name="maxThreadCount">1</int>
+      <int name="maxMergeCount">6</int>
+    </mergeScheduler>
 
     <!-- LockFactory
 
@@ -314,7 +315,7 @@
       -->
     <autoCommit>
       <maxTime>${solr.autoCommit.maxTime:15000}</maxTime>
-      <openSearcher>false</openSearcher>
+      <openSearcher>true</openSearcher>
     </autoCommit>
 
     <!-- softAutoCommit is like autoCommit except it causes a
@@ -545,6 +546,7 @@
       -->
     <listener event="newSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
+        <!-- put real search here? -->
         <!--
            <lst><str name="q">solr</str><str name="sort">price asc</str></lst>
            <lst><str name="q">rocks</str><str name="sort">weight asc</str></lst>
@@ -554,11 +556,7 @@
     <listener event="firstSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
         <!-- NSIDC -->
-        <!-- commented out due to init failures
-        <lst>
-          <str name="q">static firstSearcher warming in solrconfig.xml</str>
-        </lst>
-        -->
+        <!-- put real search here? -->
       </arr>
     </listener>
 
@@ -612,16 +610,12 @@
          *** WARNING ***
          Before enabling remote streaming, you should make sure your
          system has authentication enabled.
-
+      -->
     <requestParsers enableRemoteStreaming="false"
+                    enableStreamBody="false"
                     multipartUploadLimitInKB="-1"
                     formdataUploadLimitInKB="-1"
-                    addHttpRequestToContext="false"/>
-      -->
-    <!-- NSIDC -->
-    <requestParsers enableRemoteStreaming="true"
-                     multipartUploadLimitInKB="2048000"
-                     formdataUploadLimitInKB="2048"/>
+                    addHttpRequestToContext="false" />
 
     <!-- HTTP Caching
 
@@ -689,6 +683,18 @@
        not be initialized until the first request that uses it.
 
     -->
+
+  <!-- defaults for the named requestHandlers -->
+  <initParams path="/update/**,/query,/select,/get,/admin/**,/tvrh,/elevate,/spell,/browse">
+    <lst name="defaults">
+      <str name="defType">edismax</str>
+      <str name="df">title</str>
+      <str name="echoParams">explicit</str>
+      <int name="rows">10</int>
+      <str name="wt">json</str>
+    </lst>
+  </initParams>
+
   <!-- SearchHandler
 
        http://wiki.apache.org/solr/SearchHandler
@@ -703,18 +709,10 @@
          will be overridden by parameters in the request
       -->
     <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <int name="rows">10</int>
-      <!-- Default search field
-         <str name="df">text</str>
-        -->
       <!-- Change from JSON to XML format (the default prior to Solr 7.0)
-         <str name="wt">xml</str>
-        -->
-      <!-- NSIDC Add to auto-suggest only?
-        <str name="defType">edismax</str>
-        <str name="pf">text_suggest_edge^50</str>
-        <str name="qf">text_suggest_infix^30 text_suggest_ngram^50.0</str>
+      <str name="wt">xml</str>
+      <str name="pf">text_suggest_edge^50</str>
+      <str name="qf">text_suggest_infix^30 text_suggest_ngram^50.0</str>
       -->
     </lst>
     <!-- In addition to defaults, "appends" params can be specified
@@ -774,12 +772,7 @@
   <!-- A request handler that returns indented JSON by default -->
   <requestHandler name="/query" class="solr.SearchHandler">
     <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <str name="wt">json</str>
       <str name="indent">true</str>
-      <!-- Add to NSIDC auto-suggest only?
-      <str name="df">text</str>
-      -->
     </lst>
   </requestHandler>
 
@@ -790,7 +783,6 @@
   <requestHandler name="/get" class="solr.RealTimeGetHandler">
      <lst name="defaults">
        <str name="omitHeader">true</str>
-       <str name="wt">json</str>
        <str name="indent">true</str>
      </lst>
   </requestHandler>
@@ -806,89 +798,7 @@
        names (and different init parameters)
     -->
   <requestHandler name="/browse" class="solr.SearchHandler" useParams="query,facets,velocity,browse">
-    <lst name="defaults">
-      <str name="echoParams">explicit</str>
-
-      <!-- NSIDC below -->
-      <!-- VelocityResponseWriter settings -->
-      <str name="wt">velocity</str>
-      <str name="v.template">browse</str>
-      <str name="v.layout">layout</str>
-      <str name="title">Solritas</str>
-
-      <!-- Query settings -->
-      <str name="defType">edismax</str>
-      <str name="qf">
-         text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-         title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
-      </str>
-      <str name="df">text</str>
-      <str name="mm">100%</str>
-      <str name="q.alt">*:*</str>
-      <str name="rows">10</str>
-      <str name="fl">*,score</str>
-
-      <str name="mlt.qf">
-         text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-         title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
-      </str>
-      <str name="mlt.fl">text,features,name,sku,id,manu,cat,title,description,keywords,author,resourcename</str>
-      <int name="mlt.count">3</int>
-
-      <!-- Faceting defaults -->
-      <str name="facet">on</str>
-      <str name="facet.field">cat</str>
-      <str name="facet.field">manu_exact</str>
-      <str name="facet.field">content_type</str>
-      <str name="facet.field">author_s</str>
-      <str name="facet.query">ipod</str>
-      <str name="facet.query">GB</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.pivot">cat,inStock</str>
-      <str name="facet.range.other">after</str>
-      <str name="facet.range">price</str>
-      <int name="f.price.facet.range.start">0</int>
-      <int name="f.price.facet.range.end">600</int>
-      <int name="f.price.facet.range.gap">50</int>
-      <str name="facet.range">popularity</str>
-      <int name="f.popularity.facet.range.start">0</int>
-      <int name="f.popularity.facet.range.end">10</int>
-      <int name="f.popularity.facet.range.gap">3</int>
-      <str name="facet.range">manufacturedate_dt</str>
-      <str name="f.manufacturedate_dt.facet.range.start">NOW/YEAR-10YEARS</str>
-      <str name="f.manufacturedate_dt.facet.range.end">NOW</str>
-      <str name="f.manufacturedate_dt.facet.range.gap">+1YEAR</str>
-      <str name="f.manufacturedate_dt.facet.range.other">before</str>
-      <str name="f.manufacturedate_dt.facet.range.other">after</str>
-
-      <!-- Highlighting defaults -->
-      <str name="hl">on</str>
-      <str name="hl.fl">content features title name</str>
-      <str name="hl.encoder">html</str>
-      <str name="hl.simple.pre">&lt;b&gt;</str>
-      <str name="hl.simple.post">&lt;/b&gt;</str>
-      <str name="f.title.hl.fragsize">0</str>
-      <str name="f.title.hl.alternateField">title</str>
-      <str name="f.name.hl.fragsize">0</str>
-      <str name="f.name.hl.alternateField">name</str>
-      <str name="f.content.hl.snippets">3</str>
-      <str name="f.content.hl.fragsize">200</str>
-      <str name="f.content.hl.alternateField">content</str>
-      <str name="f.content.hl.maxAlternateFieldLength">750</str>
-
-      <!-- Spell checking defaults -->
-      <str name="spellcheck">on</str>
-      <str name="spellcheck.extendedResults">false</str>
-      <str name="spellcheck.count">5</str>
-      <str name="spellcheck.alternativeTermCount">2</str>
-      <str name="spellcheck.maxResultsForSuggest">5</str>
-      <str name="spellcheck.collate">true</str>
-      <str name="spellcheck.collateExtendedResults">true</str>
-      <str name="spellcheck.maxCollationTries">5</str>
-      <str name="spellcheck.maxCollations">3</str>
-    </lst>
-    <!-- NSIDC above -->
-
+    <lst name="defaults" />
     <!-- NSIDC -->
     <!-- append spellchecking to our list of components -->
     <arr name="last-components">
@@ -902,13 +812,7 @@
                   startup="lazy"
                   class="solr.XsltUpdateRequestHandler"/>
 
-  <!-- NSIDC -->
   <requestHandler name="/update" class="solr.UpdateRequestHandler" />
-
-  <initParams path="/update/**,/query,/select,/tvrh,/elevate,/spell,/browse">
-    <lst name="defaults">
-    </lst>
-  </initParams>
 
   <!-- NSIDC TODO: Removed entries for /update/json and /update/csv as they were
        causing initialization errors. Reinstate these definitions? -->
@@ -1072,7 +976,7 @@
   <requestHandler name="/spell" class="solr.SearchHandler" startup="lazy">
     <lst name="defaults">
       <!-- NSIDC -->
-      <str name="df">text</str>
+      <str name="df">title</str>
       <str name="spellcheck.dictionary">wordbreak</str>
 
       <!-- Solr will use suggestions from both the 'default' spellchecker
@@ -1236,7 +1140,7 @@
       <str name="echoParams">explicit</str>
 
       <!-- NSIDC -->
-      <str name="df">text</str>
+      <str name="df">title</str>
     </lst>
     <arr name="last-components">
       <str>elevator</str>
@@ -1357,80 +1261,10 @@
 
        http://wiki.apache.org/solr/UpdateRequestProcessor
 
+       Deleted updateProcessor configuration since NSIDC is not using
+       schemaless mode or managed schema.
+
     -->
-
-  <!-- Add unknown fields to the schema
-
-       Field type guessing update processors that will
-       attempt to parse string-typed field values as Booleans, Longs,
-       Doubles, or Dates, and then add schema fields with the guessed
-       field types. Text content will be indexed as "text_general" as
-       well as a copy to a plain string version in *_str.
-
-       These require that the schema is both managed and mutable, by
-       declaring schemaFactory as ManagedIndexSchemaFactory, with
-       mutable specified as true.
-
-       See http://wiki.apache.org/solr/GuessingFieldTypes
-    -->
-
-  <updateProcessor class="solr.UUIDUpdateProcessorFactory" name="uuid"/>
-  <updateProcessor class="solr.RemoveBlankFieldUpdateProcessorFactory" name="remove-blank"/>
-  <updateProcessor class="solr.FieldNameMutatingUpdateProcessorFactory" name="field-name-mutating">
-    <str name="pattern">[^\w-\.]</str>
-    <str name="replacement">_</str>
-  </updateProcessor>
-  <updateProcessor class="solr.ParseBooleanFieldUpdateProcessorFactory" name="parse-boolean"/>
-  <updateProcessor class="solr.ParseLongFieldUpdateProcessorFactory" name="parse-long"/>
-  <updateProcessor class="solr.ParseDoubleFieldUpdateProcessorFactory" name="parse-double"/>
-  <updateProcessor class="solr.ParseDateFieldUpdateProcessorFactory" name="parse-date">
-    <arr name="format">
-      <str>yyyy-MM-dd['T'[HH:mm[:ss[.SSS]][z</str>
-      <str>yyyy-MM-dd['T'[HH:mm[:ss[,SSS]][z</str>
-      <str>yyyy-MM-dd HH:mm[:ss[.SSS]][z</str>
-      <str>yyyy-MM-dd HH:mm[:ss[,SSS]][z</str>
-      <str>[EEE, ]dd MMM yyyy HH:mm[:ss] z</str>
-      <str>EEEE, dd-MMM-yy HH:mm:ss z</str>
-      <str>EEE MMM ppd HH:mm:ss [z ]yyyy</str>
-    </arr>
-  </updateProcessor>
-  <updateProcessor class="solr.AddSchemaFieldsUpdateProcessorFactory" name="add-schema-fields">
-    <lst name="typeMapping">
-      <str name="valueClass">java.lang.String</str>
-      <str name="fieldType">text_general</str>
-      <lst name="copyField">
-        <str name="dest">*_str</str>
-        <int name="maxChars">256</int>
-      </lst>
-      <!-- Use as default mapping instead of defaultFieldType -->
-      <bool name="default">true</bool>
-    </lst>
-    <lst name="typeMapping">
-      <str name="valueClass">java.lang.Boolean</str>
-      <str name="fieldType">booleans</str>
-    </lst>
-    <lst name="typeMapping">
-      <str name="valueClass">java.util.Date</str>
-      <str name="fieldType">pdates</str>
-    </lst>
-    <lst name="typeMapping">
-      <str name="valueClass">java.lang.Long</str>
-      <str name="valueClass">java.lang.Integer</str>
-      <str name="fieldType">plongs</str>
-    </lst>
-    <lst name="typeMapping">
-      <str name="valueClass">java.lang.Number</str>
-      <str name="fieldType">pdoubles</str>
-    </lst>
-  </updateProcessor>
-
-  <!-- The update.autoCreateFields property can be turned to false to disable schemaless mode -->
-  <updateRequestProcessorChain name="add-unknown-fields-to-the-schema" default="${update.autoCreateFields:false}"
-           processor="uuid,remove-blank,field-name-mutating,parse-boolean,parse-long,parse-double,parse-date,add-schema-fields">
-    <processor class="solr.LogUpdateProcessorFactory"/>
-    <processor class="solr.DistributedUpdateProcessorFactory"/>
-    <processor class="solr.RunUpdateProcessorFactory"/>
-  </updateRequestProcessorChain>
 
   <!-- Deduplication
 
