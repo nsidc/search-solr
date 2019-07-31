@@ -5,7 +5,7 @@
   - Increase physical memory on VM.
   - Include a `title` field in the `auto_suggest` schema, and use `title` as the
     default field in both `auto_suggest` and `nsidc_oai` cores.
-  - Remove dynamic fields from schema for now.
+  - Remove dynamic and unused static fields from schema files for each core.
   - Replace deprecated `WorldDelimiterFilterFactory` with
     `WordDelimiterGraphFilterFactory` in schema files for each core.
   - Enable `ping` query.
