@@ -7,6 +7,12 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/"]
   config.ssh.forward_x11 = true
 
+  if VagrantPlugins::NSIDC::Plugin.environment == 'staging' || VagrantPlugins::NSIDC::Plugin.environment == 'blue'
+    config.vm.provider :vsphere do |vsphere|
+      vsphere.memory_mb = 4096
+    end
+  end
+
   config.vm.provision :shell do |s|
     s.name = 'apt-get update'
     s.inline = 'apt-get update'
