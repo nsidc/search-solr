@@ -2,7 +2,8 @@
 
   - Revert to classic schema style for Solr cores.
   - Tweak configuration to address "out of memory" errors.
-  - Increase physical memory on VM.
+  - Increase physical memory on VM when building staging and production
+    environments.
   - Include a `title` field in the `auto_suggest` schema, and use `title` as the
     default field in both `auto_suggest` and `nsidc_oai` cores.
   - Remove dynamic and unused static fields from schema files for each core.
