@@ -2,14 +2,18 @@
 
   - Revert to classic schema style for Solr cores.
   - Tweak configuration to address "out of memory" errors.
-  - Increase physical memory on VM when building staging and production
-    environments.
   - Include a `title` field in the `auto_suggest` schema, and use `title` as the
     default field in both `auto_suggest` and `nsidc_oai` cores.
   - Remove dynamic and unused static fields from schema files for each core.
   - Replace deprecated `WorldDelimiterFilterFactory` with
     `WordDelimiterGraphFilterFactory` in schema files for each core.
   - Enable `ping` query.
+
+  Note: This version originally included Vagrantfile steps to increase the VM's
+  memory in the staging and production environments. Oddly, that change appears
+  to influence the order of results, so the build configuration has been reverted
+  to use the standard 2GB memory value. The settings for a 4GB memory build are
+  illustrated in commit `#f48b172`.
 
 ## v3.0.2 (2019-07-12)
 
