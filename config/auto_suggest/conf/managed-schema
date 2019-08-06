@@ -14,7 +14,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
->
+-->
 
 <!--
 
@@ -36,7 +36,7 @@
   - for best index size and searching performance, set "index" to false
     for all general text fields, use copyField to copy them to the
     catchall "text" field, and use that for searching.
->
+-->
 
 <schema name="auto_suggest" version="1.6">
     <!-- attribute "name" is the name of this schema and is only used for display purposes.
