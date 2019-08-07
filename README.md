@@ -34,6 +34,13 @@ Once provisioning is complete, the Solr dashboard is accessible from
 [http://&lt;environment&gt;.search-solr.apps.int.nsidc.org:8983/solr](), where
 &lt;environment&gt; is one of dev, integration, qa, etc.
 
+## VM Memory Configuration
+
+Solr appears to persistently run close to the limit of our standard 2GB VM
+memory allocation.  If this becomes an issue, the VM memory allocation can be
+bumped to 4GB (for example).  Commit `#f48b172` shows an example of the
+Vagrantfile modifications needed to increase the memory allocation.
+
 # Requirements and Setup for Non-NSIDC users
 
 ## Requirements
