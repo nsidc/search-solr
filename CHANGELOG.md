@@ -1,4 +1,4 @@
-## v3.1.0 (2019-08-05)
+## Unreleased
 
   - Revert to classic schema style for Solr cores.
   - Tweak configuration to address "out of memory" errors.
