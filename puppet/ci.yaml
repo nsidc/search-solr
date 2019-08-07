@@ -17,7 +17,7 @@ search-solr-tools-name: search-solr-tools
 deploy_solr_tools_command: |
   rm -rf .vagrant-$ENV
   vagrant nsidc hijack --env=$ENV --project=search-solr || true
-  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle install; bundle show search_solr_tools"
+  vagrant nsidc ssh --env=$ENV --project=search-solr -c "cd /vagrant; bundle install; bundle info search_solr_tools"
 
 provision_solr_command: |
   rm -rf .vagrant-$ENV

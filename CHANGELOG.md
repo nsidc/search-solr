@@ -1,3 +1,13 @@
+## Unreleased
+
+  - Update configuration for segment handling as a safeguard against "out of
+    memory" errors.
+
+Note: This version originally included Vagrantfile steps to increase the VM's
+memory in the staging and production environments, but that change was reverted
+out of concern that it might have some influence on search results. The settings
+for a 4GB memory build are illustrated in commit `#f48b172`.
+
 ## v3.0.2 (2019-07-12)
 
   - Update paths to acceptance tests and include `spec` directory when rsyncing
