@@ -1,16 +1,3 @@
-## Unreleased
-
-  - Revert to classic schema style for Solr cores.
-  - Tweak configuration to address "out of memory" errors.
-  - Increase physical memory on VM when building staging and production
-    environments.
-  - Include a `title` field in the `auto_suggest` schema, and use `title` as the
-    default field in both `auto_suggest` and `nsidc_oai` cores.
-  - Remove dynamic and unused static fields from schema files for each core.
-  - Replace deprecated `WorldDelimiterFilterFactory` with
-    `WordDelimiterGraphFilterFactory` in schema files for each core.
-  - Enable `ping` query.
-
 ## v3.0.2 (2019-07-12)
 
   - Update paths to acceptance tests and include `spec` directory when rsyncing

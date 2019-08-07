@@ -124,11 +124,11 @@ unless $environment == 'ci' {
   }
 
   file { "customize-solr-auto-suggest-schema":
-    path    => "${solr_home}/auto_suggest/conf/schema.xml",
+    path    => "${solr_home}/auto_suggest/conf/managed-schema",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "${source_config}/auto_suggest/conf/schema.xml",
+    source  => "${source_config}/auto_suggest/conf/managed-schema",
     require => File['customize-solr-auto-suggest'],
     notify  => Service['solr']
   }
@@ -155,20 +155,12 @@ unless $environment == 'ci' {
   }
 
   file { "customize-solr-nsidc-oai-schema":
-    path    => "${solr_home}/nsidc_oai/conf/schema.xml",
+    path    => "${solr_home}/nsidc_oai/conf/managed-schema",
     mode    => '0644',
     owner   => solr,
     group   => solr,
-    source  => "${source_config}/nsidc_oai/conf/schema.xml",
+    source  => "${source_config}/nsidc_oai/conf/managed-schema",
     require => File['customize-solr-nsidc-oai'],
-    notify  => Service['solr']
-  }
-
-  $unused_schema = [ "${solr_home}/nsidc_oai/conf/managed-schema",
-                     "${solr_home}/auto_suggest/conf/managed-schema"]
-  file { $unused_schema:
-    ensure => absent,
-    require => [ File['init-solr-auto-suggest'], File['init-solr-nsidc-oai'] ],
     notify  => Service['solr']
   }
 
