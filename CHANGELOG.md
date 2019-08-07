@@ -1,4 +1,4 @@
-## Unreleased
+## v3.0.3 (2019-08-07)
 
   - Update configuration for segment handling as a safeguard against "out of
     memory" errors.
