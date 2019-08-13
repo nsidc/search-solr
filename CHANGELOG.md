@@ -1,4 +1,4 @@
-## Unreleased
+## v3.1.0 (2019-08-13)
 
   - Bump `search-solr-tools` version. Retired datasets will now be excluded from
     search.
