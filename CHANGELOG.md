@@ -1,3 +1,9 @@
+## Unreleased
+
+  - Bump solr version to use 8.5.2 (via Puppet module)
+  - Bump `search-solr-tools` version, no functional changes just ruby
+    version and dependency updates.
+
 ## v3.1.0 (2019-08-13)
 
   - Bump `search-solr-tools` version. Retired datasets will now be excluded from
