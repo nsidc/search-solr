@@ -1,4 +1,4 @@
-## Unreleased
+## v4.0.0 (2020-07-07)
 
   - Bump solr version to use 8.5.2 (via Puppet module)
   - Bump `search-solr-tools` version, no functional changes just ruby
