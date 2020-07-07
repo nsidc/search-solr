@@ -26,25 +26,25 @@ apt::ppa{'ppa:brightbox/ruby-ng':}
 package { 'ruby-switch':
   ensure => present,
 } ->
-package { 'ruby2.5':
+package { 'ruby2.6':
   ensure => present,
   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
 } ->
-package { 'ruby2.5-dev':
+package { 'ruby2.6-dev':
   ensure => present,
   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
 } ->
 
 exec { 'set ruby':
-  command => 'ruby-switch --set ruby2.5',
+  command => 'ruby-switch --set ruby2.6',
   path => ['/usr/bin'],
   require => Package['ruby-switch']
 } ->
 
-package { 'bundler':
-  provider => 'gem',
-  ensure   => 'installed',
-}
+exec { 'bundler':
+  command => 'gem install bundler',
+  path => ['/usr/bin']
+} ->
 
 # update rubygems and install application gems
 exec { 'install rubygems update':
@@ -52,7 +52,7 @@ exec { 'install rubygems update':
   path    => ['/usr/local/bin','/usr/bin', '/bin'],
   user    => 'root',
   group   => 'root',
-  require => [ Package['bundler'] ]
+  require => [ Exec['bundler'] ]
 } ->
  
 exec { 'update rubygems':
@@ -80,7 +80,7 @@ unless $environment == 'ci' {
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present,
-    require => Package['bundler']
+    require => Exec['bundler']
   }
 
   # install application gems
@@ -91,13 +91,13 @@ unless $environment == 'ci' {
     path => ['/usr/local/bin', '/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
-    require => [ Package['bundler'] ]
+    require => [ Exec['bundler'] ]
   }
 
   # nokogiri 'build native' dep
   package { 'zlib1g-dev':
     ensure => present,
-    require => Package['bundler']
+    require => Exec['bundler']
   }
 
   class { "nsidc_solr": }
