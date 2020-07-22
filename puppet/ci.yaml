@@ -94,133 +94,7 @@ nsidc_jenkins::jobs:
       ENV=integration
       %{hiera('harvest_nsidc_command')}
     workspace: "%{hiera('integration_workspace')}"
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE"
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE":
-    description: Start a sequential harvest of all of the ADE metadata sources.
-    workspace: "%{hiera('integration_workspace')}"
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=adc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=ade_auto_suggest
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=bco_dmo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=echo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=ices
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=nmi
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=nodc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=pdc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=r2r
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=rda
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=tdar
-      %{hiera('harvest_ade_command')}
-    trigger_job: "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs"
-    trigger_threshold: FAILURE
-
-  "A06_%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs":
-    description: Harvest from a single data center
-    workspace: "%{hiera('integration_workspace')}"
-    command: |
-      ENV=integration
-      data_center=usgs
-      %{hiera('harvest_ade_command')}
     trigger_job: "A07_%{hiera('project')}_Integration_Acceptance_Tests"
-    trigger_threshold: FAILURE
 
   "A07_%{hiera('project')}_Integration_Acceptance_Tests":
     command: |
@@ -275,133 +149,7 @@ nsidc_jenkins::jobs:
       ENV=qa
       %{hiera('harvest_nsidc_command')}
     workspace: "%{hiera('qa_workspace')}"
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE"
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE":
-    description: Start a sequential harvest of all of the ADE metadata sources.
-    workspace: "%{hiera('qa_workspace')}"
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=adc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=ade_auto_suggest
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=bco_dmo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=echo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=ices
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=nmi
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=nodc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=pdc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=r2r
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=rda
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=tdar
-      %{hiera('harvest_ade_command')}
-    trigger_job: "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs"
-    trigger_threshold: FAILURE
-
-  "B06_%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs":
-    description: Harvest from a single data center
-    workspace: "%{hiera('qa_workspace')}"
-    command: |
-      ENV=qa
-      data_center=usgs
-      %{hiera('harvest_ade_command')}
     trigger_job: "B07_%{hiera('project')}_QA_Acceptance_Tests"
-    trigger_threshold: FAILURE
 
   "B07_%{hiera('project')}_QA_Acceptance_Tests":
     command: |
@@ -456,133 +204,7 @@ nsidc_jenkins::jobs:
       ENV=staging
       %{hiera('harvest_nsidc_command')}
     workspace: "%{hiera('staging_workspace')}"
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE"
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE":
-    description: Start a sequential harvest of all of the ADE metadata sources.
-    workspace: "%{hiera('staging_workspace')}"
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=adc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=ade_auto_suggest
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=bco_dmo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=echo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=ices
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=nmi
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=nodc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=pdc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=r2r
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=rda
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=tdar
-      %{hiera('harvest_ade_command')}
-    trigger_job: "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs"
-    trigger_threshold: FAILURE
-
-  "C06_%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs":
-    description: Harvest from a single data center
-    workspace: "%{hiera('staging_workspace')}"
-    command: |
-      ENV=staging
-      data_center=usgs
-      %{hiera('harvest_ade_command')}
     trigger_job: "C07_%{hiera('project')}_Staging_Acceptance_Tests"
-    trigger_threshold: FAILURE
 
   "C07_%{hiera('project')}_Staging_Acceptance_Tests":
     command: |
@@ -634,126 +256,8 @@ nsidc_jenkins::jobs:
   "D04_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE":
     description: Start a sequential harvest of all of the ADE metadata sources.
     workspace: "%{hiera('blue_workspace')}"
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc"
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc"
     trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=adc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=ade_auto_suggest
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=bco_dmo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=echo
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=ices
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=nmi
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=nodc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=pdc
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=r2r
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=rda
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=tdar
-      %{hiera('harvest_ade_command')}
-    trigger_job: "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs"
-    trigger_threshold: FAILURE
-
-  "D05_%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs":
-    description: Harvest from a single data center
-    workspace: "%{hiera('blue_workspace')}"
-    command: |
-      ENV=blue
-      data_center=usgs
-      %{hiera('harvest_ade_command')}
 
   "E01_%{hiera('project')}_Release_Bump_Version":
     git:
@@ -781,3 +285,503 @@ nsidc_jenkins::jobs:
   "E02_%{hiera('project')}_Release_Push_to_Git":
     command: bundle exec rake jenkins:release:push
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/release
+
+
+
+# The following are deprecated and will be removed in the future
+
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE":
+    description: Start a sequential harvest of all of the ADE metadata sources.
+    workspace: "%{hiera('integration_workspace')}"
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_adc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=adc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ade_auto_suggest":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=ade_auto_suggest
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_bco_dmo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=bco_dmo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_echo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=echo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_ices":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=ices
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nmi":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=nmi
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_nodc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=nodc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_pdc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=pdc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_r2r":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=r2r
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_rda":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=rda
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_tdar":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=tdar
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+  
+  "ZZOLD_A06%{hiera('search-solr-tools-name')}_Integration_Harvest_ADE_usgs":
+    description: Harvest from a single data center
+    workspace: "%{hiera('integration_workspace')}"
+    command: |
+      ENV=integration
+      data_center=usgs
+      %{hiera('harvest_ade_command')}
+    trigger_job: "A07_%{hiera('project')}_Integration_Acceptance_Tests"
+    trigger_threshold: FAILURE
+    
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE":
+    description: Start a sequential harvest of all of the ADE metadata sources.
+    workspace: "%{hiera('qa_workspace')}"
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_adc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=adc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ade_auto_suggest":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=ade_auto_suggest
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_bco_dmo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=bco_dmo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_echo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=echo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_ices":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=ices
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nmi":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=nmi
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_nodc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=nodc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_pdc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=pdc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_r2r":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=r2r
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_rda":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=rda
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_tdar":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=tdar
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_B06%{hiera('search-solr-tools-name')}_QA_Harvest_ADE_usgs":
+    description: Harvest from a single data center
+    workspace: "%{hiera('qa_workspace')}"
+    command: |
+      ENV=qa
+      data_center=usgs
+      %{hiera('harvest_ade_command')}
+    trigger_job: "B07_%{hiera('project')}_QA_Acceptance_Tests"
+    trigger_threshold: FAILURE
+    
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE":
+    description: Start a sequential harvest of all of the ADE metadata sources.
+    workspace: "%{hiera('staging_workspace')}"
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_adc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=adc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ade_auto_suggest":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=ade_auto_suggest
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_bco_dmo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=bco_dmo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_echo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=echo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_ices":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=ices
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nmi":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=nmi
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_nodc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=nodc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_pdc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=pdc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_r2r":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=r2r
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_rda":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=rda
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_tdar":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=tdar
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_C06%{hiera('search-solr-tools-name')}_Staging_Harvest_ADE_usgs":
+    description: Harvest from a single data center
+    workspace: "%{hiera('staging_workspace')}"
+    command: |
+      ENV=staging
+      data_center=usgs
+      %{hiera('harvest_ade_command')}
+    trigger_job: "C07_%{hiera('project')}_Staging_Acceptance_Tests"
+    trigger_threshold: FAILURE
+    
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_adc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=adc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ade_auto_suggest":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=ade_auto_suggest
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_bco_dmo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=bco_dmo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_echo":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=echo
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_ices":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=ices
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nmi":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=nmi
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_nodc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=nodc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_pdc":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=pdc
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_r2r":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=r2r
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_rda":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=rda
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_tdar":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=tdar
+      %{hiera('harvest_ade_command')}
+    trigger_job: "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs"
+    trigger_threshold: FAILURE
+
+  "ZZOLD_D06%{hiera('search-solr-tools-name')}_Blue_Harvest_ADE_usgs":
+    description: Harvest from a single data center
+    workspace: "%{hiera('blue_workspace')}"
+    command: |
+      ENV=blue
+      data_center=usgs
+      %{hiera('harvest_ade_command')}
