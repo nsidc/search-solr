@@ -1,3 +1,7 @@
+## Unreleased
+
+  - Bump search-solr-tools gem to allow for better error handling of harvests
+
 ## v4.0.0 (2020-07-07)
 
   - Bump solr version to use 8.5.2 (via Puppet module)
