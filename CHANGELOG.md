@@ -1,3 +1,8 @@
+## Unreleased
+
+  - Update puppet-nsidc-solr module to makes sure it's using a version of solr
+    with log4j vulnerabilities addressed.
+
 ## v4.1.0 (2020-07-24)
 
   - Bump search-solr-tools gem to allow for better error handling of harvests
