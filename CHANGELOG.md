@@ -1,7 +1,8 @@
 ## Unreleased
 
-  - Update puppet-nsidc-solr module to makes sure it's using a version of solr
-    with log4j vulnerabilities addressed.
+  - Minor modifications to Puppetfile to be compatible with some changes
+    to the puppet-nsidc-solr module, which was updated to fix a Log4j 
+    vulnerability.
 
 ## v4.1.0 (2020-07-24)
 
