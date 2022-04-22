@@ -15,4 +15,4 @@ mod "nsidc/nsidc_solr",
   :ref  => 'latest'
 
 # Module for installing packages from apt
-mod 'puppetlabs/apt', "< 2.0.0"
+mod 'puppetlabs/apt', "< 3.0.0"
