@@ -1,4 +1,4 @@
-## Unreleased
+## v4.2.0 (2022-04-25)
 
   - Minor modifications to Puppetfile to be compatible with some changes
     to the puppet-nsidc-solr module, which was updated to fix a Log4j 
