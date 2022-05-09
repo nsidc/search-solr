@@ -7,12 +7,15 @@ mod "nsidc/nsidc_nfs",
 # Module for creating NSIDC Jenkins servers
 mod "nsidc/nsidc_jenkins",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git",
-  :ref => 'latest'
+  :ref => 'puppet6'
 
 # Module to install Solr
 mod "nsidc/nsidc_solr",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-solr.git",
-  :ref  => 'latest'
+  :ref  => 'srch-105'
 
 # Module for installing packages from apt
-mod 'puppetlabs/apt', "< 3.0.0"
+mod 'puppetlabs/apt', "< 8.0.0"
+
+# Module for installing rbenv (and by extension, ruby)
+mod 'jdowning-rbenv', "2.5.0"

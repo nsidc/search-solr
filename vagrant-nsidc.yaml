@@ -4,8 +4,8 @@ gitrepo: git@github.com:nsidc/search-solr.git
 
 vsphere:
   template:
-    default: xenial64-nsidc-puppet4
-    ci: xenial64-docker-puppet4-jenkins1
+    default: bionic64-nsidc-puppet6
+    ci: bionic64-docker-puppet6-jenkins2
 virtualbox:
-  box: xenial64-nsidc
-  box_url: http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/vagrant/boxes/xenial64-nsidc.box
+  box: bionic64-nsidc
+  box_url: http://snowhut.apps.int.nsidc.org/shares/export/sw/packages/vagrant/boxes/bionic64-nsidc.box

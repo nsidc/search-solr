@@ -23,51 +23,68 @@ package {"build-essential":
 
 apt::ppa{'ppa:brightbox/ruby-ng':}
 
-package { 'ruby-switch':
-  ensure => present,
-} ->
-package { 'ruby2.6':
-  ensure => present,
-  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-} ->
-package { 'ruby2.6-dev':
-  ensure => present,
-  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-} ->
-
-exec { 'set ruby':
-  command => 'ruby-switch --set ruby2.6',
-  path => ['/usr/bin'],
-  require => Package['ruby-switch']
-} ->
-
-exec { 'bundler':
-  command => 'gem install bundler',
-  path => ['/usr/bin']
-} ->
-
-# update rubygems and install application gems
-exec { 'install rubygems update':
-  command => 'gem install rubygems-update',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
-  user    => 'root',
-  group   => 'root',
-  require => [ Exec['bundler'] ]
-} ->
- 
-exec { 'update rubygems':
-  command => 'update_rubygems',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
-  user    => 'root',
-  group   => 'root'
-} ->
-
-exec { 'gem update':
+# Install Ruby, Bundler, and Builder
+# Builder is required to do `gem generate_index`
+class { 'rbenv': }
+-> rbenv::plugin { 'rbenv/ruby-build': }
+-> rbenv::build { '2.6.5':
+  bundler_version => '2.2.17',
+  global => true,
+}
+-> rbenv::gem { 'builder': ruby_version => '2.6.5' }
+-> exec { 'gem_update':
   command => 'gem update --system',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  path    => ['/usr/local/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
   user    => 'root',
   group   => 'root'
 }
+
+
+# package { 'ruby-switch':
+#   ensure => present,
+# } ->
+# package { 'ruby2.6':
+#   ensure => present,
+#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+# } ->
+# package { 'ruby2.6-dev':
+#   ensure => present,
+#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+# } ->
+#
+# exec { 'set ruby':
+#   command => 'ruby-switch --set ruby2.6',
+#   path => ['/usr/bin'],
+#   require => Package['ruby-switch']
+# } ->
+#
+# exec { 'bundler':
+#   command => 'gem install bundler',
+#   path => ['/usr/bin']
+# } ->
+#
+# # update rubygems and install application gems
+# exec { 'install rubygems update':
+#   command => 'gem install rubygems-update',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root',
+#   require => [ Exec['bundler'] ]
+# } ->
+#
+# exec { 'update rubygems':
+#   command => 'update_rubygems',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root'
+# } ->
+#
+# exec { 'gem update':
+#   command => 'gem update --system',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root'
+# }
 
 if $environment == 'ci' {
   package { 'rake':
@@ -80,7 +97,8 @@ unless $environment == 'ci' {
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present,
-    require => Exec['bundler']
+    # require => Exec['bundler']
+    require => Exec['gem_update']
   }
 
   # install application gems
@@ -88,17 +106,18 @@ unless $environment == 'ci' {
     cwd => '/vagrant',
     environment => 'HOME=/vagrant',
     command => 'bundle install',
-    path => ['/usr/local/bin', '/usr/bin', '/bin'],
+    path => ['/usr/local/rbenv/shims', '/usr/local/bin', '/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
-    require => [ Exec['bundler'] ]
+    # require => Exec['bundler'],
+    require => Exec['gem_update']
   }
 
-  # nokogiri 'build native' dep
-  package { 'zlib1g-dev':
-    ensure => present,
-    require => Exec['bundler']
-  }
+  # # nokogiri 'build native' dep
+  # package { 'zlib1g-dev':
+  #   ensure => present,
+  #   require => Exec['bundler']
+  # }
 
   class { "nsidc_solr": }
 
