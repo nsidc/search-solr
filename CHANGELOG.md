@@ -1,4 +1,4 @@
-## Unreleased
+## v4.3.0 (2022-08-31)
 
   - Bump search-solr-tools gem to fix bug with retrieving identifiers during
     harvesting
