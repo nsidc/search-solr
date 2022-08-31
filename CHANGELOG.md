@@ -1,3 +1,8 @@
+## Unreleased
+
+  - Bump search-solr-tools gem to fix bug with retrieving identifiers during
+    harvesting
+
 ## v4.2.0 (2022-04-25)
 
   - Minor modifications to Puppetfile to be compatible with some changes
