@@ -4,7 +4,7 @@ This vagrant project stands up a Solr instance for NSIDC Search / Arctic Data
 Explorer.
 
 See
-[CHANGELOG.md](https://github.com/nsidc/search-solr/blob/master/CHANGELOG.md)
+[CHANGELOG.md](https://github.com/nsidc/search-solr/blob/main/CHANGELOG.md)
 for information on past versions.
 
 # Requirements and Setup at NSIDC
@@ -58,5 +58,5 @@ Solr provides a deployment script to install the application:
 ./install_solr_service.sh solr-${solr_version}.tgz
 ```
 
-See the [DEVELOPMENT.md](https://github.com/nsidc/search-solr/blob/master/DEVELOPMENT.md).
+See the [DEVELOPMENT.md](https://github.com/nsidc/search-solr/blob/main/DEVELOPMENT.md).
 file for additional instructions and development notes.

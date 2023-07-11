@@ -2,17 +2,18 @@ forge "https://forgeapi.puppetlabs.com"
 
 # Module for access to NSIDC Enterprise storage
 mod "nsidc/nsidc_nfs",
-  :git => "git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git"
+  :git => "git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git",
+  :ref => 'puppet7'
 
 # Module for creating NSIDC Jenkins servers
 mod "nsidc/nsidc_jenkins",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git",
-  :ref => 'latest'
+  :ref => 'puppet7'
 
 # Module to install Solr
 mod "nsidc/nsidc_solr",
   :git => "git@bitbucket.org:/nsidc/puppet-nsidc-solr.git",
   :ref  => 'latest'
-
-# Module for installing packages from apt
-mod 'puppetlabs/apt', "< 3.0.0"
+#
+# # Module for installing packages from apt
+# mod 'puppetlabs/apt', "< 3.0.0"
