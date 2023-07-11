@@ -3,9 +3,6 @@ lookup('classes', {merge => unique}).include
 
 $source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
-$ruby_ver = '3.2.0'
-$bundler_ver = '2.3.26'
-$rubygems_ver = '3.4.10'
 
 # If the structure of the Solr COTS tar file changes, the path to the default
 # configuration and mapping file(s) will need to change as well.
@@ -24,77 +21,52 @@ package {"build-essential":
 # include update_package_manager
 ### END nokogiri deps
 
-# apt::ppa{'ppa:brightbox/ruby-ng':}
+apt::ppa{'ppa:brightbox/ruby-ng':}
 
-# package { 'ruby-switch':
-#   ensure => present,
-# } ->
-# package { 'ruby2.6':
-#   ensure => present,
-#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-# } ->
-# package { 'ruby2.6-dev':
-#   ensure => present,
-#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-# } ->
-#
-# exec { 'set ruby':
-#   command => 'ruby-switch --set ruby2.6',
-#   path => ['/usr/bin'],
-#   require => Package['ruby-switch']
-# } ->
-#
-# exec { 'bundler':
-#   command => 'gem install bundler',
-#   path => ['/usr/bin']
-# } ->
-#
-# # update rubygems and install application gems
-# exec { 'install rubygems update':
-#   command => 'gem install rubygems-update',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root',
-#   require => [ Exec['bundler'] ]
-# } ->
-#
-# exec { 'update rubygems':
-#   command => 'update_rubygems',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root'
-# } ->
-#
-# exec { 'gem update':
-#   command => 'gem update --system',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root'
-# }
+package { 'ruby-switch':
+  ensure => present,
+} ->
+package { 'ruby2.6':
+  ensure => present,
+  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+} ->
+package { 'ruby2.6-dev':
+  ensure => present,
+  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+} ->
 
-# Install Ruby, Bundler, and Builder
-# Builder is required to do `gem generate_index`
-class { 'rbenv':
-  install_dir => '/home/vagrant/rbenv',
-  owner => 'vagrant',
-  group => 'vagrant',
-}
--> exec { 'rbenv-build-prepare-git':
-  command => 'git config --global --add safe.directory /home/vagrant/rbenv/plugins/ruby-build',
-  path => ['/usr/local/bin', '/usr/bin', '/bin'],
-  environment => ['HOME=/home/vagrant'],
-}
--> rbenv::plugin { 'rbenv/ruby-build': }
--> rbenv::build { $ruby_ver:
-  bundler_version => $bundler_ver,
-  owner => 'vagrant',
-  group => 'vagrant',
-  global => true,
-}
--> rbenv::gem { 'builder': ruby_version => $ruby_ver }
--> exec { 'gem_update':
-  command => "gem update --system ${rubygems_ver}",
-  path    => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
+exec { 'set ruby':
+  command => 'ruby-switch --set ruby2.6',
+  path => ['/usr/bin'],
+  require => Package['ruby-switch']
+} ->
+
+exec { 'bundler':
+  command => 'gem install bundler',
+  path => ['/usr/bin']
+} ->
+
+# update rubygems and install application gems
+exec { 'install rubygems update':
+  command => 'gem install rubygems-update',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root',
+  require => [ Exec['bundler'] ]
+} ->
+
+exec { 'update rubygems':
+  command => 'update_rubygems',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root'
+} ->
+
+exec { 'gem update':
+  command => 'gem update --system',
+  path    => ['/usr/local/bin','/usr/bin', '/bin'],
+  user    => 'root',
+  group   => 'root'
 }
 
 if $environment == 'ci' {
@@ -108,7 +80,7 @@ unless $environment == 'ci' {
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present,
-    require => Exec['gem_update']
+    require => Exec['bundler']
   }
 
   # install application gems
@@ -119,13 +91,13 @@ unless $environment == 'ci' {
     path => ['/usr/local/bin', '/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
-    require => [ Exec['gem_update'] ]
+    require => [ Exec['bundler'] ]
   }
 
   # nokogiri 'build native' dep
   package { 'zlib1g-dev':
     ensure => present,
-    require => Exec['gem_update']
+    require => Exec['bundler']
   }
 
   class { "nsidc_solr": }

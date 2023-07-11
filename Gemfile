@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby '~>3.2.0'
+ruby '~>2.6'
 
 gem 'search_solr_tools', '~> 5.2.0'
 
