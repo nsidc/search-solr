@@ -17,3 +17,6 @@ mod "nsidc/nsidc_solr",
 #
 # # Module for installing packages from apt
 # mod 'puppetlabs/apt', "< 3.0.0"
+
+# Module for installing rbenv (and by extension, ruby)
+mod 'jdowning-rbenv', "2.5.0"
