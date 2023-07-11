@@ -54,7 +54,7 @@ exec { 'install rubygems update':
   group   => 'root',
   require => [ Exec['bundler'] ]
 } ->
-
+ 
 exec { 'update rubygems':
   command => 'update_rubygems',
   path    => ['/usr/local/bin','/usr/bin', '/bin'],
