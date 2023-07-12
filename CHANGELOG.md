@@ -1,3 +1,7 @@
+## Unreleased
+
+  - Update CI configuration to use main instead of master.
+
 ## v4.3.0 (2022-08-31)
 
   - Bump search-solr-tools gem to fix bug with retrieving identifiers during
