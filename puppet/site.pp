@@ -1,6 +1,13 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
 
+# $project = lookup('project')
+# $app_root = "/opt/${project}"
+$app_root = '/vagrant'
+# $source_dir = "/vagrant"
+$ruby_ver = '2.6.6' # '3.2.2'
+$bundler_ver = '2.1.4' # '2.4.10'
+$rubygems_ver = '3.3.21' # 3.4.10'
 $source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
 
@@ -21,60 +28,83 @@ package {"build-essential":
 # include update_package_manager
 ### END nokogiri deps
 
-apt::ppa{'ppa:brightbox/ruby-ng':}
-
-package { 'ruby-switch':
-  ensure => present,
-} ->
-package { 'ruby2.6':
-  ensure => present,
-  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-} ->
-package { 'ruby2.6-dev':
-  ensure => present,
-  require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-} ->
-
-exec { 'set ruby':
-  command => 'ruby-switch --set ruby2.6',
-  path => ['/usr/bin'],
-  require => Package['ruby-switch']
-} ->
-
-exec { 'bundler':
-  command => 'gem install bundler',
-  path => ['/usr/bin']
-} ->
-
-# update rubygems and install application gems
-exec { 'install rubygems update':
-  command => 'gem install rubygems-update',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
-  user    => 'root',
-  group   => 'root',
-  require => [ Exec['bundler'] ]
-} ->
-
-exec { 'update rubygems':
-  command => 'update_rubygems',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
-  user    => 'root',
-  group   => 'root'
-} ->
-
-exec { 'gem update':
-  command => 'gem update --system',
-  path    => ['/usr/local/bin','/usr/bin', '/bin'],
-  user    => 'root',
-  group   => 'root'
+class { 'rbenv':
+  install_dir => '/home/vagrant/rbenv',
+  owner => 'vagrant',
+  group => 'vagrant',
+}
+-> exec { 'rbenv-build-prepare-git':
+  command => 'git config --global --add safe.directory /home/vagrant/rbenv/plugins/ruby-build',
+  path => ['/usr/local/bin', '/usr/bin', '/bin'],
+  environment => ['HOME=/home/vagrant'],
+}
+-> rbenv::plugin { 'rbenv/ruby-build': }
+-> rbenv::build { $ruby_ver:
+  bundler_version => $bundler_ver,
+  owner => 'vagrant',
+  group => 'vagrant',
+  global => true,
+}
+-> rbenv::gem { 'builder': ruby_version => $ruby_ver }
+-> exec { 'gem_update':
+  command => "gem update --system ${rubygems_ver}",
+  path    => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
 }
 
-if $environment == 'ci' {
-  package { 'rake':
-    provider => 'gem',
-    ensure   => 'installed'
-  }
-}
+# apt::ppa{'ppa:brightbox/ruby-ng':}
+#
+# package { 'ruby-switch':
+#   ensure => present,
+# } ->
+# package { 'ruby2.6':
+#   ensure => present,
+#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+# } ->
+# package { 'ruby2.6-dev':
+#   ensure => present,
+#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
+# } ->
+#
+# exec { 'set ruby':
+#   command => 'ruby-switch --set ruby2.6',
+#   path => ['/usr/bin'],
+#   require => Package['ruby-switch']
+# } ->
+#
+# exec { 'bundler':
+#   command => 'gem install bundler',
+#   path => ['/usr/bin']
+# } ->
+#
+# # update rubygems and install application gems
+# exec { 'install rubygems update':
+#   command => 'gem install rubygems-update',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root',
+#   require => [ Exec['bundler'] ]
+# } ->
+#
+# exec { 'update rubygems':
+#   command => 'update_rubygems',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root'
+# } ->
+#
+# exec { 'gem update':
+#   command => 'gem update --system',
+#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
+#   user    => 'root',
+#   group   => 'root'
+# }
+
+# if $environment == 'ci' {
+#   package { 'rake':
+#     provider => 'gem',
+#     ensure   => 'installed'
+#   }
+# }
 
 unless $environment == 'ci' {
   # dep for geos gems
@@ -85,20 +115,31 @@ unless $environment == 'ci' {
 
   # install application gems
   exec { 'do_bundle_install':
-    cwd => '/vagrant',
-    environment => 'HOME=/vagrant',
-    command => 'bundle install',
-    path => ['/usr/local/bin', '/usr/bin', '/bin'],
+    cwd     => "${app_root}",
+    environment => "HOME=${app_root}",
+    command => "bundle _${bundler_ver}_ install",
+    path => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
-    require => [ Exec['bundler'] ]
+    require => [ Exec['gem_update'] ]
   }
 
-  # nokogiri 'build native' dep
-  package { 'zlib1g-dev':
-    ensure => present,
-    require => Exec['bundler']
-  }
+  # install application gems
+  # exec { 'do_bundle_install':
+  #   cwd => '/vagrant',
+  #   environment => 'HOME=/vagrant',
+  #   command => 'bundle install',
+  #   path => ['/usr/local/bin', '/usr/bin', '/bin'],
+  #   user => 'vagrant',
+  #   group => 'vagrant',
+  #   require => [ Exec['bundler'] ]
+  # }
+
+  # # nokogiri 'build native' dep
+  # package { 'zlib1g-dev':
+  #   ensure => present,
+  #   require => Exec['bundler']
+  # }
 
   class { "nsidc_solr": }
 
