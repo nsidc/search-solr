@@ -17,15 +17,12 @@ $solr_default_path = "/opt/solr/server/solr/configsets/_default"
 $example_iso_mappings = "/opt/solr/server/solr/configsets/sample_techproducts_configs/conf/mapping-ISOLatin1Accent.txt"
 
 ### BEGIN nokogiri deps
-# Class['update_package_manager'] -> Package <| |>
-
 package {"libssl-dev":
   ensure => present
 } ->
 package {"build-essential":
   ensure => present
 } ->
-# include update_package_manager
 ### END nokogiri deps
 
 class { 'rbenv':
@@ -51,66 +48,11 @@ class { 'rbenv':
   path    => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
 }
 
-# apt::ppa{'ppa:brightbox/ruby-ng':}
-#
-# package { 'ruby-switch':
-#   ensure => present,
-# } ->
-# package { 'ruby2.6':
-#   ensure => present,
-#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-# } ->
-# package { 'ruby2.6-dev':
-#   ensure => present,
-#   require => [ Class['apt'], Apt::Ppa['ppa:brightbox/ruby-ng'] ]
-# } ->
-#
-# exec { 'set ruby':
-#   command => 'ruby-switch --set ruby2.6',
-#   path => ['/usr/bin'],
-#   require => Package['ruby-switch']
-# } ->
-#
-# exec { 'bundler':
-#   command => 'gem install bundler',
-#   path => ['/usr/bin']
-# } ->
-#
-# # update rubygems and install application gems
-# exec { 'install rubygems update':
-#   command => 'gem install rubygems-update',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root',
-#   require => [ Exec['bundler'] ]
-# } ->
-#
-# exec { 'update rubygems':
-#   command => 'update_rubygems',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root'
-# } ->
-#
-# exec { 'gem update':
-#   command => 'gem update --system',
-#   path    => ['/usr/local/bin','/usr/bin', '/bin'],
-#   user    => 'root',
-#   group   => 'root'
-# }
-
-# if $environment == 'ci' {
-#   package { 'rake':
-#     provider => 'gem',
-#     ensure   => 'installed'
-#   }
-# }
-
 unless $environment == 'ci' {
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present,
-    require => Exec['bundler']
+    require => Exec['gem_update']
   }
 
   # install application gems
@@ -124,24 +66,15 @@ unless $environment == 'ci' {
     require => [ Exec['gem_update'] ]
   }
 
-  # install application gems
-  # exec { 'do_bundle_install':
-  #   cwd => '/vagrant',
-  #   environment => 'HOME=/vagrant',
-  #   command => 'bundle install',
-  #   path => ['/usr/local/bin', '/usr/bin', '/bin'],
-  #   user => 'vagrant',
-  #   group => 'vagrant',
-  #   require => [ Exec['bundler'] ]
-  # }
+  class { "nsidc_solr":
+    jetty_host => '0.0.0.0'
+  }
 
-  # # nokogiri 'build native' dep
-  # package { 'zlib1g-dev':
-  #   ensure => present,
-  #   require => Exec['bundler']
-  # }
-
-  class { "nsidc_solr": }
+  file_line { "solr_modules":
+    ensure => present,
+    line   => "SOLR_MODULES=scripting",
+    path   => "/etc/environment"
+  }
 
   file { "init-solr-auto-suggest":
     path => "${solr_home}/auto_suggest",
