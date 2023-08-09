@@ -1,13 +1,10 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
 
-# $project = lookup('project')
-# $app_root = "/opt/${project}"
 $app_root = '/vagrant'
-# $source_dir = "/vagrant"
-$ruby_ver = '2.6.6' # '3.2.2'
-$bundler_ver = '2.1.4' # '2.4.10'
-$rubygems_ver = '3.3.21' # 3.4.10'
+$ruby_ver = '3.2.2'
+$bundler_ver = '2.4.10'
+$rubygems_ver = '3.4.10'
 $source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
 
@@ -74,6 +71,12 @@ unless $environment == 'ci' {
     ensure => present,
     line   => "SOLR_MODULES=scripting",
     path   => "/etc/environment"
+  }
+
+  file { "locale-lang-fix":
+    ensure => present,
+    path   => "/etc/profile.d/locale-lang-fix.sh",
+    content => "export LANG=en_US.UTF-8"
   }
 
   file { "init-solr-auto-suggest":

@@ -1,6 +1,9 @@
 ## Unreleased
 
   - Update CI configuration to use main instead of master.
+  - Update Vagrant/Puppet templates and configuration to use Puppet 7
+  - Update Ruby to use v3.2.2, along with updates to gem dependencies
+  - Update Solr Puppet module to use Solr 9.3
 
 ## v4.3.0 (2022-08-31)
 
