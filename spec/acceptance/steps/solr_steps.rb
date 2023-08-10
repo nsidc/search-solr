@@ -12,19 +12,24 @@ module SolrSteps
   end
 
   step 'I search for :terms' do |terms|
-    @page = SolrSearchPage.new(@environment[:host], @environment[:port], @environment[:collection_path], @environment[:collection_name])
+    if @page.nil?
+      @page = SolrSearchPage.new(@environment[:host], @environment[:port], @environment[:collection_path], @environment[:collection_name])
+    end
+
     @page.query terms
   end
 
   step 'I should get a valid response with results' do
-    @page.valid?.should be true
-    @page.total_results.should be > 0
-    @page.results.size.should be <= @page.total_results
+    expect(@page.valid?).to be_truthy
+    expect(@page.total_results).to be > 0
+    expect(@page.results.size).to be <= @page.total_results
   end
 
   step 'The last :n searches should have the same number of results' do |n|
     counts = @page.result_counts
     length = counts.length
+
+    expect(counts.length).to be >= n.to_i
 
     last_n_counts = counts[(length - n.to_i)..(length - 1)]
 
