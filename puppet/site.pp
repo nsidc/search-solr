@@ -73,6 +73,12 @@ unless $environment == 'ci' {
     path   => "/etc/environment"
   }
 
+  # This is a workaround, as for some reason when we SSH into the VM, the locale language
+  # is not being set properly.  Mike Laxer and Scott Lewis were both unable to figure out
+  # the cause, as other projects don't seem to be having this issue, and the VM template
+  # does have the proper setup to do this.  If the root cause for this issue can be found
+  # this command could be removed, but this at least addresses the issue to allow the
+  # acceptance tests to work (primarily the one testing accents)
   file { "locale-lang-fix":
     ensure => present,
     path   => "/etc/profile.d/locale-lang-fix.sh",
