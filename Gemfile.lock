@@ -1,3 +1,19 @@
+GIT
+  remote: https://github.com/nsidc/search-solr-tools
+  revision: 5d18e2e26ec5b48ead4300f33b3e815f203b96fd
+  ref: srch-137
+  specs:
+    search_solr_tools (6.3.0)
+      ffi-geos (~> 2.4.0)
+      iso8601 (~> 0.13.0)
+      multi_json (~> 1.15.0)
+      nokogiri (~> 1.15.3)
+      rest-client (~> 2.1.0)
+      rgeo (~> 3.0.0)
+      rgeo-geojson (~> 2.1.1)
+      rsolr (~> 2.5.0)
+      thor (~> 1.2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,16 +73,6 @@ GEM
       rspec-support (~> 3.12.0)
     rspec-support (3.12.1)
     ruby2_keywords (0.0.5)
-    search_solr_tools (6.3.0)
-      ffi-geos (~> 2.4.0)
-      iso8601 (~> 0.13.0)
-      multi_json (~> 1.15.0)
-      nokogiri (~> 1.15.3)
-      rest-client (~> 2.1.0)
-      rgeo (~> 3.0.0)
-      rgeo-geojson (~> 2.1.1)
-      rsolr (~> 2.5.0)
-      thor (~> 1.2.2)
     thor (1.2.2)
     turnip (4.4.0)
       cuke_modeler (~> 3.15)
@@ -88,7 +94,7 @@ DEPENDENCIES
   rake (~> 13.0.6)
   rest-client (~> 2.1.0)
   rspec (~> 3.12.0)
-  search_solr_tools (~> 6.3.0)
+  search_solr_tools!
   turnip (~> 4.4.0)
   yarjuf (~> 2.0.0)
 

@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 ruby '~>3.2.2'
 
-gem 'search_solr_tools', '~> 6.3.0'
+# gem 'search_solr_tools', '~> 6.3.0'
+gem 'search_solr_tools', git: 'https://github.com/nsidc/search-solr-tools', ref: 'srch-137'
 
 gem 'rake', '~> 13.0.6'
 gem 'bump', '~> 0.10.0'
