@@ -66,11 +66,14 @@ nsidc_jenkins::jobs:
 
   "A02_%{hiera('project')}_Integration_Install_Dependencies":
     workspace: "%{hiera('integration_workspace')}"
-    command: bundle install
+    command: |
+      #!/bin/bash -l
+      bundle install
     trigger_job: "A03_%{hiera('project')}_Integration_Provision"
 
   "A03_%{hiera('project')}_Integration_Provision":
     command: |
+      #!/bin/bash -l
       ENV=integration
       %{hiera('provision_solr_command')}
     workspace: "%{hiera('integration_workspace')}"
@@ -122,12 +125,15 @@ nsidc_jenkins::jobs:
     trigger_job: "B02_%{hiera('project')}_QA_Install_Dependencies"
 
   "B02_%{hiera('project')}_QA_Install_Dependencies":
-    command: bundle install
+    command: |
+      #!/bin/bash -l
+      bundle install
     workspace: "%{hiera('qa_workspace')}"
     trigger_job: "B03_%{hiera('project')}_QA_Provision"
 
   "B03_%{hiera('project')}_QA_Provision":
     command: |
+      #!/bin/bash -l
       ENV=qa
       %{hiera('provision_solr_command')}
     workspace: "%{hiera('qa_workspace')}"
@@ -177,12 +183,15 @@ nsidc_jenkins::jobs:
     trigger_job: "C02_%{hiera('project')}_Staging_Install_Dependencies"
 
   "C02_%{hiera('project')}_Staging_Install_Dependencies":
-    command: bundle install
+    command: |
+      #!/bin/bash -l
+      bundle install
     workspace: "%{hiera('staging_workspace')}"
     trigger_job: "C03_%{hiera('project')}_Staging_Provision"
 
   "C03_%{hiera('project')}_Staging_Provision":
     command: |
+      #!/bin/bash -l
       ENV=staging
       %{hiera('provision_solr_command')}
     workspace: "%{hiera('staging_workspace')}"
@@ -228,6 +237,7 @@ nsidc_jenkins::jobs:
         description: git ref (branch, tag, or SHA) to checkout
         default: staging
     command: |
+      #!/bin/bash -l
       ENV=blue
       git checkout $ref
       bundle install
@@ -280,6 +290,7 @@ nsidc_jenkins::jobs:
         - minor
         - major
     command: |
+      #!/bin/bash -l
       git checkout $branch
 
       bundle install
@@ -288,5 +299,7 @@ nsidc_jenkins::jobs:
     trigger_job: "E02_%{hiera('project')}_Release_Push_to_Git"
 
   "E02_%{hiera('project')}_Release_Push_to_Git":
-    command: bundle exec rake jenkins:release:push
+    command: |
+      #!/bin/bash -l
+      bundle exec rake jenkins:release:push
     workspace: /var/lib/jenkins/workspaces/%{hiera('project')}/release
