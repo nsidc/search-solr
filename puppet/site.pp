@@ -27,11 +27,6 @@ class { 'rbenv':
   owner => 'vagrant',
   group => 'vagrant',
 }
--> exec { 'rbenv-build-prepare-git':
-  command => 'git config --global --add safe.directory /home/vagrant/rbenv/plugins/ruby-build',
-  path => ['/usr/local/bin', '/usr/bin', '/bin'],
-  environment => ['HOME=/home/vagrant'],
-}
 -> rbenv::plugin { 'rbenv/ruby-build': }
 -> rbenv::build { $ruby_ver:
   bundler_version => $bundler_ver,
