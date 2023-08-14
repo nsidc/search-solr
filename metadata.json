@@ -1,6 +1,6 @@
 {
   "name": "search-solr",
-    "version": "4.3.0",
+    "version": "5.0.0",
     "author": "NSIDC",
     "license": "NSIDC",
     "summary": "Solr instance for NSIDC Search / Arctic Data Explorer.",
