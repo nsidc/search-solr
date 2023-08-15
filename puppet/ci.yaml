@@ -172,6 +172,8 @@ nsidc_jenkins::jobs:
     git:
       repo: "%{hiera('gitrepo')}"
       wipe_workspace: true
+      branches: main
+      checkout_local: '**'
     parameters:
       - type: string
         name: ref
@@ -231,6 +233,8 @@ nsidc_jenkins::jobs:
     git:
       repo: "%{hiera('gitrepo')}"
       wipe_workspace: true
+      branches: main
+      checkout_local: '**'
     parameters:
       - type: string
         name: ref

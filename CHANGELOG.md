@@ -1,4 +1,4 @@
-## Unreleased
+## v5.0.0 (2023-08-14)
 
   - Update CI configuration to use main instead of master.
   - Update Vagrant/Puppet templates and configuration to use Puppet 7
