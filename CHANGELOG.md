@@ -1,3 +1,7 @@
+## Unreleased
+
+  - Update CI machine configuration
+
 ## v5.0.0 (2023-08-14)
 
   - Update CI configuration to use main instead of master.
