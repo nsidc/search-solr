@@ -8,6 +8,8 @@
 
 .nsidc-project.yaml
 
+spec_results.*
+
 /puppet/.librarian/
 /puppet/.tmp/
 /puppet/Puppetfile.lock
