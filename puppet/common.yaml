@@ -3,4 +3,21 @@ lookup_options:
     merge: deep
 
 classes:
-  - apt
+  - nsidc_nfs
+  - nsidc_logrotate
+
+nsidc_nfs::sharemounts:
+  /share/logs/search-solr:
+    project: logs
+    share: "search-solr"
+    options: rw
+
+nsidc_logrotate::rotate:
+  'varlogs':
+    location: /var/log/
+    logs:
+      - 'search-solr-tools.log'
+    postrotate: 'chgrp vagrant /var/log/search-solr-tools.log && chmod g+w /var/log/search-solr-tools.log'
+    rotate_every: 'hour'
+    olddir: '/share/logs/search-solr/%{environment}/var'
+    require: 'Nsidc_nfs::Sharemount[/share/logs/search-solr]'

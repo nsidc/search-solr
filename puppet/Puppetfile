@@ -8,6 +8,11 @@ mod 'nsidc/nsidc_nfs',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git',
   :ref => 'puppet7'
 
+# Module for moving old logs to a /share location
+mod 'nsidc/nsidc_logrotate',
+    :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-logrotate.git',
+    :ref => 'puppet6'
+
 # Module for creating NSIDC Jenkins servers
 mod 'nsidc/nsidc_jenkins',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git',

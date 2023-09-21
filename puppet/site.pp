@@ -184,4 +184,11 @@ unless $environment == 'ci' {
     group   => solr,
     notify  => Service["solr"]
   }
+
+  # Create the log file that can be used (as vagrant doesn't normally have permission)
+  file { '/var/log/search-solr-tools.log':
+    ensure => present,
+    group  => vagrant,
+    mode   => '0664'
+  }
 }
