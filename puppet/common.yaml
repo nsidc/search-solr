@@ -18,6 +18,6 @@ nsidc_logrotate::rotate:
     logs:
       - 'search-solr-tools.log'
     postrotate: 'chgrp vagrant /var/log/search-solr-tools.log && chmod g+w /var/log/search-solr-tools.log'
-    rotate_every: 'hour'
+    rotate_every: 'day'
     olddir: '/share/logs/search-solr/%{environment}/var'
     require: 'Nsidc_nfs::Sharemount[/share/logs/search-solr]'

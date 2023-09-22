@@ -1,8 +1,3 @@
-**NOTE: Do NOT expect the CI machine to build without making some manual changes
-to the `puppet` configuration for this project.** It appears that the `puppetlabs/java`
-dependency in the `nsidc_jenkins` Puppet module conflicts with the more recent
-`puppetlabs/java` module version used by `puppet-nsidc-solr`.
-
 ## Contributing
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
@@ -22,7 +17,7 @@ Please note that successful passing acceptance tests require a harvest of data f
 
 Ruby environment for acceptance testing:
 
-* Ruby (>=2.6.5) with development headers (ruby-dev/ruby-devel)
+* Ruby (>=3.2.2) with development headers (ruby-dev/ruby-devel)
 * [Bundler](http://bundler.io/)
 * gcc or another compiler
 * All gems listed in the Gemspec
@@ -40,7 +35,7 @@ Ruby environment for acceptance testing:
   *Please note*:  If you are having difficulty installing Nokogiri please review
   the Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
-* An installed instance of [Solr 8.5.2](https://lucene.apache.org/solr/guide/)
+* An installed instance of [Solr 9.3.0](https://lucene.apache.org/solr/guide/)
 
 ## NSIDC
 
