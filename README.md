@@ -49,7 +49,7 @@ When using the project outside of the NSIDC environment, the configuration that
 would normally be managed by Puppet will not be applied, and Solr will not be
 installed.  You will have to manually set up an environment with an installed instance of
 [Solr](http://lucene.apache.org/solr/downloads.html) and its dependencies
-(`puppet-nsidc-solr` currently installs Solr version 8.1.1.).
+(`puppet-nsidc-solr` currently installs Solr version 9.3.0.).
 
 Solr provides a deployment script to install the application:
 

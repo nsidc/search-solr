@@ -1,3 +1,7 @@
+## Unreleased
+
+  - Update VM provisioning to rotate search-solr-tool logs
+
 ## v5.1.0 (2023-08-21)
 
   - Update CI machine configuration
