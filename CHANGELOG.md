@@ -1,4 +1,4 @@
-## Unreleased
+## v5.2.0 (2023-09-28)
 
   - Update VM provisioning to rotate search-solr-tool logs
 
