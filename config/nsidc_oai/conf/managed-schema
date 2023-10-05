@@ -33,6 +33,7 @@
     <field name="authors" type="text_special" indexed="true" stored="true" multiValued="true" />
     <field name="data_centers" type="text_special" indexed="true" stored="true" multiValued="false" />
     <field name="brokered" type="boolean" indexed="true" stored="true" multiValued="false" default="false" />
+    <field name="cumulus" type="boolean" indexed="true" stored="true" multiValued="false" default="false" />
     <field name="published_date" type="date" indexed="true" stored="true" multiValued="false" />
     <field name="spatial_coverages" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="spatial" type="location_rpt" indexed="true" stored="true" multiValued="true" />
@@ -61,6 +62,7 @@
 
     <field name="facet_brokered" type="boolean" indexed="true" stored="true" multiValued="false" />
     <field name="facet_data_center" type="string" indexed="true" stored="true" multiValued="false" />
+    <field name="facet_featured" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="facet_format" type="string" indexed="true" multiValued="true" />
     <field name="facet_parameter" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="facet_popularity" type="int" indexed="true" stored="true" multiValued="false" />
