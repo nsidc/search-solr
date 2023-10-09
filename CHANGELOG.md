@@ -1,4 +1,4 @@
-## Unreleased
+## v6.0.0 (2023-10-09)
 
   - Update Solr configuration to include a `facet_featured` facet
 
