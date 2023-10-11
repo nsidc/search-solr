@@ -1,3 +1,8 @@
+## Unreleased
+
+  - Update Solr to split `facet_featured` facet into two facets:
+    Spatial Coverage and Storage System
+
 ## v6.0.0 (2023-10-09)
 
   - Update Solr configuration to include a `facet_featured` facet
