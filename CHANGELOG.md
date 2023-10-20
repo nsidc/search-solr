@@ -1,3 +1,8 @@
+## Unreleased
+
+  - Update `search-solr-tools` version to apply SRCH-145 updates (remove
+    duplicate facet entries).
+
 ## v6.1.0 (2023-10-11)
 
   - Update Solr to split `facet_featured` facet into two facets:

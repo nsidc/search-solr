@@ -1,10 +1,8 @@
 # nsidc-search-solr
 
-This vagrant project stands up a Solr instance for NSIDC Search / Arctic Data
-Explorer.
+This vagrant project stands up a Solr instance for NSIDC Search.
 
-See
-[CHANGELOG.md](https://github.com/nsidc/search-solr/blob/main/CHANGELOG.md)
+See the [CHANGELOG.md](https://github.com/nsidc/search-solr/blob/main/CHANGELOG.md)
 for information on past versions.
 
 # Requirements and Setup at NSIDC
@@ -22,8 +20,7 @@ strings `deploy_solr_tools_command` and `Deploy_solr-search-tools-gem` in
 ## Setup
 The virtual machine will be provisioned using the
 [puppet-nsidc-solr](https://bitbucket.org/nsidc/puppet-nsidc-solr) module.
-NSIDC Search / Arctic Data Explorer configurations will be applied once Solr is
-installed.
+NSIDC Search configurations will be applied once Solr is installed.
 
 To provision the machine:
 ```shell
@@ -32,7 +29,10 @@ vagrant nsidc up --env=dev
 
 Once provisioning is complete, the Solr dashboard is accessible from
 [http://&lt;environment&gt;.search-solr.apps.int.nsidc.org:8983/solr](), where
-&lt;environment&gt; is one of dev, integration, qa, etc.
+&lt;environment&gt; is one of integration, qa, or staging.
+
+In the developer environment, the Solr dashboard is at
+[http://dev.search-solr.USERNAME.dev.int.nsidc.org:8983/solr]().
 
 ## VM Memory Configuration
 

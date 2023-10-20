@@ -1,14 +1,14 @@
 {
   "name": "search-solr",
-    "version": "6.1.0",
+    "version": "6.2.0",
     "author": "NSIDC",
     "license": "NSIDC",
-    "summary": "Solr instance for NSIDC Search / Arctic Data Explorer.",
+    "summary": "Solr instance for NSIDC Search",
     "source": "https://github.com/nsidc/search-solr",
     "operatingsystem_support": [
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "16.04" ]
+      "operatingsystemrelease": [ "22.04" ]
 
 
     }
