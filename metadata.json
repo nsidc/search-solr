@@ -1,6 +1,6 @@
 {
   "name": "search-solr",
-    "version": "6.1.0",
+    "version": "6.2.0",
     "author": "NSIDC",
     "license": "NSIDC",
     "summary": "Solr instance for NSIDC Search",
