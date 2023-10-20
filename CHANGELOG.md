@@ -1,4 +1,4 @@
-## Unreleased
+## v6.2.0 (2023-10-20)
 
   - Update `search-solr-tools` version to apply SRCH-145 updates (remove
     duplicate facet entries).
