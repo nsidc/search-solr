@@ -2,7 +2,7 @@
 
 This vagrant project stands up a Solr instance for NSIDC Search.
 
-See [CHANGELOG.md](https://github.com/nsidc/search-solr/blob/main/CHANGELOG.md)
+See the [CHANGELOG.md](https://github.com/nsidc/search-solr/blob/main/CHANGELOG.md)
 for information on past versions.
 
 # Requirements and Setup at NSIDC
