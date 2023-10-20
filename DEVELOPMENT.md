@@ -45,7 +45,7 @@ vagrant nsidc up --env=dev
 ```
 
 The Solr dashboard for the dev environment is accessible from
-[http://dev.search-solr.apps.int.nsidc.org:8983/solr]().
+[http://dev.search-solr.USERNAME.dev.int.nsidc.org:8983/solr]().
 
 ### Working with Solr on the VM
 
@@ -62,6 +62,7 @@ ${solr_install_dir}/bin/solr/status
 ```
 
 On NSIDC VMs, `${solr_install_dir}` is `opt/solr`.
+The logs for Solr itself are in `/var/solr/logs`.
 
 Option 2: Provision in VirtualBox
 ```shell
