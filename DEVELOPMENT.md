@@ -17,7 +17,7 @@ Please note that successful passing acceptance tests require a harvest of data f
 
 Ruby environment for acceptance testing:
 
-* Ruby (>=3.2.2) with development headers (ruby-dev/ruby-devel)
+* Ruby (>=3.4.9) with development headers (ruby-dev/ruby-devel)
 * [Bundler](http://bundler.io/)
 * gcc or another compiler
 * All gems listed in the Gemspec
@@ -35,7 +35,7 @@ Ruby environment for acceptance testing:
   *Please note*:  If you are having difficulty installing Nokogiri please review
   the Nokogiri [installation tutorial](http://www.nokogiri.org/tutorials/installing_nokogiri.html)
 
-* An installed instance of [Solr 9.3.0](https://lucene.apache.org/solr/guide/)
+* An installed instance of [Solr 9.10.1](https://lucene.apache.org/solr/guide/)
 
 ## NSIDC
 
