@@ -24,23 +24,6 @@ package {"build-essential":
 } ->
 ### END nokogiri deps
 
-# class { 'rbenv':
-#   install_dir => '/home/vagrant/rbenv',
-#   owner => 'vagrant',
-#   group => 'vagrant',
-# }
-# -> rbenv::plugin { 'rbenv/ruby-build': }
-# -> rbenv::build { $ruby_ver:
-#   bundler_version => $bundler_ver,
-#   owner => 'vagrant',
-#   group => 'vagrant',
-#   global => true,
-# }
-# -> rbenv::gem { 'builder': ruby_version => $ruby_ver }
-# -> exec { 'gem_update':
-#   command => "gem update --system ${rubygems_ver}",
-#   path    => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
-# }
 # Install Ruby and Bundler
 class { 'rbenv':
   install_dir => $rbenv_dir,
