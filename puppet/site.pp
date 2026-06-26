@@ -1,12 +1,14 @@
 # Load modules and classes
 lookup('classes', {merge => unique}).include
-
+$project = lookup('project')
 $app_root = '/vagrant'
-$ruby_ver = '3.2.2'
-$bundler_ver = '2.4.10'
-$rubygems_ver = '3.4.10'
+$ruby_ver = '3.4.9'
+$bundler_ver = '4.0.9'
+$rubygems_ver = '4.0.9'
 $source_config = "/vagrant/config"
 $solr_home = "/var/solr/data"
+$rbenv_home = '/home/vagrant'
+$rbenv_dir = "${rbenv_home}/rbenv"
 
 # If the structure of the Solr COTS tar file changes, the path to the default
 # configuration and mapping file(s) will need to change as well.
@@ -22,29 +24,68 @@ package {"build-essential":
 } ->
 ### END nokogiri deps
 
+# Install Ruby and Bundler
 class { 'rbenv':
-  install_dir => '/home/vagrant/rbenv',
-  owner => 'vagrant',
-  group => 'vagrant',
+  install_dir => $rbenv_dir,
+  owner       => 'vagrant',
+  group       => 'vagrant',
+  require     => User['vagrant'],
 }
 -> rbenv::plugin { 'rbenv/ruby-build': }
+-> notify {'starting rbenv build': }
 -> rbenv::build { $ruby_ver:
   bundler_version => $bundler_ver,
   owner => 'vagrant',
   group => 'vagrant',
   global => true,
 }
--> rbenv::gem { 'builder': ruby_version => $ruby_ver }
--> exec { 'gem_update':
-  command => "gem update --system ${rubygems_ver}",
-  path    => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
+-> notify {'done with rbenv build': }
+-> file { "${rbenv_dir}/version":
+  ensure => 'file',
+  mode   => '0644',
+  owner => 'vagrant',
+  group => 'vagrant',
+}
+-> file { "${rbenv_dir}/shims/bundle":
+  ensure => 'file',
+  mode   => '0755',
+  owner => 'vagrant',
+  group => 'vagrant',
 }
 
+if ! defined (User['vagrant']) {
+  @user { 'vagrant':
+    ensure => present,
+    groups => ['syslog', 'vagrant']
+  }
+} else {
+  User <| title == 'vagrant' |> {
+    groups => ['syslog', 'vagrant']
+  }
+}
+realize(User['vagrant'])
+
 unless $environment == 'ci' {
+  exec { 'open port 443':
+    command => 'iptables -A INPUT -p tcp --dport 443 -j ACCEPT',
+    path => ['/usr/local/bin','/usr/bin', '/bin', '/usr/sbin'],
+    user => 'root',
+  } ->
+  exec { 'open port 8983':
+    command => 'iptables -A INPUT -p tcp --dport 8983 -j ACCEPT',
+    path => ['/usr/local/bin','/usr/bin', '/bin', '/usr/sbin'],
+    user => 'root',
+  } ->
+  exec { 'save port changes':
+    command => 'iptables-save --file /etc/iptables/rules.v4',
+    path => ['/usr/local/bin','/usr/bin', '/bin', '/usr/sbin'],
+    user => 'root',
+  }
+
   # dep for geos gems
   package {"libgeos-dev":
     ensure => present,
-    require => Exec['gem_update']
+    require => File["${rbenv_dir}/shims/bundle"],
   }
 
   # install application gems
@@ -55,7 +96,46 @@ unless $environment == 'ci' {
     path => ['/home/vagrant/rbenv/shims', '/usr/local/bin','/usr/bin', '/bin'],
     user => 'vagrant',
     group => 'vagrant',
-    require => [ Exec['gem_update'] ]
+    require => [ File["${rbenv_dir}/shims/bundle"] ]
+  }
+
+  include nginx
+
+  exec { 'generate_certs':
+    cwd     => "${app_root}/cert",
+    command => 'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout solr.key -out solr.crt -subj "/CN=nsidc"',
+    path    => ['/usr/local/bin','/usr/bin','/bin'],
+    user    => 'vagrant',
+    group   => 'vagrant',
+  }
+
+  $nginx_hostname = $environment ? {
+    'blue'       => "${project}.${domain}",
+    'production' => "${project}.${domain}",
+    default      => "${environment}.${project}.${domain}"
+  }
+
+  nginx::resource::vhost { $nginx_hostname:
+    ensure           => present,
+    cors             => true,
+    server_name      => [$nginx_hostname],
+    ssl              => true,
+    listen_port      => 443,
+    ssl_port         => 443,
+    ssl_cert         => "${app_root}/cert/solr.crt",
+    ssl_key          => "${app_root}/cert/solr.key",
+    proxy            => 'http://localhost:8983',
+    proxy_set_header => [ 'Host $host',
+      'X-Real-IP $remote_addr',
+      'X-Forwarded-For $proxy_add_x_forwarded_for',
+      'X-Forwarded-Proto https' ],
+    add_header       => {
+      'Access-Control-Allow-Origin'  => '*',
+      'Access-Control-Allow-Methods' => 'OPTIONS,HEAD,GET,PUT,POST,DELETE',
+      'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept, Range'
+    },
+    proxy_read_timeout => '180',
+    require => [ Exec['generate_certs'] ]
   }
 
   class { "nsidc_solr":

@@ -1,24 +1,29 @@
 forge "https://forgeapi.puppetlabs.com"
 
 # Module for installing rbenv (and by extension, ruby)
-mod 'jdowning-rbenv', "2.5.0"
+mod 'jdowning-rbenv', "3.1.0"
 
 # Module for access to NSIDC Enterprise storage
 mod 'nsidc/nsidc_nfs',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-nfs.git',
-  :ref => 'puppet7'
+  :ref => 'puppet8'
 
 # Module for moving old logs to a /share location
 mod 'nsidc/nsidc_logrotate',
     :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-logrotate.git',
-    :ref => 'puppet7'
+    :ref => 'puppet8'
 
 # Module for creating NSIDC Jenkins servers
 mod 'nsidc/nsidc_jenkins',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-jenkins.git',
-  :ref => 'puppet7'
+  :ref => 'puppet8'
 
 # Module to install Solr
 mod 'nsidc/nsidc_solr',
   :git => 'git@bitbucket.org:/nsidc/puppet-nsidc-solr.git',
-  :ref  => 'puppet7'
+  :ref  => 'puppet8'
+
+# Module for webserver (nginx) install
+mod "nsidc/puppet-nginx",
+    :git => 'https://github.com/nsidc/puppet-nginx',
+    :ref => 'puppet8'

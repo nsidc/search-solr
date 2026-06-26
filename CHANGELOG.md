@@ -1,3 +1,8 @@
+## Unreleased
+
+- Update `search-solr-tools` gem to use HTTPS urls in harvesting
+- Update provisioning to use `puppet-nsidc-solr` module with latest solr version
+
 ## v6.2.0 (2023-10-20)
 
   - Update `search-solr-tools` version to apply SRCH-145 updates (remove
